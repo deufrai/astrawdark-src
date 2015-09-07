@@ -20,7 +20,9 @@
 #ifndef ABSTRACTCOMMAND_H
 #define ABSTRACTCOMMAND_H
 
-
+/**
+ * @brief Interface for all commands.
+ */
 class AbstractCommand
 {
 protected:

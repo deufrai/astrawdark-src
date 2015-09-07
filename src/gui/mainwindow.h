@@ -23,9 +23,13 @@
 #include <QMainWindow>
 
 namespace Ui {
+
 class MainWindow;
 }
 
+/**
+ * @brief Our application's main window.
+ */
 class MainWindow : public QMainWindow
 {
     Q_OBJECT

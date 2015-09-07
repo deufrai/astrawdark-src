@@ -25,6 +25,9 @@
 
 class ImageInfo;
 
+/**
+ * @brief Stores all application data.
+ */
 class DataStore : public QObject
 {
     Q_OBJECT

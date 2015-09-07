@@ -22,10 +22,9 @@
 
 #include <string>
 
-/*
- * all needed informations on a RAW image.
- *
- * */
+/**
+ * @brief Image information.
+ */
 class ImageInfo
 {
 public:

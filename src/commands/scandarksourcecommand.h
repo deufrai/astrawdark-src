@@ -24,7 +24,9 @@
 
 #include <string>
 
-
+/**
+ * @brief Command that fetches all dark frames from a directory.
+ */
 class ScanDarkSourceCommand : public AbstractCommand
 {
 public:

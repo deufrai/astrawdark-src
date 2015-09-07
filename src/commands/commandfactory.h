@@ -23,6 +23,9 @@
 #include "abstractcommand.h"
 #include <string>
 
+/**
+ * @brief Command factory.
+ */
 class CommandFactory
 {
 private:

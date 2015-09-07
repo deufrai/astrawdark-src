@@ -25,6 +25,9 @@
 
 class ImageInfo;
 
+/**
+ * @brief Utility class for all Exif metadata accesses.
+ */
 class ExifReader
 {
 private:

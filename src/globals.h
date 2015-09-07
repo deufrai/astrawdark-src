@@ -20,7 +20,9 @@
 #ifndef GLOBALS_H
 #define GLOBALS_H
 
-
+/**
+ * @brief Application-wide constants.
+ */
 class Globals
 {
 private:
