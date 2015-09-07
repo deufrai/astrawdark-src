@@ -24,7 +24,7 @@
 
 #include <QStringList>
 #include <QFileInfoList>
-#include <QDir>
+#include <QDirIterator>
 
 #ifndef QT_NO_DEBUG
 #include <QDebug>
@@ -41,23 +41,18 @@ void ScanDarkSourceCommand::do_processing()
 {
     if ( ! _path.empty() ) {
 
-        // retrieve all RAW files located in <path> directory
-        QStringList extensions;
-        extensions << "*.CR2" << "*.CRW";
-        QFileInfoList fileInfos = QDir(QString(_path.c_str())).entryInfoList(extensions,
-                                                                             QDir::NoDotAndDotDot | QDir::Files,
-                                                                             QDir::Name);
-
-#ifndef QT_NO_DEBUG
-        qDebug() << "Found" << fileInfos.size() << "files";
-#endif
+        // retrieve all RAW files located in <path> directory and subtree
+        QDirIterator it(QString(_path.c_str()),
+                        QStringList() << "*.CR2" << "*.CRW",
+                        QDir::NoDotAndDotDot | QDir::Files,
+                        QDirIterator::Subdirectories);
 
         QList<ImageInfo*> imageInfos;
 
         // retrieve all needed exif metadata for each RAW file
-        foreach (QFileInfo fileInfo, fileInfos) {
+        while (it.hasNext()) {
 
-            ImageInfo* imageInfo = new ImageInfo(fileInfo.filePath().toStdString());
+            ImageInfo* imageInfo = new ImageInfo(it.next().toStdString());
 
             ExifReader::retrieveExifMetadata(*imageInfo);
 
