@@ -19,22 +19,22 @@
 
 #include "scandarksourcecommand.h"
 #include "../data/datastore.h"
-#include "../data/imageinfo.h"
 #include "../data/access/exifreader.h"
 
 #include <QStringList>
 #include <QFileInfoList>
 #include <QDirIterator>
+#include <QObject>
 
 #ifndef QT_NO_DEBUG
 #include <QDebug>
 #endif
 
-ScanDarkSourceCommand::ScanDarkSourceCommand(const std::string path)
-    : _path(path)
+ScanDarkSourceCommand::ScanDarkSourceCommand(const std::string path, QObject *parent)
+    : QObject(parent), _path(path)
 {
-
-
+    _description = QString(QObject::tr("Scaning folder '%1' for RAW files")).arg(_path.c_str());
+    connect(this, &ScanDarkSourceCommand::done, DataStore::getInstance(), &DataStore::on_newDarkScanResult);
 }
 
 void ScanDarkSourceCommand::do_processing()
@@ -59,8 +59,8 @@ void ScanDarkSourceCommand::do_processing()
             imageInfos << imageInfo;
         }
 
-        // push images infos to data store
-        DataStore::getInstance()->on_newDarkScanResult(imageInfos);
+        // notify the world
+        emit done(imageInfos);
     }
 }
 

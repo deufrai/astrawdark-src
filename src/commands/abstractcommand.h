@@ -20,6 +20,8 @@
 #ifndef ABSTRACTCOMMAND_H
 #define ABSTRACTCOMMAND_H
 
+#include <QString>
+
 /**
  * @brief Interface for all commands.
  */
@@ -32,11 +34,14 @@ public:
 
 public:
     void execute();
+    const QString getDescription() const {return _description;}
 
 protected:
     virtual void setup() {}
     virtual void cleanup() {}
     virtual void do_processing() = 0;
+
+    QString _description;
 
 };
 

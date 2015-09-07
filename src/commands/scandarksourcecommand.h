@@ -21,16 +21,19 @@
 #define SCANDARKSOURCE_H
 
 #include "abstractcommand.h"
+#include "../data/imageinfo.h"
 
 #include <string>
+#include <QObject>
 
 /**
  * @brief Command that fetches all dark frames from a directory.
  */
-class ScanDarkSourceCommand : public AbstractCommand
+class ScanDarkSourceCommand : public QObject, public AbstractCommand
 {
+    Q_OBJECT
 public:
-    ScanDarkSourceCommand(const std::string path);
+    explicit ScanDarkSourceCommand(const std::string path, QObject* parent = 0);
     virtual ~ScanDarkSourceCommand() {}
 
 protected:
@@ -38,6 +41,11 @@ protected:
 
 private:
     const std::string _path;
+
+signals:
+    void done(QList<ImageInfo*> result);
+
+public slots:
 
 };
 

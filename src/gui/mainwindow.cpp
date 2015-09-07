@@ -85,6 +85,11 @@ void MainWindow::on_actionSelectDarkFramesFolder_triggered()
 #endif
 
     AbstractCommand* command = CommandFactory::createScanDarkSourceCommand(basefolder.toStdString().c_str());
+
+#ifndef QT_NO_DEBUG
+    qDebug() << "Executing command:" << command->getDescription();
+#endif
+
     command->execute();
     delete command;
 }

@@ -38,7 +38,6 @@ public:
     static DataStore* _instance;
     static DataStore* getInstance();
 
-    void on_newDarkScanResult(QList<ImageInfo*> darks);
     QStandardItemModel* getDarkModel() const {return _darkListModel;}
 
 private:
@@ -48,6 +47,7 @@ signals:
     void darkListUpdated();
 
 public slots:
+    void on_newDarkScanResult(QList<ImageInfo*> darks);
 };
 
 #endif // DATASTORE_H
