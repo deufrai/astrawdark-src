@@ -20,6 +20,8 @@
 #include "commandfactory.h"
 #include "scandarksourcecommand.h"
 
+#include "../data/datastore.h"
+
 CommandFactory::CommandFactory()
 {
 
@@ -27,6 +29,8 @@ CommandFactory::CommandFactory()
 
 AbstractCommand *CommandFactory::createScanDarkSourceCommand(const std::string path)
 {
-    return new ScanDarkSourceCommand(path);
+    ScanDarkSourceCommand* command = new ScanDarkSourceCommand(path);
+    command->connect(command, &ScanDarkSourceCommand::done, DataStore::getInstance(), &DataStore::on_newDarkScanResult);
+    return command;
 }
 

@@ -33,7 +33,7 @@ class ScanDarkSourceCommand : public QObject, public AbstractCommand
 {
     Q_OBJECT
 public:
-    explicit ScanDarkSourceCommand(const std::string path, QObject* parent = 0);
+    explicit ScanDarkSourceCommand(const std::string path);
     virtual ~ScanDarkSourceCommand() {}
 
 protected:
