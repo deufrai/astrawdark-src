@@ -50,7 +50,18 @@ void ExifReader::getMetaData(ImageInfo &imageInfo)
         imageInfo.setExposure(getValue(exifData, "Exif.Photo.ExposureTime"));
         imageInfo.setIso(getValue(exifData, "Exif.Photo.ISOSpeedRatings"));
         imageInfo.setDate(getValue(exifData, "Exif.Photo.DateTimeDigitized"));
-        imageInfo.setTemperature(getValue(exifData, "Exif.CanonSi.0x000c"));
+
+        std::string temp = getValue(exifData, "Exif.CanonSi.0x000c");
+
+        if ( temp == "N/A" ) {
+
+            imageInfo.setTemperature(-1);
+
+        } else {
+
+           imageInfo.setTemperature(atoi(temp.c_str()) -128);
+        }
+
     }
 }
 

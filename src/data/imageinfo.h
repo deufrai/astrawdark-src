@@ -38,7 +38,7 @@ protected:
     std::string _exposure;
     std::string _iso;
     std::string _date;
-    std::string _temperature;
+    int _temperature;
 
 public:
     const std::string getPath() const { return _path; }
@@ -47,7 +47,7 @@ public:
     const std::string getExposure() const { return _exposure;}
     const std::string getIso() const { return _iso;}
     const std::string getDate() const { return _date;}
-    const std::string getTemperature() const { return _temperature;}
+    int getTemperature() const { return _temperature;}
 
     void setPath (const std::string path) { _path = path;}
     void setMake (const std::string make) { _make = make;}
@@ -55,7 +55,7 @@ public:
     void setExposure (const std::string exposure) { _exposure = exposure;}
     void setIso (const std::string iso) { _iso = iso;}
     void setDate (const std::string date) { _date = date;}
-    void setTemperature (const std::string temperature) { _temperature = temperature;}
+    void setTemperature (const int temperature) { _temperature = temperature;}
 
 };
 

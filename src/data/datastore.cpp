@@ -82,7 +82,7 @@ void DataStore::on_newDarkScanResult(QList<ImageInfo *> darks)
                                 Qt::DisplayRole);
 
         _darkListModel->setData(_darkListModel->index(row, 6, QModelIndex()),
-                                QString::number(atoi(info->getTemperature().c_str()) - 128).append("°C"),
+                                QString::number(info->getTemperature()).append("°C"),
                                 Qt::DisplayRole);
 
         ++row;
