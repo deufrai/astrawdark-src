@@ -30,7 +30,7 @@
 #include <QDebug>
 #endif
 
-ScanDarkSourceCommand::ScanDarkSourceCommand(const char *path)
+ScanDarkSourceCommand::ScanDarkSourceCommand(const std::string path)
     : _path(path)
 {
 
@@ -39,11 +39,11 @@ ScanDarkSourceCommand::ScanDarkSourceCommand(const char *path)
 
 void ScanDarkSourceCommand::do_processing()
 {
-    if ( 0 != _path ) {
+    if ( ! _path.empty() ) {
 
         QStringList extensions;
         extensions << "*.CR2" << "*.CRW";
-        QFileInfoList fileInfos = QDir(_path).entryInfoList(extensions,
+        QFileInfoList fileInfos = QDir(QString(_path.c_str())).entryInfoList(extensions,
                                                             QDir::NoDotAndDotDot | QDir::Files,
                                                             QDir::Name);
 

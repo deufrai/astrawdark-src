@@ -25,7 +25,7 @@ CommandFactory::CommandFactory()
 
 }
 
-AbstractCommand *CommandFactory::createScanDarkSourceCommand(const char* path)
+AbstractCommand *CommandFactory::createScanDarkSourceCommand(const std::string path)
 {
     return new ScanDarkSourceCommand(path);
 }

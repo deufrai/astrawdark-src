@@ -21,7 +21,7 @@
 #define COMMANDFACTORY_H
 
 #include "abstractcommand.h"
-
+#include <string>
 
 class CommandFactory
 {
@@ -30,7 +30,7 @@ private:
 
 public:
 
-    static AbstractCommand *createScanDarkSourceCommand(const char* path);
+    static AbstractCommand *createScanDarkSourceCommand(const std::string path);
 
 };
 

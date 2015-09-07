@@ -22,18 +22,20 @@
 
 #include "abstractcommand.h"
 
+#include <string>
+
 
 class ScanDarkSourceCommand : public AbstractCommand
 {
 public:
-    ScanDarkSourceCommand(const char* path);
+    ScanDarkSourceCommand(const std::string path);
     virtual ~ScanDarkSourceCommand() {}
 
 protected:
     virtual void do_processing();
 
 private:
-    const char* _path;
+    const std::string _path;
 
 };
 
