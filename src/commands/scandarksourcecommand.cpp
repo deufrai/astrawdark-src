@@ -24,6 +24,7 @@
 #include <QStringList>
 #include <QFileInfoList>
 #include <QDir>
+#include <exiv2/exiv2.hpp>
 
 #ifndef QT_NO_DEBUG
 #include <QDebug>
@@ -43,8 +44,8 @@ void ScanDarkSourceCommand::do_processing()
         QStringList extensions;
         extensions << "*.CR2" << "*.CRW";
         QFileInfoList fileInfos = QDir(_path).entryInfoList(extensions,
-                                                        QDir::NoDotAndDotDot | QDir::Files,
-                                                        QDir::Name);
+                                                            QDir::NoDotAndDotDot | QDir::Files,
+                                                            QDir::Name);
 
 #ifndef QT_NO_DEBUG
         qDebug() << "Found" << fileInfos.size() << "files";
@@ -54,7 +55,28 @@ void ScanDarkSourceCommand::do_processing()
 
         foreach (QFileInfo fileInfo, fileInfos) {
 
-            imageInfos << new ImageInfo(fileInfo.filePath().toStdString());
+            ImageInfo* imageInfo = new ImageInfo(fileInfo.filePath().toStdString());
+
+            Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(fileInfo.filePath().toStdString());
+            image->readMetadata();
+
+            Exiv2::ExifData &exifData = image->exifData();
+
+            if (exifData.empty()) {
+
+                qWarning() << fileInfo.filePath() << ": No Exif data found in the file";
+
+            } else {
+
+                imageInfo->setMake(exifData["Exif.Image.Make"].value().toString());
+                imageInfo->setModel(exifData["Exif.Image.Model"].value().toString());
+                imageInfo->setExposure(exifData["Exif.Photo.ExposureTime"].value().toString());
+                imageInfo->setIso(exifData["Exif.Photo.ISOSpeedRatings"].value().toString());
+                imageInfo->setDate(exifData["Exif.Photo.DateTimeDigitized"].value().toString());
+                imageInfo->setTemperature(exifData["Exif.CanonSi.0x000c"].value().toString());
+            }
+
+            imageInfos << imageInfo;
         }
 
         DataStore::getInstance()->registerDarks(imageInfos);

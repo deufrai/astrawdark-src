@@ -23,8 +23,3 @@ ImageInfo::ImageInfo(const std::string path)
 {
     _path = path;
 }
-
-const std::string ImageInfo::getPath() const
-{
-    return _path;
-}

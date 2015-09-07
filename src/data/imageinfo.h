@@ -33,9 +33,29 @@ public:
 
 protected:
     std::string _path;
+    std::string _make;
+    std::string _model;
+    std::string _exposure;
+    std::string _iso;
+    std::string _date;
+    std::string _temperature;
 
 public:
-    const std::string getPath() const;
+    const std::string getPath() const { return _path; }
+    const std::string getMake() const { return _make;}
+    const std::string getModel() const { return _model;}
+    const std::string getExposure() const { return _exposure;}
+    const std::string getIso() const { return _iso;}
+    const std::string getDate() const { return _date;}
+    const std::string getTemperature() const { return _temperature;}
+
+    void setPath (const std::string path) { _path = path;}
+    void setMake (const std::string make) { _make = make;}
+    void setModel (const std::string model) { _model = model;}
+    void setExposure (const std::string exposure) { _exposure = exposure;}
+    void setIso (const std::string iso) { _iso = iso;}
+    void setDate (const std::string date) { _date = date;}
+    void setTemperature (const std::string temperature) { _temperature = temperature;}
 
 };
 

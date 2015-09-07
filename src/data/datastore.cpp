@@ -39,14 +39,54 @@ void DataStore::registerDarks(QList<ImageInfo *> darks)
 
     _darkListModel->clear();
     _darkListModel->setRowCount(darks.count());
-    _darkListModel->setColumnCount(1);
+    _darkListModel->setColumnCount(7);
+
+    QStringList darkListModelHeaderLabels;
+
+    darkListModelHeaderLabels << tr("Path")
+                              << tr("Make")
+                              << tr("Model")
+                              << tr("Exposure")
+                              << tr("ISO")
+                              << tr("Date")
+                              << tr ("Temperature");
+
+    _darkListModel->setHorizontalHeaderLabels(darkListModelHeaderLabels);
 
     int row = 0;
 
     foreach (ImageInfo* info, darks) {
 
-        QModelIndex index = _darkListModel->index(row++, 0, QModelIndex());
-        _darkListModel->setData(index, QString(info->getPath().c_str()), Qt::DisplayRole);
+        _darkListModel->setData(_darkListModel->index(row, 0, QModelIndex()),
+                                QString(info->getPath().c_str()),
+                                Qt::DisplayRole);
+
+        _darkListModel->setData(_darkListModel->index(row, 1, QModelIndex()),
+                                QString(info->getMake().c_str()),
+                                Qt::DisplayRole);
+
+        _darkListModel->setData(_darkListModel->index(row, 2, QModelIndex()),
+                                QString(info->getModel().c_str()),
+                                Qt::DisplayRole);
+
+        _darkListModel->setData(_darkListModel->index(row, 3, QModelIndex()),
+                                QString(info->getExposure().c_str()),
+                                Qt::DisplayRole);
+
+        _darkListModel->setData(_darkListModel->index(row, 4, QModelIndex()),
+                                QString(info->getIso().c_str()),
+                                Qt::DisplayRole);
+
+        _darkListModel->setData(_darkListModel->index(row, 5, QModelIndex()),
+                                QString(info->getDate().c_str()),
+                                Qt::DisplayRole);
+
+        _darkListModel->setData(_darkListModel->index(row, 6, QModelIndex()),
+                                QString::number(atoi(info->getTemperature().c_str()) - 128).append("°C"),
+                                Qt::DisplayRole);
+
+        ++row;
+
     }
 }
 
