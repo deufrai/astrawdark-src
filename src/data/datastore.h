@@ -31,6 +31,7 @@ class ImageInfo;
 class DataStore : public QObject
 {
     Q_OBJECT
+
 private:
     DataStore();
 public:
@@ -44,6 +45,7 @@ private:
     QStandardItemModel* _darkListModel;
 
 signals:
+    void darkListUpdated();
 
 public slots:
 };

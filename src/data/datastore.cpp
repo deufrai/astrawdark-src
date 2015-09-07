@@ -88,6 +88,8 @@ void DataStore::on_newDarkScanResult(QList<ImageInfo *> darks)
         ++row;
 
     }
+
+    emit darkListUpdated();
 }
 
 

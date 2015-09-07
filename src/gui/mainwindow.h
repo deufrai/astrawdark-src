@@ -47,6 +47,7 @@ private:
 private slots:
     void on_actionQuit_triggered();
     void on_actionSelectDarkFramesFolder_triggered();
+    void on_darkListUpdated();
 };
 
 #endif // MAINWINDOW_H

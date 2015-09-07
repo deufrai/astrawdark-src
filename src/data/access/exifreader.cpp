@@ -24,16 +24,17 @@
 #include <QDebug>
 #endif
 
+std::string ExifReader::NOT_AVAILABLE = "N/A";
+
 ExifReader::ExifReader()
 {
 
 }
 
-void ExifReader::getMetaData(ImageInfo &imageInfo)
+void ExifReader::retrieveExifMetadata(ImageInfo &imageInfo)
 {
     Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(imageInfo.getPath());
     image->readMetadata();
-
     Exiv2::ExifData &exifData = image->exifData();
 
     if (exifData.empty()) {
@@ -53,7 +54,7 @@ void ExifReader::getMetaData(ImageInfo &imageInfo)
 
         std::string temp = getValue(exifData, "Exif.CanonSi.0x000c");
 
-        if ( temp == "N/A" ) {
+        if ( temp == NOT_AVAILABLE ) {
 
             imageInfo.setTemperature(-1);
 
@@ -72,7 +73,7 @@ std::string ExifReader::getValue(const Exiv2::ExifData &data, const std::string 
 
     if (pos == data.end()) {
 
-        return "N/A";
+        return NOT_AVAILABLE;
 
     } else {
 

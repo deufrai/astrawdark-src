@@ -34,10 +34,13 @@ private:
     ExifReader();
 
 public:
-    static void getMetaData(ImageInfo& imageInfo);
+    static void retrieveExifMetadata(ImageInfo& imageInfo);
 
 private:
+
+    static std::string NOT_AVAILABLE;
     static std::string getValue(const Exiv2::ExifData &data, const std::string tag);
+
 };
 
 #endif // EXIFREADER_H

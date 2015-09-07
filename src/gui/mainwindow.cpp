@@ -40,6 +40,10 @@ MainWindow::MainWindow(QWidget *parent) :
     setWindowTitle(QString("%1").arg(Globals::application_name));
 
     ui->tblDarkView->setModel(DataStore::getInstance()->getDarkModel());
+    ui->tblDarkView->horizontalHeader()->setStretchLastSection(true);
+    ui->tblDarkView->resizeColumnsToContents();
+
+    connect(DataStore::getInstance(), &DataStore::darkListUpdated, this, &MainWindow::on_darkListUpdated);
 
 }
 
@@ -83,4 +87,10 @@ void MainWindow::on_actionSelectDarkFramesFolder_triggered()
     AbstractCommand* command = CommandFactory::createScanDarkSourceCommand(basefolder.toStdString().c_str());
     command->execute();
     delete command;
+}
+
+void MainWindow::on_darkListUpdated()
+{
+    ui->tblDarkView->resizeColumnsToContents();
+    ui->lblDarkCount->setText(QString("Total frame count : %1").arg(DataStore::getInstance()->getDarkModel()->rowCount()));
 }

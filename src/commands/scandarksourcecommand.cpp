@@ -41,11 +41,12 @@ void ScanDarkSourceCommand::do_processing()
 {
     if ( ! _path.empty() ) {
 
+        // retrieve all RAW files located in <path> directory
         QStringList extensions;
         extensions << "*.CR2" << "*.CRW";
         QFileInfoList fileInfos = QDir(QString(_path.c_str())).entryInfoList(extensions,
-                                                            QDir::NoDotAndDotDot | QDir::Files,
-                                                            QDir::Name);
+                                                                             QDir::NoDotAndDotDot | QDir::Files,
+                                                                             QDir::Name);
 
 #ifndef QT_NO_DEBUG
         qDebug() << "Found" << fileInfos.size() << "files";
@@ -53,15 +54,17 @@ void ScanDarkSourceCommand::do_processing()
 
         QList<ImageInfo*> imageInfos;
 
+        // retrieve all needed exif metadata for each RAW file
         foreach (QFileInfo fileInfo, fileInfos) {
 
             ImageInfo* imageInfo = new ImageInfo(fileInfo.filePath().toStdString());
 
-            ExifReader::getMetaData(*imageInfo);
+            ExifReader::retrieveExifMetadata(*imageInfo);
 
             imageInfos << imageInfo;
         }
 
+        // push images infos to data store
         DataStore::getInstance()->on_newDarkScanResult(imageInfos);
     }
 }
