@@ -14,9 +14,13 @@ TEMPLATE = app
 
 SOURCES += src/main.cpp\
         src/gui/mainwindow.cpp \
-    src/globals.cpp
+    src/globals.cpp \
+    src/data/imageinfo.cpp
 
 HEADERS  += src/gui/mainwindow.h \
-    src/globals.h
+    src/globals.h \
+    src/data/imageinfo.h
 
 FORMS    += src/gui/forms/mainwindow.ui
+
+LIBS += -lexiv2
