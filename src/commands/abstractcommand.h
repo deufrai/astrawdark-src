@@ -17,32 +17,25 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef ABSTRACTCOMMAND_H
+#define ABSTRACTCOMMAND_H
 
-#include <QMainWindow>
 
-namespace Ui {
-class MainWindow;
-}
-
-class MainWindow : public QMainWindow
+class AbstractCommand
 {
-    Q_OBJECT
+protected:
+    AbstractCommand();
+public:
+    virtual ~AbstractCommand();
 
 public:
-    explicit MainWindow(QWidget *parent = 0);
-    ~MainWindow();
+    void execute();
 
 protected:
-    void changeEvent(QEvent *e);
+    virtual void setup() {}
+    virtual void cleanup() {}
+    virtual void do_processing() = 0;
 
-private:
-    Ui::MainWindow *ui;
-
-private slots:
-    void on_actionQuit_triggered();
-    void on_actionSelectDarkFramesFolder_triggered();
 };
 
-#endif // MAINWINDOW_H
+#endif // ABSTRACTCOMMAND_H

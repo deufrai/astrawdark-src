@@ -20,6 +20,8 @@
 #ifndef IMAGEINFO_H
 #define IMAGEINFO_H
 
+#include <string>
+
 /*
  * all needed informations on a RAW image.
  *
@@ -27,13 +29,13 @@
 class ImageInfo
 {
 public:
-    ImageInfo(const char* path);
+    ImageInfo(const std::string path);
 
 protected:
-    const char* _path;
+    std::string _path;
 
 public:
-    const char* getPath() const;
+    const std::string getPath() const;
 
 };
 

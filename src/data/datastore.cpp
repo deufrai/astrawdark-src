@@ -17,32 +17,38 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#include "datastore.h"
+#include "imageinfo.h"
 
-#include <QMainWindow>
+DataStore* DataStore::_instance = 0;
 
-namespace Ui {
-class MainWindow;
+DataStore* DataStore::getInstance() {
+
+    if ( 0 == _instance ) _instance = new DataStore();
+
+    return _instance;
 }
 
-class MainWindow : public QMainWindow
+DataStore::DataStore() : QObject(0), _darkListModel(new QStandardItemModel())
 {
-    Q_OBJECT
 
-public:
-    explicit MainWindow(QWidget *parent = 0);
-    ~MainWindow();
+}
 
-protected:
-    void changeEvent(QEvent *e);
+void DataStore::registerDarks(QList<ImageInfo *> darks)
+{
 
-private:
-    Ui::MainWindow *ui;
+    _darkListModel->clear();
+    _darkListModel->setRowCount(darks.count());
+    _darkListModel->setColumnCount(1);
 
-private slots:
-    void on_actionQuit_triggered();
-    void on_actionSelectDarkFramesFolder_triggered();
-};
+    int row = 0;
 
-#endif // MAINWINDOW_H
+    foreach (ImageInfo* info, darks) {
+
+        QModelIndex index = _darkListModel->index(row++, 0, QModelIndex());
+        _darkListModel->setData(index, QString(info->getPath().c_str()), Qt::DisplayRole);
+    }
+}
+
+
+

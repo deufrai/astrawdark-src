@@ -17,32 +17,16 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#include "commandfactory.h"
+#include "scandarksourcecommand.h"
 
-#include <QMainWindow>
+CommandFactory::CommandFactory()
+{
 
-namespace Ui {
-class MainWindow;
 }
 
-class MainWindow : public QMainWindow
+AbstractCommand *CommandFactory::createScanDarkSourceCommand(const char* path)
 {
-    Q_OBJECT
+    return new ScanDarkSourceCommand(path);
+}
 
-public:
-    explicit MainWindow(QWidget *parent = 0);
-    ~MainWindow();
-
-protected:
-    void changeEvent(QEvent *e);
-
-private:
-    Ui::MainWindow *ui;
-
-private slots:
-    void on_actionQuit_triggered();
-    void on_actionSelectDarkFramesFolder_triggered();
-};
-
-#endif // MAINWINDOW_H

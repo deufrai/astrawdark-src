@@ -19,12 +19,12 @@
 
 #include "imageinfo.h"
 
-ImageInfo::ImageInfo(const char *path)
+ImageInfo::ImageInfo(const std::string path)
 {
     _path = path;
 }
 
-const char *ImageInfo::getPath() const
+const std::string ImageInfo::getPath() const
 {
     return _path;
 }

@@ -17,32 +17,32 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef DATASTORE_H
+#define DATASTORE_H
 
-#include <QMainWindow>
+#include <QObject>
+#include <QStandardItemModel>
 
-namespace Ui {
-class MainWindow;
-}
+class ImageInfo;
 
-class MainWindow : public QMainWindow
+class DataStore : public QObject
 {
     Q_OBJECT
-
+private:
+    DataStore();
 public:
-    explicit MainWindow(QWidget *parent = 0);
-    ~MainWindow();
+    static DataStore* _instance;
+    static DataStore* getInstance();
 
-protected:
-    void changeEvent(QEvent *e);
+    void registerDarks(QList<ImageInfo*> darks);
+    QStandardItemModel* getDarkModel() const {return _darkListModel;}
 
 private:
-    Ui::MainWindow *ui;
+    QStandardItemModel* _darkListModel;
 
-private slots:
-    void on_actionQuit_triggered();
-    void on_actionSelectDarkFramesFolder_triggered();
+signals:
+
+public slots:
 };
 
-#endif // MAINWINDOW_H
+#endif // DATASTORE_H

@@ -20,6 +20,16 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "../globals.h"
+#include "../commands/abstractcommand.h"
+#include "../commands/commandfactory.h"
+#include "../data/datastore.h"
+
+#include <QFileDialog>
+#include <QDir>
+
+#ifndef QT_NO_DEBUG
+#include <QDebug>
+#endif
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -28,6 +38,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     setWindowTitle(QString("%1").arg(Globals::application_name));
+
+    ui->tblDarkView->setModel(DataStore::getInstance()->getDarkModel());
 
 }
 
@@ -51,4 +63,24 @@ void MainWindow::changeEvent(QEvent *e)
 void MainWindow::on_actionQuit_triggered()
 {
     this->close();
+}
+
+void MainWindow::on_actionSelectDarkFramesFolder_triggered()
+{
+#ifndef QT_NO_DEBUG
+    qDebug() << "Selecting dark frames folder";
+#endif
+
+    QString basefolder = QFileDialog::getExistingDirectory(this,
+                                                           tr("Please select dark base folder"),
+                                                           QDir::homePath(),
+                                                           QFileDialog::ShowDirsOnly);
+
+#ifndef QT_NO_DEBUG
+    qDebug() << "Base Folder" << basefolder;
+#endif
+
+    AbstractCommand* command = CommandFactory::createScanDarkSourceCommand(basefolder.toStdString().c_str());
+    command->execute();
+    delete command;
 }
