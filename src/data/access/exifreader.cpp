@@ -60,7 +60,7 @@ void ExifReader::retrieveExifMetadata(ImageInfo &imageInfo)
 
         } else {
 
-           imageInfo.setTemperature(atoi(temp.c_str()) -128);
+            imageInfo.setTemperature(atoi(temp.c_str()) -128);
         }
 
     }

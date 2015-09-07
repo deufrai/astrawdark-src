@@ -24,6 +24,7 @@
 #include <QFileInfoList>
 #include <QDirIterator>
 #include <QObject>
+#include <QtConcurrent>
 
 #ifndef QT_NO_DEBUG
 #include <QDebug>
@@ -45,17 +46,17 @@ void ScanDarkSourceCommand::do_processing()
                         QDir::NoDotAndDotDot | QDir::Files,
                         QDirIterator::Subdirectories);
 
-        QList<ImageInfo*> imageInfos;
+        QList<ImageInfo> imageInfos;
 
         // retrieve all needed exif metadata for each RAW file
         while (it.hasNext()) {
 
-            ImageInfo* imageInfo = new ImageInfo(it.next().toStdString());
-
-            ExifReader::retrieveExifMetadata(*imageInfo);
+            ImageInfo imageInfo(it.next().toStdString());
 
             imageInfos << imageInfo;
         }
+
+        QtConcurrent::blockingMap(imageInfos, &ExifReader::retrieveExifMetadata);
 
         // notify the world
         emit done(imageInfos);

@@ -22,8 +22,7 @@
 
 #include <QObject>
 #include <QStandardItemModel>
-
-class ImageInfo;
+#include "imageinfo.h"
 
 /**
  * @brief Stores all application data.
@@ -47,7 +46,7 @@ signals:
     void darkListUpdated();
 
 public slots:
-    void on_newDarkScanResult(QList<ImageInfo*> darks);
+    void on_newDarkScanResult(QList<ImageInfo> darks);
 };
 
 #endif // DATASTORE_H

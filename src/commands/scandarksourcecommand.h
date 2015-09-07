@@ -43,7 +43,7 @@ private:
     const std::string _path;
 
 signals:
-    void done(QList<ImageInfo*> result);
+    void done(QList<ImageInfo> result);
 
 public slots:
 
