@@ -20,11 +20,11 @@
 #include "scandarksourcecommand.h"
 #include "../data/datastore.h"
 #include "../data/imageinfo.h"
+#include "../data/access/exifreader.h"
 
 #include <QStringList>
 #include <QFileInfoList>
 #include <QDir>
-#include <exiv2/exiv2.hpp>
 
 #ifndef QT_NO_DEBUG
 #include <QDebug>
@@ -57,29 +57,12 @@ void ScanDarkSourceCommand::do_processing()
 
             ImageInfo* imageInfo = new ImageInfo(fileInfo.filePath().toStdString());
 
-            Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(fileInfo.filePath().toStdString());
-            image->readMetadata();
-
-            Exiv2::ExifData &exifData = image->exifData();
-
-            if (exifData.empty()) {
-
-                qWarning() << fileInfo.filePath() << ": No Exif data found in the file";
-
-            } else {
-
-                imageInfo->setMake(exifData["Exif.Image.Make"].value().toString());
-                imageInfo->setModel(exifData["Exif.Image.Model"].value().toString());
-                imageInfo->setExposure(exifData["Exif.Photo.ExposureTime"].value().toString());
-                imageInfo->setIso(exifData["Exif.Photo.ISOSpeedRatings"].value().toString());
-                imageInfo->setDate(exifData["Exif.Photo.DateTimeDigitized"].value().toString());
-                imageInfo->setTemperature(exifData["Exif.CanonSi.0x000c"].value().toString());
-            }
+            ExifReader::getMetaData(*imageInfo);
 
             imageInfos << imageInfo;
         }
 
-        DataStore::getInstance()->registerDarks(imageInfos);
+        DataStore::getInstance()->on_newDarkScanResult(imageInfos);
     }
 }
 

@@ -34,7 +34,7 @@ DataStore::DataStore() : QObject(0), _darkListModel(new QStandardItemModel())
 
 }
 
-void DataStore::registerDarks(QList<ImageInfo *> darks)
+void DataStore::on_newDarkScanResult(QList<ImageInfo *> darks)
 {
 
     _darkListModel->clear();

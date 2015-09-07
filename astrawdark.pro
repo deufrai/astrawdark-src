@@ -19,7 +19,8 @@ SOURCES += src/main.cpp\
     src/data/datastore.cpp \
     src/commands/commandfactory.cpp \
     src/commands/abstractcommand.cpp \
-    src/commands/scandarksourcecommand.cpp
+    src/commands/scandarksourcecommand.cpp \
+    src/data/access/exifreader.cpp
 
 HEADERS  += src/gui/mainwindow.h \
     src/globals.h \
@@ -27,7 +28,8 @@ HEADERS  += src/gui/mainwindow.h \
     src/data/datastore.h \
     src/commands/commandfactory.h \
     src/commands/abstractcommand.h \
-    src/commands/scandarksourcecommand.h
+    src/commands/scandarksourcecommand.h \
+    src/data/access/exifreader.h
 
 FORMS    += src/gui/forms/mainwindow.ui
 

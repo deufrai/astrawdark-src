@@ -17,32 +17,24 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef DATASTORE_H
-#define DATASTORE_H
+#ifndef EXIFREADER_H
+#define EXIFREADER_H
 
-#include <QObject>
-#include <QStandardItemModel>
+#include <string>
+#include <exiv2/exiv2.hpp>
 
 class ImageInfo;
 
-class DataStore : public QObject
+class ExifReader
 {
-    Q_OBJECT
 private:
-    DataStore();
+    ExifReader();
+
 public:
-    static DataStore* _instance;
-    static DataStore* getInstance();
-
-    void on_newDarkScanResult(QList<ImageInfo*> darks);
-    QStandardItemModel* getDarkModel() const {return _darkListModel;}
+    static void getMetaData(ImageInfo& imageInfo);
 
 private:
-    QStandardItemModel* _darkListModel;
-
-signals:
-
-public slots:
+    static std::string getValue(const Exiv2::ExifData &data, const std::string tag);
 };
 
-#endif // DATASTORE_H
+#endif // EXIFREADER_H
