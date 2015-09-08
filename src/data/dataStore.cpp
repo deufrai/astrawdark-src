@@ -20,7 +20,13 @@
 #include "dataStore.h"
 #include "imageInfo.h"
 #include "../globals.h"
+
 #include <QSettings>
+#include <QTime>
+
+#ifndef QT_NO_DEBUG
+#include <QDebug>
+#endif
 
 DataStore* DataStore::_instance = 0;
 
@@ -31,7 +37,11 @@ DataStore* DataStore::getInstance() {
     return _instance;
 }
 
-DataStore::DataStore() : QObject(0), _darkListModel(new QStandardItemModel())
+
+DataStore::DataStore()
+    : QObject(0),
+      _darkListModel(new QStandardItemModel()),
+      _commandListModel(new QStandardItemModel())
 {
     QSettings settings;
 
@@ -39,15 +49,14 @@ DataStore::DataStore() : QObject(0), _darkListModel(new QStandardItemModel())
 
         _darkSources = settings.value(Globals::SETTINGKEY_DARK_SOURCES).toStringList();
     }
-}
 
-void DataStore::on_newDarkScanResult(QList<ImageInfo> darks)
-{
+    _commandListModel->setColumnCount(3);
+    _commandListModel->setHorizontalHeaderLabels(QStringList()
+                                                 << tr("Time")
+                                                 << tr("Command")
+                                                 << tr("Status"));
 
-    _darkListModel->clear();
-    _darkListModel->setRowCount(darks.count());
     _darkListModel->setColumnCount(7);
-
     QStringList darkListModelHeaderLabels;
 
     darkListModelHeaderLabels << tr("Path")
@@ -59,44 +68,59 @@ void DataStore::on_newDarkScanResult(QList<ImageInfo> darks)
                               << tr ("Temperature");
 
     _darkListModel->setHorizontalHeaderLabels(darkListModelHeaderLabels);
+}
+
+void DataStore::on_newDarkScanResult(QList<ImageInfo> darks)
+{
+
+    _darkListModel->setRowCount(0);
+    _darkListModel->setRowCount(darks.count());
 
     int row = 0;
 
     foreach (ImageInfo info, darks) {
 
         _darkListModel->setData(_darkListModel->index(row, 0, QModelIndex()),
-                                QString(info.getPath().c_str()),
-                                Qt::DisplayRole);
+                                QString(info.getPath().c_str()));
 
         _darkListModel->setData(_darkListModel->index(row, 1, QModelIndex()),
-                                QString(info.getMake().c_str()),
-                                Qt::DisplayRole);
+                                QString(info.getMake().c_str()));
 
         _darkListModel->setData(_darkListModel->index(row, 2, QModelIndex()),
-                                QString(info.getModel().c_str()),
-                                Qt::DisplayRole);
+                                QString(info.getModel().c_str()));
 
         _darkListModel->setData(_darkListModel->index(row, 3, QModelIndex()),
-                                QString(info.getExposure().c_str()),
-                                Qt::DisplayRole);
+                                QString(info.getExposure().c_str()));
 
         _darkListModel->setData(_darkListModel->index(row, 4, QModelIndex()),
-                                QString(info.getIso().c_str()),
-                                Qt::DisplayRole);
+                                QString(info.getIso().c_str()));
 
         _darkListModel->setData(_darkListModel->index(row, 5, QModelIndex()),
-                                QString(info.getDate().c_str()),
-                                Qt::DisplayRole);
+                                QString(info.getDate().c_str()));
 
         _darkListModel->setData(_darkListModel->index(row, 6, QModelIndex()),
-                                QString::number(info.getTemperature()).append("°C"),
-                                Qt::DisplayRole);
+                                QString::number(info.getTemperature()).append("°C"));
 
         ++row;
 
     }
 
     emit darkListUpdated();
+}
+
+void DataStore::on_CommandStatusChange(AbstractCommand* command)
+{
+    updateCommandModel(command->getSerial(), command);
+}
+
+void DataStore::on_CommandCreated(AbstractCommand *command)
+{
+    _commandListModel->setRowCount(_commandListModel->rowCount()+1);
+    _commandListModel->setData(_commandListModel->index(_commandListModel->rowCount()-1,0,QModelIndex()),
+                               QTime::currentTime().toString("hh:mm:ss"));
+    updateCommandModel(_commandListModel->rowCount()-1, command);
+    emit commandAdded();
+
 }
 
 void DataStore::on_newDarkSources(QStringList paths)
@@ -114,5 +138,33 @@ void DataStore::on_newDarkSources(QStringList paths)
     emit darkSourcesChanged(_darkSources);
 }
 
+void DataStore::updateCommandModel(int row, AbstractCommand *command)
+{
+    QString status;
+    switch ( command->getStatus() ) {
+
+    case AbstractCommand::PENDING:
+        status = tr("Scheduled");
+        break;
+
+    case AbstractCommand::RUNNING:
+        status = tr("Running");
+        break;
+
+    case AbstractCommand::COMPLETE:
+        status = tr("Finished (%1 ms)").arg(command->getElapsed());
+        break;
+
+    default:
+        status = tr("Undefined");
+        break;
+    }
+
+    _commandListModel->setData(_commandListModel->index(row,1,QModelIndex()),
+                               command->getDescription());
+
+    _commandListModel->setData(_commandListModel->index(row,2,QModelIndex()),
+                               QString(status));
+}
 
 

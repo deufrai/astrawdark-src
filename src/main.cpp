@@ -51,10 +51,20 @@ int main(int argc, char *argv[])
                      CommandQueue::getInstance(),
                      &CommandQueue::on_scanDarkLibrary);
 
+    QObject::connect(CommandQueue::getInstance(),
+                     &CommandQueue::createdCommand,
+                     DataStore::getInstance(),
+                     &DataStore::on_CommandCreated);
+
     QObject::connect(DataStore::getInstance(),
                      &DataStore::darkListUpdated,
                      &w,
                      &MainWindow::on_darkListUpdated);
+
+    QObject::connect(DataStore::getInstance(),
+                     &DataStore::commandAdded,
+                     &w,
+                     &MainWindow::on_commandAdded);
 
     QObject::connect(DataStore::getInstance(),
                      &DataStore::darkSourcesChanged,

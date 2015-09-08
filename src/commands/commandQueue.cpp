@@ -29,6 +29,12 @@ CommandQueue::CommandQueue(QObject *parent) : QObject(parent)
 
 }
 
+void CommandQueue::enqueueCommand(AbstractCommand *command)
+{
+    _commands.enqueue(command);
+    connect(command, &AbstractCommand::statusChanged, DataStore::getInstance(), &DataStore::on_CommandStatusChange);
+}
+
 AbstractCommand *CommandQueue::getCommand()
 {
     return _commands.empty()?NULL:_commands.dequeue();
@@ -47,5 +53,10 @@ CommandQueue *CommandQueue::getInstance()
 
 void CommandQueue::on_scanDarkLibrary()
 {
-    _commands.enqueue(CommandFactory::createScanDarkSourceCommand(DataStore::getInstance()->getDarkSources()));
+    AbstractCommand* command =
+            CommandFactory::createScanDarkSourceCommand(DataStore::getInstance()->getDarkSources());
+
+    enqueueCommand(command);
+    emit createdCommand(command);
+
 }
