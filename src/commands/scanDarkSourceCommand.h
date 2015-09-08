@@ -17,22 +17,36 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "abstractcommand.h"
+#ifndef SCANDARKSOURCE_H
+#define SCANDARKSOURCE_H
 
-AbstractCommand::AbstractCommand()
+#include "abstractCommand.h"
+#include "../data/imageInfo.h"
+
+#include <string>
+#include <QObject>
+
+/**
+ * @brief Command that fetches all dark frames from a directory.
+ */
+class ScanDarkSourceCommand : public QObject, public AbstractCommand
 {
+    Q_OBJECT
+public:
+    explicit ScanDarkSourceCommand(const std::string path);
+    virtual ~ScanDarkSourceCommand() {}
 
-}
+protected:
+    virtual void do_processing();
 
-AbstractCommand::~AbstractCommand()
-{
+private:
+    const std::string _path;
 
-}
+signals:
+    void done(QList<ImageInfo> result);
 
-void AbstractCommand::execute()
-{
-    setup();
-    do_processing();
-    cleanup();
-}
+public slots:
 
+};
+
+#endif // SCANDARKSOURCE_H

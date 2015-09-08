@@ -17,36 +17,20 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef DATASTORE_H
-#define DATASTORE_H
+#include "commandFactory.h"
+#include "scanDarkSourceCommand.h"
 
-#include <QObject>
-#include <QStandardItemModel>
-#include "imageinfo.h"
+#include "../data/dataStore.h"
 
-/**
- * @brief Stores all application data.
- */
-class DataStore : public QObject
+CommandFactory::CommandFactory()
 {
-    Q_OBJECT
 
-private:
-    DataStore();
-public:
-    static DataStore* _instance;
-    static DataStore* getInstance();
+}
 
-    QStandardItemModel* getDarkModel() const {return _darkListModel;}
+AbstractCommand *CommandFactory::createScanDarkSourceCommand(const std::string path)
+{
+    ScanDarkSourceCommand* command = new ScanDarkSourceCommand(path);
+    command->connect(command, &ScanDarkSourceCommand::done, DataStore::getInstance(), &DataStore::on_newDarkScanResult);
+    return command;
+}
 
-private:
-    QStandardItemModel* _darkListModel;
-
-signals:
-    void darkListUpdated();
-
-public slots:
-    void on_newDarkScanResult(QList<ImageInfo> darks);
-};
-
-#endif // DATASTORE_H

@@ -17,20 +17,24 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "commandfactory.h"
-#include "scandarksourcecommand.h"
+#ifndef COMMANDFACTORY_H
+#define COMMANDFACTORY_H
 
-#include "../data/datastore.h"
+#include "abstractCommand.h"
+#include <string>
 
-CommandFactory::CommandFactory()
+/**
+ * @brief Command factory.
+ */
+class CommandFactory
 {
+private:
+    CommandFactory();
 
-}
+public:
 
-AbstractCommand *CommandFactory::createScanDarkSourceCommand(const std::string path)
-{
-    ScanDarkSourceCommand* command = new ScanDarkSourceCommand(path);
-    command->connect(command, &ScanDarkSourceCommand::done, DataStore::getInstance(), &DataStore::on_newDarkScanResult);
-    return command;
-}
+    static AbstractCommand *createScanDarkSourceCommand(const std::string path);
 
+};
+
+#endif // COMMANDFACTORY_H

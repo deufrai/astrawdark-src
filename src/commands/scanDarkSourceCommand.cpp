@@ -17,8 +17,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "scandarksourcecommand.h"
-#include "../data/access/exifreader.h"
+#include "scanDarkSourceCommand.h"
+#include "../data/access/exifReader.h"
 
 #include <QStringList>
 #include <QFileInfoList>

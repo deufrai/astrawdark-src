@@ -17,12 +17,12 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "mainwindow.h"
+#include "mainWindow.h"
 #include "ui_mainwindow.h"
 #include "../globals.h"
-#include "../commands/abstractcommand.h"
-#include "../commands/commandfactory.h"
-#include "../data/datastore.h"
+#include "../commands/abstractCommand.h"
+#include "../commands/commandFactory.h"
+#include "../data/dataStore.h"
 
 #include <QFileDialog>
 #include <QDir>

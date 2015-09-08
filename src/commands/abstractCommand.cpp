@@ -17,24 +17,22 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef COMMANDFACTORY_H
-#define COMMANDFACTORY_H
+#include "abstractCommand.h"
 
-#include "abstractcommand.h"
-#include <string>
-
-/**
- * @brief Command factory.
- */
-class CommandFactory
+AbstractCommand::AbstractCommand()
 {
-private:
-    CommandFactory();
 
-public:
+}
 
-    static AbstractCommand *createScanDarkSourceCommand(const std::string path);
+AbstractCommand::~AbstractCommand()
+{
 
-};
+}
 
-#endif // COMMANDFACTORY_H
+void AbstractCommand::execute()
+{
+    setup();
+    do_processing();
+    cleanup();
+}
+

@@ -17,8 +17,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "exifreader.h"
-#include "../imageinfo.h"
+#include "exifReader.h"
+#include "../imageInfo.h"
 
 #ifndef QT_NO_DEBUG
 #include <QDebug>

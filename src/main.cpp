@@ -17,7 +17,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "gui/mainwindow.h"
+#include "gui/mainWindow.h"
 #include <QApplication>
 
 #ifndef QT_NO_DEBUG

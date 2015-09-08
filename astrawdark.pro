@@ -13,24 +13,26 @@ TEMPLATE = app
 
 
 SOURCES += src/main.cpp\
-        src/gui/mainwindow.cpp \
     src/globals.cpp \
-    src/data/imageinfo.cpp \
-    src/data/datastore.cpp \
-    src/commands/commandfactory.cpp \
-    src/commands/abstractcommand.cpp \
-    src/commands/scandarksourcecommand.cpp \
-    src/data/access/exifreader.cpp
+    src/commands/abstractCommand.cpp \
+    src/commands/commandFactory.cpp \
+    src/commands/scanDarkSourceCommand.cpp \
+    src/data/access/exifReader.cpp \
+    src/data/dataStore.cpp \
+    src/data/imageInfo.cpp \
+    src/gui/mainWindow.cpp
 
-HEADERS  += src/gui/mainwindow.h \
+HEADERS  += \
     src/globals.h \
-    src/data/imageinfo.h \
-    src/data/datastore.h \
-    src/commands/commandfactory.h \
-    src/commands/abstractcommand.h \
-    src/commands/scandarksourcecommand.h \
-    src/data/access/exifreader.h
+    src/commands/abstractCommand.h \
+    src/commands/commandFactory.h \
+    src/commands/scanDarkSourceCommand.h \
+    src/data/access/exifReader.h \
+    src/data/dataStore.h \
+    src/data/imageInfo.h \
+    src/gui/mainWindow.h
 
-FORMS    += src/gui/forms/mainwindow.ui
+FORMS    += \
+    src/gui/forms/mainWindow.ui
 
 LIBS += -lexiv2

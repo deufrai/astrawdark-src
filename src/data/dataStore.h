@@ -17,36 +17,36 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SCANDARKSOURCE_H
-#define SCANDARKSOURCE_H
+#ifndef DATASTORE_H
+#define DATASTORE_H
 
-#include "abstractcommand.h"
-#include "../data/imageinfo.h"
-
-#include <string>
 #include <QObject>
+#include <QStandardItemModel>
+#include "imageInfo.h"
 
 /**
- * @brief Command that fetches all dark frames from a directory.
+ * @brief Stores all application data.
  */
-class ScanDarkSourceCommand : public QObject, public AbstractCommand
+class DataStore : public QObject
 {
     Q_OBJECT
-public:
-    explicit ScanDarkSourceCommand(const std::string path);
-    virtual ~ScanDarkSourceCommand() {}
-
-protected:
-    virtual void do_processing();
 
 private:
-    const std::string _path;
+    DataStore();
+public:
+    static DataStore* _instance;
+    static DataStore* getInstance();
+
+    QStandardItemModel* getDarkModel() const {return _darkListModel;}
+
+private:
+    QStandardItemModel* _darkListModel;
 
 signals:
-    void done(QList<ImageInfo> result);
+    void darkListUpdated();
 
 public slots:
-
+    void on_newDarkScanResult(QList<ImageInfo> darks);
 };
 
-#endif // SCANDARKSOURCE_H
+#endif // DATASTORE_H

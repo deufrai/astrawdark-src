@@ -17,7 +17,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "imageinfo.h"
+#include "imageInfo.h"
 
 ImageInfo::ImageInfo(const std::string path)
 {
