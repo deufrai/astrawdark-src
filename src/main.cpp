@@ -61,11 +61,15 @@ int main(int argc, char *argv[])
                      &w,
                      &MainWindow::on_darkSourcesChanged);
 
+#ifndef QT_NO_DEBUG
+    qDebug() << "Showing main window";
+#endif
     w.show();
+
     int nRet = a.exec();
 
     CommandManager::stop();
-
     QSettings().sync();
+
     return nRet;
 }

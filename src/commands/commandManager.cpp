@@ -25,6 +25,10 @@
 #include <QThread>
 #include <iostream>
 
+#ifndef QT_NO_DEBUG
+#include <QDebug>
+#endif
+
 CommandManager* CommandManager::_instance = NULL;
 
 CommandManager::CommandManager(QObject *parent)
@@ -56,6 +60,10 @@ void CommandManager::stop()
 
 void CommandManager::run()
 {
+#ifndef QT_NO_DEBUG
+    qDebug() << "CommandManager is running";
+#endif
+
     while(_running) {
 
         QThread::currentThread()->msleep(100);
@@ -68,5 +76,3 @@ void CommandManager::run()
         }
     }
 }
-
-
