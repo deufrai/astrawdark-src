@@ -38,11 +38,13 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    setWindowTitle(Globals::application_name);
+    setWindowTitle(Globals::APPLICATION_NAME);
 
     ui->tblDarkView->setModel(DataStore::getInstance()->getDarkModel());
     ui->tblDarkView->horizontalHeader()->setStretchLastSection(true);
     ui->tblDarkView->resizeColumnsToContents();
+
+    ui->btnRescanDarks->setEnabled( !DataStore::getInstance()->getDarkSources().empty() );
 
     connect(DataStore::getInstance(), &DataStore::darkListUpdated, this, &MainWindow::on_darkListUpdated);
     connect(DataStore::getInstance(), &DataStore::darkSourcesChanged, this, &MainWindow::on_darkSourcesChanged);
@@ -73,10 +75,6 @@ void MainWindow::on_actionQuit_triggered()
 
 void MainWindow::on_btnRescanDarks_clicked()
 {
-#ifndef QT_NO_DEBUG
-    qDebug() << "Selecting dark frames folder";
-#endif
-
     AbstractCommand* command = CommandFactory::createScanDarkSourceCommand(DataStore::getInstance()->getDarkSources());
 
 #ifndef QT_NO_DEBUG

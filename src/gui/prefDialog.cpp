@@ -20,6 +20,7 @@
 #include "prefDialog.h"
 #include "ui_prefDialog.h"
 #include "../data/dataStore.h"
+#include "../globals.h"
 
 #include <QFileDialog>
 #include <QDir>

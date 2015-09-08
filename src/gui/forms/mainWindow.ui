@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1032</width>
+    <width>1147</width>
     <height>586</height>
    </rect>
   </property>
@@ -28,7 +28,7 @@
            <item>
             <widget class="QPushButton" name="btnRescanDarks">
              <property name="enabled">
-              <bool>false</bool>
+              <bool>true</bool>
              </property>
              <property name="text">
               <string>Rescan dark library</string>
@@ -79,7 +79,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1032</width>
+     <width>1147</width>
      <height>19</height>
     </rect>
    </property>

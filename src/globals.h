@@ -20,6 +20,8 @@
 #ifndef GLOBALS_H
 #define GLOBALS_H
 
+#include <QString>
+
 /**
  * @brief Application-wide constants.
  */
@@ -28,8 +30,10 @@ class Globals
 private:
     Globals();
 public:
-    static const char* version_string;
-    static const char* application_name;
+    static const QString VERSION_STRING;
+    static const QString APPLICATION_NAME;
+
+    static const QString SETTINGKEY_DARK_SOURCES;
 
 };
 

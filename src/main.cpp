@@ -18,7 +18,9 @@
  */
 
 #include "gui/mainWindow.h"
+
 #include <QApplication>
+#include <QSettings>
 
 #ifndef QT_NO_DEBUG
 #include <QDebug>
@@ -27,6 +29,11 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+
+    QCoreApplication::setOrganizationName("wardsback");
+    QCoreApplication::setOrganizationDomain("wardsback.org");
+    QCoreApplication::setApplicationName("AstRawDark");
+
     MainWindow w;
 
 #ifndef QT_NO_DEBUG
@@ -34,6 +41,8 @@ int main(int argc, char *argv[])
 #endif
 
     w.show();
+    int nRet = a.exec();
 
-    return a.exec();
+    QSettings().sync();
+    return nRet;
 }

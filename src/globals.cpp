@@ -19,9 +19,10 @@
 
 #include "globals.h"
 
-const char* Globals::version_string = "v0.1";
+const QString Globals::VERSION_STRING = "v0.1";
+const QString Globals::APPLICATION_NAME = "AstRawDark";
 
-const char* Globals::application_name = "AstRawDark";
+const QString Globals::SETTINGKEY_DARK_SOURCES = "darkSources";
 
 Globals::Globals()
 {

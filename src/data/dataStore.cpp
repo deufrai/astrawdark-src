@@ -19,6 +19,7 @@
 
 #include "dataStore.h"
 #include "imageInfo.h"
+#include "../globals.h"
 
 DataStore* DataStore::_instance = 0;
 
@@ -31,7 +32,12 @@ DataStore* DataStore::getInstance() {
 
 DataStore::DataStore() : QObject(0), _darkListModel(new QStandardItemModel())
 {
+    QSettings settings;
 
+    if ( settings.contains(Globals::SETTINGKEY_DARK_SOURCES) ) {
+
+        _darkSources = settings.value(Globals::SETTINGKEY_DARK_SOURCES).toStringList();
+    }
 }
 
 void DataStore::on_newDarkScanResult(QList<ImageInfo> darks)
@@ -101,6 +107,8 @@ void DataStore::on_newDarkSources(QStringList paths)
         _darkListModel->clear();
         emit darkListUpdated();
     }
+
+    QSettings().setValue(Globals::SETTINGKEY_DARK_SOURCES, _darkSources);
 
     emit darkSourcesChanged(_darkSources);
 }

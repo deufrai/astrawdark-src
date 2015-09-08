@@ -22,6 +22,8 @@
 
 #include <QObject>
 #include <QStandardItemModel>
+#include <QSettings>
+
 #include "imageInfo.h"
 
 /**
