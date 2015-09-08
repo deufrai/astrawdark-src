@@ -20,6 +20,7 @@
 #include "dataStore.h"
 #include "imageInfo.h"
 #include "../globals.h"
+#include <QSettings>
 
 DataStore* DataStore::_instance = 0;
 
