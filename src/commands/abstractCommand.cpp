@@ -18,14 +18,14 @@
  */
 
 #include "abstractCommand.h"
-#ifndef QT_NO_DEBUG
-#include <QDebug>
-#include <QElapsedTimer>
-#endif
+
+quint64 AbstractCommand::SERIAL = 0;
 
 AbstractCommand::AbstractCommand()
 {
-
+    _status = PENDING;
+    _elapsed = 0;
+    _serial = SERIAL++;
 }
 
 AbstractCommand::~AbstractCommand()
@@ -35,18 +35,16 @@ AbstractCommand::~AbstractCommand()
 
 void AbstractCommand::execute()
 {
-#ifndef QT_NO_DEBUG
-    QElapsedTimer t;
-    t.start();
-    qDebug () << "Command:" << _description << "started";
-#endif
+    _timer.start();
+    _status = RUNNING;
+    emit statusChanged(this);
 
     setup();
     do_processing();
     cleanup();
 
-#ifndef QT_NO_DEBUG
-    qDebug () << "Command:" << _description << "completed in" << t.elapsed() << "ms";
-#endif
+    _elapsed = _timer.elapsed();
+    _status = COMPLETE;
+    emit statusChanged(this);
 }
 

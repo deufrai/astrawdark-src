@@ -24,12 +24,11 @@
 #include "../data/imageInfo.h"
 
 #include <string>
-#include <QObject>
 
 /**
  * @brief Command that fetches all dark frames from a directory.
  */
-class ScanDarkSourceCommand : public QObject, public AbstractCommand
+class ScanDarkSourceCommand : public AbstractCommand
 {
     Q_OBJECT
 public:

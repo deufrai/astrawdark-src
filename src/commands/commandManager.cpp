@@ -72,7 +72,6 @@ void CommandManager::run()
         if ( command ) {
 
             command->execute();
-            delete command;
         }
     }
 }

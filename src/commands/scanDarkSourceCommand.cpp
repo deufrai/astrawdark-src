@@ -31,9 +31,9 @@
 #endif
 
 ScanDarkSourceCommand::ScanDarkSourceCommand(const QStringList &sources)
-    : _sources(sources)
+    : AbstractCommand::AbstractCommand(), _sources(sources)
 {
-    _description = QString(QObject::tr("Scaning dark library"));
+    _description = QString(tr("Scaning dark library"));
 }
 
 void ScanDarkSourceCommand::do_processing()

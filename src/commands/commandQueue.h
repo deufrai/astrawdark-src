@@ -24,6 +24,9 @@
 #include <QQueue>
 #include "abstractCommand.h"
 
+/**
+ * @brief Holds commands that need to be executed.
+ */
 class CommandQueue : public QObject
 {
     Q_OBJECT
@@ -37,7 +40,10 @@ private:
     static CommandQueue* _instance;
     explicit CommandQueue(QObject *parent = 0);
 
+    void enqueueCommand(AbstractCommand* command);
+
 signals:
+    void createdCommand(AbstractCommand*);
 
 public slots:
     void on_scanDarkLibrary();

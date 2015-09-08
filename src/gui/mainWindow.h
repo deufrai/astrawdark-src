@@ -53,6 +53,7 @@ private slots:
 public slots:
     void on_darkSourcesChanged(const QStringList &sources);
     void on_darkListUpdated();
+    void on_commandAdded();
 
 signals:
     void scanDarkLibrary();

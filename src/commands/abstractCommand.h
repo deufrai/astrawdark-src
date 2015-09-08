@@ -21,20 +21,36 @@
 #define ABSTRACTCOMMAND_H
 
 #include <QString>
+#include <QObject>
+#include <QElapsedTimer>
 
 /**
  * @brief Interface for all commands.
  */
-class AbstractCommand
+class AbstractCommand: public QObject
 {
+    Q_OBJECT
 protected:
     AbstractCommand();
 public:
     virtual ~AbstractCommand();
 
+    enum Status {
+
+        PENDING,
+        RUNNING,
+        COMPLETE
+    };
+
 public:
     void execute();
     const QString getDescription() const {return _description;}
+    Status getStatus() const {return _status;}
+    qint64 getElapsed() const {return _elapsed;}
+    quint64 getSerial() const {return _serial;}
+
+private:
+    static quint64 SERIAL;
 
 protected:
     virtual void setup() {}
@@ -42,6 +58,13 @@ protected:
     virtual void do_processing() = 0;
 
     QString _description;
+    Status _status;
+    QElapsedTimer _timer;
+    qint64 _elapsed;
+    quint64 _serial;
+
+signals:
+    void statusChanged(AbstractCommand*);
 
 };
 

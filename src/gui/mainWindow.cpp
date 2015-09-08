@@ -41,8 +41,22 @@ MainWindow::MainWindow(QWidget *parent) :
     setWindowTitle(Globals::APPLICATION_NAME);
 
     ui->tblDarkView->setModel(DataStore::getInstance()->getDarkModel());
-    ui->tblDarkView->horizontalHeader()->setStretchLastSection(true);
-    ui->tblDarkView->resizeColumnsToContents();
+    QHeaderView* darkHv = ui->tblDarkView->horizontalHeader();
+    darkHv->setSectionResizeMode(0, QHeaderView::Stretch);
+    darkHv->setSectionResizeMode(1, QHeaderView::ResizeToContents);
+    darkHv->setSectionResizeMode(2, QHeaderView::ResizeToContents);
+    darkHv->setSectionResizeMode(3, QHeaderView::ResizeToContents);
+    darkHv->setSectionResizeMode(4, QHeaderView::ResizeToContents);
+    darkHv->setSectionResizeMode(5, QHeaderView::ResizeToContents);
+    darkHv->setSectionResizeMode(6, QHeaderView::ResizeToContents);
+    ui->tblDarkView->verticalHeader()->hide();
+
+    ui->tblCommandView->setModel(DataStore::getInstance()->getCommandListModel());
+    QHeaderView* commandHv = ui->tblCommandView->horizontalHeader();
+    commandHv->setSectionResizeMode(0, QHeaderView::ResizeToContents);
+    commandHv->setSectionResizeMode(1, QHeaderView::Stretch);
+    commandHv->setSectionResizeMode(2, QHeaderView::ResizeToContents);
+    ui->tblCommandView->verticalHeader()->hide();
 
     ui->btnRescanDarks->setEnabled( !DataStore::getInstance()->getDarkSources().empty() );
 }
@@ -71,14 +85,18 @@ void MainWindow::on_actionQuit_triggered()
 
 void MainWindow::on_btnRescanDarks_clicked()
 {
-    ui->lblDarkCount->setText(tr("Scanning..."));
     emit scanDarkLibrary();
 }
 
 void MainWindow::on_darkListUpdated()
 {
-    ui->tblDarkView->resizeColumnsToContents();
+    //    ui->tblDarkView->resizeColumnsToContents();
     ui->lblDarkCount->setText(QString(tr("Total frame count : %1")).arg(DataStore::getInstance()->getDarkModel()->rowCount()));
+}
+
+void MainWindow::on_commandAdded()
+{
+    ui->tblCommandView->scrollToBottom();
 }
 
 void MainWindow::on_actionPrefs_triggered()

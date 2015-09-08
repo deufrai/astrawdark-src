@@ -24,6 +24,7 @@
 #include <QStandardItemModel>
 
 #include "imageInfo.h"
+#include "../commands/abstractCommand.h"
 
 /**
  * @brief Stores all application data.
@@ -39,18 +40,25 @@ public:
     static DataStore* getInstance();
 
     QStandardItemModel* getDarkModel() const {return _darkListModel;}
+    QStandardItemModel* getCommandListModel() const {return _commandListModel;}
     const QStringList& getDarkSources() const {return _darkSources;}
 
 private:
     QStandardItemModel* _darkListModel;
+    QStandardItemModel* _commandListModel;
     QStringList         _darkSources;
+
+    void updateCommandModel(int row, AbstractCommand* command);
 
 signals:
     void darkListUpdated();
     void darkSourcesChanged(const QStringList& sources);
+    void commandAdded();
 
 public slots:
     void on_newDarkScanResult(QList<ImageInfo> darks);
+    void on_CommandStatusChange(AbstractCommand* command);
+    void on_CommandCreated(AbstractCommand* command);
     void on_newDarkSources(QStringList paths);
 };
 
