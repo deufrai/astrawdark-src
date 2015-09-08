@@ -43,7 +43,6 @@ int main(int argc, char *argv[])
     qRegisterMetaType< QList<ImageInfo> >("QList<ImageInfo>");
 
     QtConcurrent::run(&CommandManager::start);
-
     MainWindow w;
 
     QObject::connect(&w,
