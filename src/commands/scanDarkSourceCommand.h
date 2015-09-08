@@ -33,14 +33,14 @@ class ScanDarkSourceCommand : public QObject, public AbstractCommand
 {
     Q_OBJECT
 public:
-    explicit ScanDarkSourceCommand(const std::string path);
+    explicit ScanDarkSourceCommand(const QStringList& sources);
     virtual ~ScanDarkSourceCommand() {}
 
 protected:
     virtual void do_processing();
 
 private:
-    const std::string _path;
+    const QStringList& _sources;
 
 signals:
     void done(QList<ImageInfo> result);

@@ -18,7 +18,8 @@
  */
 
 #include "mainWindow.h"
-#include "ui_mainwindow.h"
+#include "prefDialog.h"
+#include "ui_mainWindow.h"
 #include "../globals.h"
 #include "../commands/abstractCommand.h"
 #include "../commands/commandFactory.h"
@@ -37,13 +38,14 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    setWindowTitle(QString("%1").arg(Globals::application_name));
+    setWindowTitle(Globals::application_name);
 
     ui->tblDarkView->setModel(DataStore::getInstance()->getDarkModel());
     ui->tblDarkView->horizontalHeader()->setStretchLastSection(true);
     ui->tblDarkView->resizeColumnsToContents();
 
     connect(DataStore::getInstance(), &DataStore::darkListUpdated, this, &MainWindow::on_darkListUpdated);
+    connect(DataStore::getInstance(), &DataStore::darkSourcesChanged, this, &MainWindow::on_darkSourcesChanged);
 
 }
 
@@ -69,22 +71,13 @@ void MainWindow::on_actionQuit_triggered()
     this->close();
 }
 
-void MainWindow::on_actionSelectDarkFramesFolder_triggered()
+void MainWindow::on_btnRescanDarks_clicked()
 {
 #ifndef QT_NO_DEBUG
     qDebug() << "Selecting dark frames folder";
 #endif
 
-    QString basefolder = QFileDialog::getExistingDirectory(this,
-                                                           tr("Please select dark base folder"),
-                                                           QDir::homePath(),
-                                                           QFileDialog::ShowDirsOnly);
-
-#ifndef QT_NO_DEBUG
-    qDebug() << "Base Folder" << basefolder;
-#endif
-
-    AbstractCommand* command = CommandFactory::createScanDarkSourceCommand(basefolder.toStdString().c_str());
+    AbstractCommand* command = CommandFactory::createScanDarkSourceCommand(DataStore::getInstance()->getDarkSources());
 
 #ifndef QT_NO_DEBUG
     qDebug() << "Executing command:" << command->getDescription();
@@ -98,4 +91,18 @@ void MainWindow::on_darkListUpdated()
 {
     ui->tblDarkView->resizeColumnsToContents();
     ui->lblDarkCount->setText(QString("Total frame count : %1").arg(DataStore::getInstance()->getDarkModel()->rowCount()));
+}
+
+void MainWindow::on_actionPrefs_triggered()
+{
+    PrefDialog dlg;
+
+    connect(&dlg, &PrefDialog::newDarkSources, DataStore::getInstance(), &DataStore::on_newDarkSources);
+
+    dlg.exec();
+}
+
+void MainWindow::on_darkSourcesChanged(const QStringList& sources)
+{
+    ui->btnRescanDarks->setEnabled( !sources.empty() );
 }

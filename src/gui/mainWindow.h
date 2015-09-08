@@ -46,8 +46,10 @@ private:
 
 private slots:
     void on_actionQuit_triggered();
-    void on_actionSelectDarkFramesFolder_triggered();
+    void on_btnRescanDarks_clicked();
     void on_darkListUpdated();
+    void on_actionPrefs_triggered();
+    void on_darkSourcesChanged(const QStringList &sources);
 };
 
 #endif // MAINWINDOW_H

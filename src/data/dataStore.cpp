@@ -92,5 +92,18 @@ void DataStore::on_newDarkScanResult(QList<ImageInfo> darks)
     emit darkListUpdated();
 }
 
+void DataStore::on_newDarkSources(QStringList paths)
+{
+    _darkSources = paths;
+
+    if ( _darkSources.empty() ) {
+
+        _darkListModel->clear();
+        emit darkListUpdated();
+    }
+
+    emit darkSourcesChanged(_darkSources);
+}
+
 
 
