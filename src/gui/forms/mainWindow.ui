@@ -26,6 +26,16 @@
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout">
            <item>
+            <widget class="QPushButton" name="btnRescanDarks">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="text">
+              <string>Rescan dark library</string>
+             </property>
+            </widget>
+           </item>
+           <item>
             <widget class="QLabel" name="lblDarkCount">
              <property name="text">
               <string>Total frame count : </string>
@@ -75,12 +85,18 @@
    </property>
    <widget class="QMenu" name="menu_Fichier">
     <property name="title">
-     <string>&amp;Fichier</string>
+     <string>&amp;File</string>
     </property>
-    <addaction name="actionSelectDarkFramesFolder"/>
     <addaction name="actionQuit"/>
    </widget>
+   <widget class="QMenu" name="menu_Edit">
+    <property name="title">
+     <string>&amp;Edit</string>
+    </property>
+    <addaction name="actionPrefs"/>
+   </widget>
    <addaction name="menu_Fichier"/>
+   <addaction name="menu_Edit"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -102,9 +118,12 @@
     <string>Ctrl+Q</string>
    </property>
   </action>
-  <action name="actionSelectDarkFramesFolder">
+  <action name="actionPrefs">
    <property name="text">
-    <string>Set dark frame sources...</string>
+    <string>&amp;Preferences</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+P</string>
    </property>
   </action>
  </widget>

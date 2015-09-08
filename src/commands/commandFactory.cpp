@@ -27,9 +27,9 @@ CommandFactory::CommandFactory()
 
 }
 
-AbstractCommand *CommandFactory::createScanDarkSourceCommand(const std::string path)
+AbstractCommand *CommandFactory::createScanDarkSourceCommand(const QStringList& sources)
 {
-    ScanDarkSourceCommand* command = new ScanDarkSourceCommand(path);
+    ScanDarkSourceCommand* command = new ScanDarkSourceCommand(DataStore::getInstance()->getDarkSources());
     command->connect(command, &ScanDarkSourceCommand::done, DataStore::getInstance(), &DataStore::on_newDarkScanResult);
     return command;
 }

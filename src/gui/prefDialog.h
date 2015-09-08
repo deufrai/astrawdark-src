@@ -17,40 +17,44 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef DATASTORE_H
-#define DATASTORE_H
+#ifndef PREFDIALOG_H
+#define PREFDIALOG_H
 
-#include <QObject>
-#include <QStandardItemModel>
-#include "imageInfo.h"
+#include <QDialog>
+
+namespace Ui {
+class PrefDialog;
+}
 
 /**
- * @brief Stores all application data.
+ * @brief Dialog used to set application preferences
  */
-class DataStore : public QObject
+class PrefDialog : public QDialog
 {
     Q_OBJECT
 
-private:
-    DataStore();
 public:
-    static DataStore* _instance;
-    static DataStore* getInstance();
+    explicit PrefDialog(QWidget *parent = 0);
+    ~PrefDialog();
 
-    QStandardItemModel* getDarkModel() const {return _darkListModel;}
-    const QStringList& getDarkSources() const {return _darkSources;}
+    const QStringList& getDarkSources() const { return _darkSources; }
+
+protected:
+    void changeEvent(QEvent *e);
 
 private:
-    QStandardItemModel* _darkListModel;
-    QStringList         _darkSources;
+    Ui::PrefDialog *ui;
+
+    QStringList _darkSources;
 
 signals:
-    void darkListUpdated();
-    void darkSourcesChanged(const QStringList& sources);
+    void newDarkSources(const QStringList& paths);
 
-public slots:
-    void on_newDarkScanResult(QList<ImageInfo> darks);
-    void on_newDarkSources(QStringList paths);
+private slots:
+    void on_btnAddDarkFolder_clicked();
+    void on_lstDarkFolders_itemSelectionChanged();
+    void on_btnRemoveDarkFolder_clicked();
+    virtual void accept();
 };
 
-#endif // DATASTORE_H
+#endif // PREFDIALOG_H

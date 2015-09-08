@@ -33,7 +33,7 @@ private:
 
 public:
 
-    static AbstractCommand *createScanDarkSourceCommand(const std::string path);
+    static AbstractCommand *createScanDarkSourceCommand(const QStringList &sources);
 
 };
 

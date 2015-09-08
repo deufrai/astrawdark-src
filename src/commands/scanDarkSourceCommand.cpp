@@ -30,30 +30,36 @@
 #include <QDebug>
 #endif
 
-ScanDarkSourceCommand::ScanDarkSourceCommand(const std::string path)
-    : _path(path)
+ScanDarkSourceCommand::ScanDarkSourceCommand(const QStringList &sources)
+    : _sources(sources)
 {
-    _description = QString(QObject::tr("Scaning folder '%1' for RAW files")).arg(_path.c_str());
+    _description = QString(QObject::tr("Scaning dark library for RAW files"));
 }
 
 void ScanDarkSourceCommand::do_processing()
 {
-    if ( ! _path.empty() ) {
-
-        // retrieve all RAW files located in <path> directory and subtree
-        QDirIterator it(QString(_path.c_str()),
-                        QStringList() << "*.CR2" << "*.CRW",
-                        QDir::NoDotAndDotDot | QDir::Files,
-                        QDirIterator::Subdirectories);
+    if ( ! _sources.empty() ) {
 
         QList<ImageInfo> imageInfos;
 
-        // retrieve all needed exif metadata for each RAW file
-        while (it.hasNext()) {
+        foreach (QString path, _sources) {
 
-            ImageInfo imageInfo(it.next().toStdString());
 
-            imageInfos << imageInfo;
+
+            // retrieve all RAW files located in <path> directory and subtree
+            QDirIterator it(path,
+                            QStringList() << "*.CR2" << "*.CRW",
+                            QDir::NoDotAndDotDot | QDir::Files,
+                            QDirIterator::Subdirectories);
+
+            // retrieve all needed exif metadata for each RAW file
+            while (it.hasNext()) {
+
+                ImageInfo imageInfo(it.next().toStdString());
+
+                imageInfos << imageInfo;
+            }
+
         }
 
         QtConcurrent::blockingMap(imageInfos, &ExifReader::retrieveExifMetadata);
