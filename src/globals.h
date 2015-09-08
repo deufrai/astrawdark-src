@@ -34,6 +34,8 @@ public:
     static const QString APPLICATION_NAME;
 
     static const QString SETTINGKEY_DARK_SOURCES;
+    static const QString SETTINGKEY_WINDOW_GEOMETRY;
+    static const QString SETTINGKEY_WINDOW_GEOMETRY_REMEMBER;
 
 };
 

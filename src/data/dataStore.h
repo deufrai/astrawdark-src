@@ -42,11 +42,14 @@ public:
     QStandardItemModel* getDarkModel() const {return _darkListModel;}
     QStandardItemModel* getCommandListModel() const {return _commandListModel;}
     const QStringList& getDarkSources() const {return _darkSources;}
+    bool getRememberWindowGeometry() const {return _rememberWindowGeometry;}
+    void setRememberWindowGeometry(bool remember);
 
 private:
     QStandardItemModel* _darkListModel;
     QStandardItemModel* _commandListModel;
     QStringList         _darkSources;
+    bool                _rememberWindowGeometry;
 
     void updateCommandModel(int row, AbstractCommand* command);
 

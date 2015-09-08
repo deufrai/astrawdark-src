@@ -37,7 +37,6 @@ DataStore* DataStore::getInstance() {
     return _instance;
 }
 
-
 DataStore::DataStore()
     : QObject(0),
       _darkListModel(new QStandardItemModel()),
@@ -48,6 +47,11 @@ DataStore::DataStore()
     if ( settings.contains(Globals::SETTINGKEY_DARK_SOURCES) ) {
 
         _darkSources = settings.value(Globals::SETTINGKEY_DARK_SOURCES).toStringList();
+    }
+
+    if ( settings.contains(Globals::SETTINGKEY_WINDOW_GEOMETRY_REMEMBER) ) {
+
+        _rememberWindowGeometry = settings.value(Globals::SETTINGKEY_WINDOW_GEOMETRY_REMEMBER).toBool();
     }
 
     _commandListModel->setColumnCount(3);
@@ -168,3 +172,8 @@ void DataStore::updateCommandModel(int row, AbstractCommand *command)
 }
 
 
+void DataStore::setRememberWindowGeometry(bool remember)
+{
+    _rememberWindowGeometry = remember;
+    QSettings().setValue(Globals::SETTINGKEY_WINDOW_GEOMETRY_REMEMBER, _rememberWindowGeometry);
+}
