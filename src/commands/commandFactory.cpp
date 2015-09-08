@@ -29,7 +29,7 @@ CommandFactory::CommandFactory()
 
 AbstractCommand *CommandFactory::createScanDarkSourceCommand(const QStringList& sources)
 {
-    ScanDarkSourceCommand* command = new ScanDarkSourceCommand(DataStore::getInstance()->getDarkSources());
+    ScanDarkSourceCommand* command = new ScanDarkSourceCommand(sources);
     command->connect(command, &ScanDarkSourceCommand::done, DataStore::getInstance(), &DataStore::on_newDarkScanResult);
     return command;
 }

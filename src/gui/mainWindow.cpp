@@ -76,11 +76,6 @@ void MainWindow::on_actionQuit_triggered()
 void MainWindow::on_btnRescanDarks_clicked()
 {
     AbstractCommand* command = CommandFactory::createScanDarkSourceCommand(DataStore::getInstance()->getDarkSources());
-
-#ifndef QT_NO_DEBUG
-    qDebug() << "Executing command:" << command->getDescription();
-#endif
-
     command->execute();
     delete command;
 }

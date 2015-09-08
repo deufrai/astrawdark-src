@@ -24,7 +24,6 @@
 #include <QFileInfoList>
 #include <QDirIterator>
 #include <QObject>
-#include <QtConcurrent>
 
 #ifndef QT_NO_DEBUG
 #include <QDebug>
@@ -44,25 +43,20 @@ void ScanDarkSourceCommand::do_processing()
 
         foreach (QString path, _sources) {
 
-
-
-            // retrieve all RAW files located in <path> directory and subtree
+            // retrieve all RAW files located in <path> directory, with subtree
             QDirIterator it(path,
                             QStringList() << "*.CR2" << "*.CRW",
                             QDir::NoDotAndDotDot | QDir::Files,
                             QDirIterator::Subdirectories);
 
-            // retrieve all needed exif metadata for each RAW file
             while (it.hasNext()) {
 
                 ImageInfo imageInfo(it.next().toStdString());
-
+                ExifReader::retrieveExifMetadata(imageInfo);
                 imageInfos << imageInfo;
             }
 
         }
-
-        QtConcurrent::blockingMap(imageInfos, &ExifReader::retrieveExifMetadata);
 
         // notify the world
         emit done(imageInfos);

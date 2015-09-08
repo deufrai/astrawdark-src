@@ -18,6 +18,10 @@
  */
 
 #include "abstractCommand.h"
+#ifndef QT_NO_DEBUG
+#include <QDebug>
+#include <QElapsedTimer>
+#endif
 
 AbstractCommand::AbstractCommand()
 {
@@ -31,8 +35,15 @@ AbstractCommand::~AbstractCommand()
 
 void AbstractCommand::execute()
 {
+#ifndef QT_NO_DEBUG
+    QElapsedTimer t;
+    t.start();
+#endif
     setup();
     do_processing();
     cleanup();
+#ifndef QT_NO_DEBUG
+    qDebug () << "Command:" << _description << "completed in" << t.elapsed() << "ms";
+#endif
 }
 
