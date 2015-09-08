@@ -21,6 +21,7 @@
 #include "commands/commandManager.h"
 #include "commands/commandQueue.h"
 #include "data/imageInfo.h"
+#include "data/dataStore.h"
 
 #include <QApplication>
 #include <QSettings>
@@ -49,6 +50,16 @@ int main(int argc, char *argv[])
                      &MainWindow::scanDarkLibrary,
                      CommandQueue::getInstance(),
                      &CommandQueue::on_scanDarkLibrary);
+
+    QObject::connect(DataStore::getInstance(),
+                     &DataStore::darkListUpdated,
+                     &w,
+                     &MainWindow::on_darkListUpdated);
+
+    QObject::connect(DataStore::getInstance(),
+                     &DataStore::darkSourcesChanged,
+                     &w,
+                     &MainWindow::on_darkSourcesChanged);
 
     w.show();
     int nRet = a.exec();

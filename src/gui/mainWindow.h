@@ -47,9 +47,12 @@ private:
 private slots:
     void on_actionQuit_triggered();
     void on_btnRescanDarks_clicked();
-    void on_darkListUpdated();
     void on_actionPrefs_triggered();
+
+
+public slots:
     void on_darkSourcesChanged(const QStringList &sources);
+    void on_darkListUpdated();
 
 signals:
     void scanDarkLibrary();

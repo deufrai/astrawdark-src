@@ -45,10 +45,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->tblDarkView->resizeColumnsToContents();
 
     ui->btnRescanDarks->setEnabled( !DataStore::getInstance()->getDarkSources().empty() );
-
-    connect(DataStore::getInstance(), &DataStore::darkListUpdated, this, &MainWindow::on_darkListUpdated);
-    connect(DataStore::getInstance(), &DataStore::darkSourcesChanged, this, &MainWindow::on_darkSourcesChanged);
-
 }
 
 MainWindow::~MainWindow()
