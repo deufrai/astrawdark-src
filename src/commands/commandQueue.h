@@ -17,41 +17,30 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef DATASTORE_H
-#define DATASTORE_H
+#ifndef COMMANDQUEUE_H
+#define COMMANDQUEUE_H
 
 #include <QObject>
-#include <QStandardItemModel>
+#include <QQueue>
+#include "abstractCommand.h"
 
-#include "imageInfo.h"
-
-/**
- * @brief Stores all application data.
- */
-class DataStore : public QObject
+class CommandQueue : public QObject
 {
     Q_OBJECT
-
-private:
-    DataStore();
-    static DataStore* _instance;
 public:
-    static DataStore* getInstance();
-
-    QStandardItemModel* getDarkModel() const {return _darkListModel;}
-    const QStringList& getDarkSources() const {return _darkSources;}
+    AbstractCommand* getCommand();
+    static CommandQueue* getInstance();
 
 private:
-    QStandardItemModel* _darkListModel;
-    QStringList         _darkSources;
+    QQueue<AbstractCommand*> _commands;
+
+    static CommandQueue* _instance;
+    explicit CommandQueue(QObject *parent = 0);
 
 signals:
-    void darkListUpdated();
-    void darkSourcesChanged(const QStringList& sources);
 
 public slots:
-    void on_newDarkScanResult(QList<ImageInfo> darks);
-    void on_newDarkSources(QStringList paths);
+    void on_scanDarkLibrary();
 };
 
-#endif // DATASTORE_H
+#endif // COMMANDQUEUE_H

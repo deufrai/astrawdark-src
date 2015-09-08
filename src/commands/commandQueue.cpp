@@ -17,42 +17,35 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#include "commandQueue.h"
 
-#include <QMainWindow>
+#include "commandFactory.h"
+#include "../data/dataStore.h"
 
-namespace Ui {
+CommandQueue* CommandQueue::_instance = NULL;
 
-class MainWindow;
+CommandQueue::CommandQueue(QObject *parent) : QObject(parent)
+{
+
 }
 
-/**
- * @brief Our application's main window.
- */
-class MainWindow : public QMainWindow
+AbstractCommand *CommandQueue::getCommand()
 {
-    Q_OBJECT
+    return _commands.empty()?NULL:_commands.dequeue();
+}
 
-public:
-    explicit MainWindow(QWidget *parent = 0);
-    ~MainWindow();
+CommandQueue *CommandQueue::getInstance()
+{
+    if ( NULL == _instance ) {
 
-protected:
-    void changeEvent(QEvent *e);
+        _instance = new CommandQueue();
 
-private:
-    Ui::MainWindow *ui;
+    }
 
-private slots:
-    void on_actionQuit_triggered();
-    void on_btnRescanDarks_clicked();
-    void on_darkListUpdated();
-    void on_actionPrefs_triggered();
-    void on_darkSourcesChanged(const QStringList &sources);
+    return _instance;
+}
 
-signals:
-    void scanDarkLibrary();
-};
-
-#endif // MAINWINDOW_H
+void CommandQueue::on_scanDarkLibrary()
+{
+    _commands.enqueue(CommandFactory::createScanDarkSourceCommand(DataStore::getInstance()->getDarkSources()));
+}

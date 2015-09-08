@@ -17,41 +17,40 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef DATASTORE_H
-#define DATASTORE_H
+#ifndef COMMANDMANAGER_H
+#define COMMANDMANAGER_H
 
 #include <QObject>
-#include <QStandardItemModel>
+#include <QtConcurrent>
 
-#include "imageInfo.h"
+#include "abstractCommand.h"
 
 /**
- * @brief Stores all application data.
+ * @brief Manages commands from their creation to their execution in
+ * an isolated thread.
  */
-class DataStore : public QObject
+class CommandManager : public QObject
 {
     Q_OBJECT
-
 private:
-    DataStore();
-    static DataStore* _instance;
+    explicit CommandManager(QObject *parent = 0);
+    bool _running;
+    static CommandManager* _instance;
+
+
 public:
-    static DataStore* getInstance();
+    static CommandManager* getInstance();
 
-    QStandardItemModel* getDarkModel() const {return _darkListModel;}
-    const QStringList& getDarkSources() const {return _darkSources;}
+    static void start();
+    static void stop();
 
-private:
-    QStandardItemModel* _darkListModel;
-    QStringList         _darkSources;
+    void run();
+    void setRunning(const bool running) { _running = running;}
 
 signals:
-    void darkListUpdated();
-    void darkSourcesChanged(const QStringList& sources);
 
 public slots:
-    void on_newDarkScanResult(QList<ImageInfo> darks);
-    void on_newDarkSources(QStringList paths);
+
 };
 
-#endif // DATASTORE_H
+#endif // COMMANDMANAGER_H

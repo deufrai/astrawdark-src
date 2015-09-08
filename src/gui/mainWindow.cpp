@@ -75,15 +75,14 @@ void MainWindow::on_actionQuit_triggered()
 
 void MainWindow::on_btnRescanDarks_clicked()
 {
-    AbstractCommand* command = CommandFactory::createScanDarkSourceCommand(DataStore::getInstance()->getDarkSources());
-    command->execute();
-    delete command;
+    ui->lblDarkCount->setText(tr("Scanning..."));
+    emit scanDarkLibrary();
 }
 
 void MainWindow::on_darkListUpdated()
 {
     ui->tblDarkView->resizeColumnsToContents();
-    ui->lblDarkCount->setText(QString("Total frame count : %1").arg(DataStore::getInstance()->getDarkModel()->rowCount()));
+    ui->lblDarkCount->setText(QString(tr("Total frame count : %1")).arg(DataStore::getInstance()->getDarkModel()->rowCount()));
 }
 
 void MainWindow::on_actionPrefs_triggered()

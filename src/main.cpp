@@ -18,9 +18,15 @@
  */
 
 #include "gui/mainWindow.h"
+#include "commands/commandManager.h"
+#include "commands/commandQueue.h"
+#include "data/imageInfo.h"
 
 #include <QApplication>
 #include <QSettings>
+#include <QtConcurrent>
+#include <QObject>
+
 
 #ifndef QT_NO_DEBUG
 #include <QDebug>
@@ -34,14 +40,21 @@ int main(int argc, char *argv[])
     QCoreApplication::setOrganizationDomain("wardsback.org");
     QCoreApplication::setApplicationName("AstRawDark");
 
+    qRegisterMetaType< QList<ImageInfo> >("QList<ImageInfo>");
+
+    QtConcurrent::run(&CommandManager::start);
+
     MainWindow w;
 
-#ifndef QT_NO_DEBUG
-    qDebug() << "Showing main window";
-#endif
+    QObject::connect(&w,
+                     &MainWindow::scanDarkLibrary,
+                     CommandQueue::getInstance(),
+                     &CommandQueue::on_scanDarkLibrary);
 
     w.show();
     int nRet = a.exec();
+
+    CommandManager::stop();
 
     QSettings().sync();
     return nRet;

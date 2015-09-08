@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui concurrent
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -21,7 +21,9 @@ SOURCES += src/main.cpp\
     src/data/dataStore.cpp \
     src/data/imageInfo.cpp \
     src/gui/mainWindow.cpp \
-    src/gui/prefDialog.cpp
+    src/gui/prefDialog.cpp \
+    src/commands/commandManager.cpp \
+    src/commands/commandQueue.cpp
 
 HEADERS  += \
     src/globals.h \
@@ -32,7 +34,9 @@ HEADERS  += \
     src/data/dataStore.h \
     src/data/imageInfo.h \
     src/gui/mainWindow.h \
-    src/gui/prefDialog.h
+    src/gui/prefDialog.h \
+    src/commands/commandManager.h \
+    src/commands/commandQueue.h
 
 FORMS    += \
     src/gui/forms/mainWindow.ui \

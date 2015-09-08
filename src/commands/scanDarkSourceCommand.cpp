@@ -19,6 +19,7 @@
 
 #include "scanDarkSourceCommand.h"
 #include "../data/access/exifReader.h"
+#include "../data/dataStore.h"
 
 #include <QStringList>
 #include <QFileInfoList>
@@ -32,7 +33,7 @@
 ScanDarkSourceCommand::ScanDarkSourceCommand(const QStringList &sources)
     : _sources(sources)
 {
-    _description = QString(QObject::tr("Scaning dark library for RAW files"));
+    _description = QString(QObject::tr("Scaning dark library"));
 }
 
 void ScanDarkSourceCommand::do_processing()
@@ -55,10 +56,9 @@ void ScanDarkSourceCommand::do_processing()
                 ExifReader::retrieveExifMetadata(imageInfo);
                 imageInfos << imageInfo;
             }
-
         }
 
-        // notify the world
+        // register results in datastore
         emit done(imageInfos);
     }
 }

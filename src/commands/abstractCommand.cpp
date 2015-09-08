@@ -38,10 +38,13 @@ void AbstractCommand::execute()
 #ifndef QT_NO_DEBUG
     QElapsedTimer t;
     t.start();
+    qDebug () << "Command:" << _description << "started";
 #endif
+
     setup();
     do_processing();
     cleanup();
+
 #ifndef QT_NO_DEBUG
     qDebug () << "Command:" << _description << "completed in" << t.elapsed() << "ms";
 #endif
