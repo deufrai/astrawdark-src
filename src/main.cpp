@@ -22,6 +22,7 @@
 #include "commands/commandQueue.h"
 #include "data/imageInfo.h"
 #include "data/dataStore.h"
+#include "globals.h"
 
 #include <QApplication>
 #include <QSettings>
@@ -40,6 +41,7 @@ int main(int argc, char *argv[])
     QCoreApplication::setOrganizationName("wardsback");
     QCoreApplication::setOrganizationDomain("wardsback.org");
     QCoreApplication::setApplicationName("AstRawDark");
+    QSettings settings;
 
     qRegisterMetaType< QList<ImageInfo> >("QList<ImageInfo>");
 
@@ -74,12 +76,23 @@ int main(int argc, char *argv[])
 #ifndef QT_NO_DEBUG
     qDebug() << "Showing main window";
 #endif
+
+    if ( settings.contains(Globals::SETTINGKEY_WINDOW_GEOMETRY) &&
+         DataStore::getInstance()->getRememberWindowGeometry() ) {
+
+        w.setGeometry(settings.value(Globals::SETTINGKEY_WINDOW_GEOMETRY).toRect());
+    }
     w.show();
 
     int nRet = a.exec();
 
+    if ( DataStore::getInstance()->getRememberWindowGeometry() ) {
+
+        settings.setValue(Globals::SETTINGKEY_WINDOW_GEOMETRY, w.geometry());
+    }
+
     CommandManager::stop();
-    QSettings().sync();
+    settings.sync();
 
     return nRet;
 }
