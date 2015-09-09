@@ -126,7 +126,7 @@
     </size>
    </property>
    <property name="windowTitle">
-    <string>Commands</string>
+    <string>Command log</string>
    </property>
    <attribute name="dockWidgetArea">
     <number>8</number>
