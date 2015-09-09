@@ -24,6 +24,7 @@
 #include "../commands/abstractCommand.h"
 #include "../commands/commandFactory.h"
 #include "../data/dataStore.h"
+#include "aboutDialog.h"
 
 #include <QFileDialog>
 #include <QDir>
@@ -114,6 +115,11 @@ void MainWindow::on_actionPrefs_triggered()
 void MainWindow::on_actionCommandLog_toggled(bool checked)
 {
     ui->dckCommands->setVisible(checked);
+}
+
+void MainWindow::on_actionAbout_triggered()
+{
+    AboutDialog().exec();
 }
 
 void MainWindow::on_darkSourcesChanged(const QStringList& sources)

@@ -23,7 +23,8 @@ SOURCES += src/main.cpp\
     src/gui/mainWindow.cpp \
     src/gui/prefDialog.cpp \
     src/commands/commandManager.cpp \
-    src/commands/commandQueue.cpp
+    src/commands/commandQueue.cpp \
+    src/gui/aboutDialog.cpp
 
 HEADERS  += \
     src/globals.h \
@@ -36,10 +37,12 @@ HEADERS  += \
     src/gui/mainWindow.h \
     src/gui/prefDialog.h \
     src/commands/commandManager.h \
-    src/commands/commandQueue.h
+    src/commands/commandQueue.h \
+    src/gui/aboutDialog.h
 
 FORMS    += \
     src/gui/forms/mainWindow.ui \
-    src/gui/forms/prefDialog.ui
+    src/gui/forms/prefDialog.ui \
+    src/gui/forms/aboutDialog.ui
 
 LIBS += -lexiv2
