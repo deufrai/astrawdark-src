@@ -49,14 +49,17 @@ MainWindow::MainWindow(QWidget *parent) :
     darkHv->setSectionResizeMode(4, QHeaderView::ResizeToContents);
     darkHv->setSectionResizeMode(5, QHeaderView::ResizeToContents);
     darkHv->setSectionResizeMode(6, QHeaderView::ResizeToContents);
-    ui->tblDarkView->verticalHeader()->hide();
+    QHeaderView* darkVv = ui->tblDarkView->verticalHeader();
+    darkVv->hide();
 
     ui->tblCommandView->setModel(DataStore::getInstance()->getCommandListModel());
     QHeaderView* commandHv = ui->tblCommandView->horizontalHeader();
     commandHv->setSectionResizeMode(0, QHeaderView::ResizeToContents);
     commandHv->setSectionResizeMode(1, QHeaderView::Stretch);
     commandHv->setSectionResizeMode(2, QHeaderView::ResizeToContents);
-    ui->tblCommandView->verticalHeader()->hide();
+    QHeaderView* commandVv = ui->tblCommandView->verticalHeader();
+    commandVv->setSectionResizeMode(QHeaderView::ResizeToContents);
+    commandVv->hide();
 
     ui->btnRescanDarks->setEnabled( !DataStore::getInstance()->getDarkSources().empty() );
 }
@@ -106,6 +109,11 @@ void MainWindow::on_actionPrefs_triggered()
     connect(&dlg, &PrefDialog::newDarkSources, DataStore::getInstance(), &DataStore::on_newDarkSources);
 
     dlg.exec();
+}
+
+void MainWindow::on_actionCommandLog_toggled(bool checked)
+{
+    ui->dckCommands->setVisible(checked);
 }
 
 void MainWindow::on_darkSourcesChanged(const QStringList& sources)
