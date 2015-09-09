@@ -17,47 +17,28 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef ABOUTDIALOG_H
+#define ABOUTDIALOG_H
 
-#include <QMainWindow>
+#include <QDialog>
 
 namespace Ui {
-
-class MainWindow;
+class AboutDialog;
 }
 
-/**
- * @brief Our application's main window.
- */
-class MainWindow : public QMainWindow
+class AboutDialog : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = 0);
-    ~MainWindow();
+    explicit AboutDialog(QWidget *parent = 0);
+    ~AboutDialog();
 
 protected:
     void changeEvent(QEvent *e);
 
 private:
-    Ui::MainWindow *ui;
-
-private slots:
-    void on_actionQuit_triggered();
-    void on_btnRescanDarks_clicked();
-    void on_actionPrefs_triggered();
-    void on_actionCommandLog_toggled(bool checked);
-    void on_actionAbout_triggered();
-
-public slots:
-    void on_darkSourcesChanged(const QStringList &sources);
-    void on_darkListUpdated();
-    void on_commandAdded();
-
-signals:
-    void scanDarkLibrary();
+    Ui::AboutDialog *ui;
 };
 
-#endif // MAINWINDOW_H
+#endif // ABOUTDIALOG_H
