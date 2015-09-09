@@ -109,6 +109,8 @@ void DataStore::on_newDarkScanResult(QList<ImageInfo> darks)
 
     }
 
+    _darkListModel->sort(0);
+
     emit darkListUpdated();
 }
 
