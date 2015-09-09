@@ -20,8 +20,8 @@
 #ifndef EXIFREADER_H
 #define EXIFREADER_H
 
-#include <string>
 #include <exiv2/exiv2.hpp>
+#include <QString>
 
 class ImageInfo;
 
@@ -37,9 +37,10 @@ public:
     static void retrieveExifMetadata(ImageInfo& imageInfo);
 
 private:
+    static QString NOT_AVAILABLE;
 
-    static std::string NOT_AVAILABLE;
-    static std::string getValue(const Exiv2::ExifData &data, const std::string tag);
+    static QString getValue(const Exiv2::ExifData &data, const QString tag);
+    static QString formatExposure(QString unformatted);
 
 };
 

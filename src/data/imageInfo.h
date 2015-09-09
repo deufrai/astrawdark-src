@@ -20,7 +20,7 @@
 #ifndef IMAGEINFO_H
 #define IMAGEINFO_H
 
-#include <string>
+#include <QString>
 
 /**
  * @brief Image information.
@@ -28,32 +28,32 @@
 class ImageInfo
 {
 public:
-    ImageInfo(const std::string path);
+    ImageInfo(const QString path);
 
 protected:
-    std::string _path;
-    std::string _make;
-    std::string _model;
-    std::string _exposure;
-    std::string _iso;
-    std::string _date;
+    QString _path;
+    QString _make;
+    QString _model;
+    QString _exposure;
+    QString _iso;
+    QString _date;
     int _temperature;
 
 public:
-    const std::string getPath() const { return _path; }
-    const std::string getMake() const { return _make;}
-    const std::string getModel() const { return _model;}
-    const std::string getExposure() const { return _exposure;}
-    const std::string getIso() const { return _iso;}
-    const std::string getDate() const { return _date;}
+    const QString getPath() const { return _path; }
+    const QString getMake() const { return _make;}
+    const QString getModel() const { return _model;}
+    const QString getExposure() const { return _exposure;}
+    const QString getIso() const { return _iso;}
+    const QString getDate() const { return _date;}
     int getTemperature() const { return _temperature;}
 
-    void setPath (const std::string path) { _path = path;}
-    void setMake (const std::string make) { _make = make;}
-    void setModel (const std::string model) { _model = model;}
-    void setExposure (const std::string exposure) { _exposure = exposure;}
-    void setIso (const std::string iso) { _iso = iso;}
-    void setDate (const std::string date) { _date = date;}
+    void setPath (const QString path) { _path = path;}
+    void setMake (const QString make) { _make = make;}
+    void setModel (const QString model) { _model = model;}
+    void setExposure (const QString exposure) { _exposure = exposure;}
+    void setIso (const QString iso) { _iso = iso;}
+    void setDate (const QString date) { _date = date;}
     void setTemperature (const int temperature) { _temperature = temperature;}
 
 };

@@ -52,7 +52,7 @@ void ScanDarkSourceCommand::do_processing()
 
             while (it.hasNext()) {
 
-                ImageInfo imageInfo(it.next().toStdString());
+                ImageInfo imageInfo(it.next());
                 ExifReader::retrieveExifMetadata(imageInfo);
                 imageInfos << imageInfo;
             }

@@ -20,11 +20,13 @@
 #include "exifReader.h"
 #include "../imageInfo.h"
 
+#include <QString>
+
 #ifndef QT_NO_DEBUG
 #include <QDebug>
 #endif
 
-std::string ExifReader::NOT_AVAILABLE = "N/A";
+QString ExifReader::NOT_AVAILABLE = "N/A";
 
 ExifReader::ExifReader()
 {
@@ -33,14 +35,14 @@ ExifReader::ExifReader()
 
 void ExifReader::retrieveExifMetadata(ImageInfo &imageInfo)
 {
-    Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(imageInfo.getPath());
+    Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(imageInfo.getPath().toStdString());
     image->readMetadata();
     Exiv2::ExifData &exifData = image->exifData();
 
     if (exifData.empty()) {
 
 #ifndef QT_NO_DEBUG
-        qWarning() << imageInfo.getPath().c_str() << ": No Exif data found in the file";
+        qWarning() << imageInfo.getPath() << ": No Exif data found in the file";
 #endif
 
 
@@ -48,11 +50,11 @@ void ExifReader::retrieveExifMetadata(ImageInfo &imageInfo)
 
         imageInfo.setMake(getValue(exifData, "Exif.Image.Make"));
         imageInfo.setModel(getValue(exifData, "Exif.Image.Model"));
-        imageInfo.setExposure(getValue(exifData, "Exif.Photo.ExposureTime"));
+        imageInfo.setExposure(formatExposure(getValue(exifData, "Exif.Photo.ExposureTime")));
         imageInfo.setIso(getValue(exifData, "Exif.Photo.ISOSpeedRatings"));
         imageInfo.setDate(getValue(exifData, "Exif.Photo.DateTimeDigitized"));
 
-        std::string temp = getValue(exifData, "Exif.CanonSi.0x000c");
+        QString temp = getValue(exifData, "Exif.CanonSi.0x000c");
 
         if ( temp == NOT_AVAILABLE ) {
 
@@ -60,15 +62,15 @@ void ExifReader::retrieveExifMetadata(ImageInfo &imageInfo)
 
         } else {
 
-            imageInfo.setTemperature(atoi(temp.c_str()) -128);
+            imageInfo.setTemperature(temp.toInt() -128);
         }
 
     }
 }
 
-std::string ExifReader::getValue(const Exiv2::ExifData &data, const std::string tag)
+QString ExifReader::getValue(const Exiv2::ExifData &data, const QString tag)
 {
-    Exiv2::ExifKey exifKey(tag);
+    Exiv2::ExifKey exifKey(tag.toStdString());
     Exiv2::ExifData::const_iterator pos = data.findKey(exifKey);
 
     if (pos == data.end()) {
@@ -77,7 +79,26 @@ std::string ExifReader::getValue(const Exiv2::ExifData &data, const std::string 
 
     } else {
 
-        return pos->getValue()->toString();
+        return QString(pos->getValue()->toString().c_str());
     }
+}
+
+QString ExifReader::formatExposure(QString unformatted)
+{
+    if ( ! unformatted.isEmpty() ) {
+
+        // we get rid of "/1" suffixes
+        if ( unformatted.endsWith("/1") ) return unformatted.remove("/1");
+
+        // we simplify "x/10" values but leave "1/10" special case alone
+        if ( unformatted.endsWith("/10") && unformatted != "1/10" ) {
+
+            int numerator = unformatted.left(unformatted.indexOf('/')).toInt();
+            double value = numerator / 10.0;
+            return QString::number(value);
+        }
+    }
+
+    return unformatted;
 }
 
