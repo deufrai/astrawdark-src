@@ -78,22 +78,25 @@ void PrefDialog::on_btnAddDarkFolder_clicked()
 
             QDir test(ui->lstDarkFolders->item(i)->text());
 
-            if ( test.canonicalPath().startsWith(candidate.canonicalPath()) ||
-                 candidate.canonicalPath().startsWith(test.canonicalPath()) ||
-                 test.absolutePath().startsWith(candidate.absolutePath())   ||
-                 candidate.absolutePath().startsWith(test.absolutePath()) ) {
+            if ( test.exists() ) {
 
-                QString warningMsg(tr("Folder '")
-                                   .append(basefolder)
-                                   .append(tr("' cannot be used as a dark source.\n"))
-                                   .append(tr("It is either a child, a parent or a duplicate"))
-                                   .append(tr(" of one of your existing sources.")));
+                if ( test.canonicalPath().startsWith(candidate.canonicalPath()) ||
+                     candidate.canonicalPath().startsWith(test.canonicalPath()) ||
+                     test.absolutePath().startsWith(candidate.absolutePath())   ||
+                     candidate.absolutePath().startsWith(test.absolutePath()) ) {
 
-                QMessageBox::critical(this,
-                                      tr("Cannot add this folder as dark source"),
-                                      warningMsg);
+                    QString warningMsg(tr("Folder '")
+                                       .append(basefolder)
+                                       .append(tr("' cannot be used as a dark source.\n"))
+                                       .append(tr("It is either a child, a parent or a duplicate"))
+                                       .append(tr(" of one of your existing sources.")));
 
-                canUseThisFolder = false;
+                    QMessageBox::critical(this,
+                                          tr("Cannot add this folder as dark source"),
+                                          warningMsg);
+
+                    canUseThisFolder = false;
+                }
             }
         }
 
