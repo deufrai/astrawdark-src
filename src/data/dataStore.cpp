@@ -133,7 +133,7 @@ void DataStore::on_newDarkSources(QStringList paths)
 
     if ( _darkSources.empty() ) {
 
-        _darkListModel->clear();
+        _darkListModel->setRowCount(0);
         emit darkListUpdated();
     }
 
