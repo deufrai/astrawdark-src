@@ -26,6 +26,7 @@ AbstractCommand::AbstractCommand()
     _status = PENDING;
     _elapsed = 0;
     _serial = SERIAL++;
+    _error = false;
 }
 
 AbstractCommand::~AbstractCommand()
