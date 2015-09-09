@@ -48,7 +48,7 @@ private slots:
     void on_actionQuit_triggered();
     void on_btnRescanDarks_clicked();
     void on_actionPrefs_triggered();
-
+    void on_actionCommandLog_toggled(bool checked);
 
 public slots:
     void on_darkSourcesChanged(const QStringList &sources);
