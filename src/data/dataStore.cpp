@@ -66,10 +66,10 @@ DataStore::DataStore()
     darkListModelHeaderLabels << tr("Path")
                               << tr("Make")
                               << tr("Model")
-                              << tr("Exposure")
+                              << tr("Exposure\n(sec.)")
                               << tr("ISO")
                               << tr("Date")
-                              << tr ("Temperature");
+                              << tr ("Temperature\n(°C)");
 
     _darkListModel->setHorizontalHeaderLabels(darkListModelHeaderLabels);
 }
@@ -85,25 +85,25 @@ void DataStore::on_newDarkScanResult(QList<ImageInfo> darks)
     foreach (ImageInfo info, darks) {
 
         _darkListModel->setData(_darkListModel->index(row, 0, QModelIndex()),
-                                QString(info.getPath().c_str()));
+                                info.getPath());
 
         _darkListModel->setData(_darkListModel->index(row, 1, QModelIndex()),
-                                QString(info.getMake().c_str()));
+                                info.getMake());
 
         _darkListModel->setData(_darkListModel->index(row, 2, QModelIndex()),
-                                QString(info.getModel().c_str()));
+                                info.getModel());
 
         _darkListModel->setData(_darkListModel->index(row, 3, QModelIndex()),
-                                QString(info.getExposure().c_str()));
+                                info.getExposure());
 
         _darkListModel->setData(_darkListModel->index(row, 4, QModelIndex()),
-                                QString(info.getIso().c_str()));
+                                info.getIso());
 
         _darkListModel->setData(_darkListModel->index(row, 5, QModelIndex()),
-                                QString(info.getDate().c_str()));
+                                info.getDate());
 
         _darkListModel->setData(_darkListModel->index(row, 6, QModelIndex()),
-                                QString::number(info.getTemperature()).append("°C"));
+                                QString::number(info.getTemperature()));
 
         ++row;
 

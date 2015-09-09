@@ -19,7 +19,7 @@
 
 #include "imageInfo.h"
 
-ImageInfo::ImageInfo(const std::string path)
+ImageInfo::ImageInfo(const QString path)
 {
     _path = path;
 }
