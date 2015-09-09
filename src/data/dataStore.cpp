@@ -164,8 +164,15 @@ void DataStore::updateCommandModel(int row, AbstractCommand *command)
         break;
     }
 
+    QString description = command->getDescription();
+
+    if ( command->hasErrors() ) {
+
+        description.append(" - ").append(tr("*Error* ")).append(command->getErrorMessage());
+    }
+
     _commandListModel->setData(_commandListModel->index(row,1,QModelIndex()),
-                               command->getDescription());
+                               description);
 
     _commandListModel->setData(_commandListModel->index(row,2,QModelIndex()),
                                QString(status));

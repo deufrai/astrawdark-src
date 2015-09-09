@@ -48,6 +48,8 @@ public:
     Status getStatus() const {return _status;}
     qint64 getElapsed() const {return _elapsed;}
     quint64 getSerial() const {return _serial;}
+    bool hasErrors() const {return _error;}
+    QString getErrorMessage() const {return _errorMessage;}
 
 private:
     static quint64 SERIAL;
@@ -58,10 +60,12 @@ protected:
     virtual void do_processing() = 0;
 
     QString _description;
+    QString _errorMessage;
     Status _status;
     QElapsedTimer _timer;
     qint64 _elapsed;
     quint64 _serial;
+    bool    _error;
 
 signals:
     void statusChanged(AbstractCommand*);

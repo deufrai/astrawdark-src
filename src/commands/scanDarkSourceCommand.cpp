@@ -33,16 +33,24 @@
 ScanDarkSourceCommand::ScanDarkSourceCommand(const QStringList &sources)
     : AbstractCommand::AbstractCommand(), _sources(sources)
 {
-    _description = QString(tr("Scaning dark library"));
+    _description = QString(tr("Scan dark library"));
 }
 
 void ScanDarkSourceCommand::do_processing()
 {
     if ( ! _sources.empty() ) {
 
+        QList<QString> missingDirs;
+
         QList<ImageInfo> imageInfos;
 
         foreach (QString path, _sources) {
+
+            if ( ! QDir(path).exists() ) {
+
+                missingDirs << path;
+                continue;
+            }
 
             // retrieve all RAW files located in <path> directory, with subtree
             QDirIterator it(path,
@@ -55,6 +63,17 @@ void ScanDarkSourceCommand::do_processing()
                 ImageInfo imageInfo(it.next());
                 ExifReader::retrieveExifMetadata(imageInfo);
                 imageInfos << imageInfo;
+            }
+        }
+
+        if ( ! missingDirs.empty() ) {
+
+            _error = true;
+
+            _errorMessage = tr("The following dark sources are missing and have been skipped: ");
+            foreach (QString missing, missingDirs) {
+
+                _errorMessage.append(missing).append(" ");
             }
         }
 
