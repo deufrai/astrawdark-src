@@ -25,16 +25,28 @@
 #include <QElapsedTimer>
 
 /**
- * @brief Interface for all commands.
+ * @brief Interface for all commands
+ *
+ * Provides generic ways to interract with any command type
  */
 class AbstractCommand: public QObject
 {
     Q_OBJECT
+
 protected:
+    /**
+     * @brief Default constructor
+     */
     AbstractCommand();
 public:
+    /**
+     * @brief Default destructor
+     */
     virtual ~AbstractCommand();
 
+    /**
+     * @brief The Status enum describes a command's running status
+     */
     enum Status {
 
         PENDING,
@@ -43,33 +55,101 @@ public:
     };
 
 public:
+    /**
+     * @brief execute command payload
+     */
     void execute();
+
+    /**
+     * @brief get command's description displayed in command log
+     * @return the command's description
+     */
     const QString getDescription() const {return _description;}
+
+    /**
+     * @brief get command's running status
+     * @return the status
+     */
     Status getStatus() const {return _status;}
+
+    /**
+     * @brief Get command's total execution time
+     * @return elapsed time
+     */
     qint64 getElapsed() const {return _elapsed;}
+
+    /**
+     * @brief Get command's serial number.
+     *
+     * This serial number starts at 0 and incremented by 1 upon every
+     * command construction.
+     *
+     * @return the serial
+     */
     quint64 getSerial() const {return _serial;}
+
+    /**
+     * @brief Tells if this command encountered errors during execution.
+     * @return true if errors were encountered
+     */
     bool hasErrors() const {return _error;}
+
+    /**
+     * @brief Get command's error message
+     * @return the error message
+     */
     QString getErrorMessage() const {return _errorMessage;}
+
+    /**
+     * @brief Get command's progress message.
+     *
+     * This message is displayed in command log
+     * @return the progress message
+     */
     QString getProgessMessage() const {return _progressMessage;}
 
+
 private:
+    /** The serial number */
     static quint64 SERIAL;
 
 protected:
+    /**
+     * @brief Any subclass can redefine this function to make any necessary
+     * preparation before acutal payload processing.
+     */
     virtual void setup() {}
+    /**
+     * @brief Any subclass can redefine this function to make any necessary
+     * cleanup before acutal payload processing.
+     */
     virtual void cleanup() {}
+
+    /**
+     * @brief The actual processing payload of this command.
+     * All sublasses MUST implement this function.
+     */
     virtual void do_processing() = 0;
 
+    /** Command description */
     QString         _description;
+    /** Command progress message */
     QString         _progressMessage;
+    /** Command error message */
     QString         _errorMessage;
+    /** Command running status */
     Status          _status;
+    /** Timer used to get total running time */
     QElapsedTimer   _timer;
+    /** Command total running time */
     qint64          _elapsed;
+    /** Command serial number */
     quint64         _serial;
+    /** Flag used to tell if command encountered error during payload processing */
     bool            _error;
 
 signals:
+    /** Advertise status changes */
     void statusChanged(AbstractCommand*);
 
 };
