@@ -49,5 +49,6 @@ FORMS    += \
 
 LIBS += -lexiv2
 
-#DISTFILES += \
-#    Doxyfile
+DISTFILES += \
+    doc/README \
+    Doxyfile
