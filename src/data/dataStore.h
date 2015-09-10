@@ -103,6 +103,10 @@ signals:
     void commandAdded();
 
 public slots:
+
+    /** empty dark list model upon any new scan starts */
+    void on_newDarkScanStarted();
+
     /**
      * Registers a new dark frame scan result
      * @param darks scan result

@@ -34,10 +34,17 @@ ScanDarkSourceCommand::ScanDarkSourceCommand(const QStringList &sources)
     : AbstractCommand::AbstractCommand(), _sources(sources)
 {
     _description = QString(tr("Dark library scan"));
+
+    connect(this,
+            &ScanDarkSourceCommand::started,
+            DataStore::getInstance(),
+            &DataStore::on_newDarkScanStarted);
 }
 
 void ScanDarkSourceCommand::do_processing()
 {
+    emit started();
+
     if ( ! _sources.empty() ) {
 
         QList<QString> missingDirs;

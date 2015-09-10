@@ -50,7 +50,11 @@ private:
     const QStringList& _sources;
 
 signals:
+    /** tell everyone we completed the scan */
     void done(QList<ImageInfo> result);
+
+    /** tell everyone we just started scanning */
+    void started();
 
 public slots:
 
