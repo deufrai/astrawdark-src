@@ -29,12 +29,18 @@ class Globals
 {
 private:
     Globals();
+
 public:
+    /** application version string */
     static const QString VERSION_STRING;
+    /** application name */
     static const QString APPLICATION_NAME;
 
+    /** Key used to store dark sources */
     static const QString SETTINGKEY_DARK_SOURCES;
+    /** Key for window geometry */
     static const QString SETTINGKEY_WINDOW_GEOMETRY;
+    /** Key for 'remember window size & position' feature
     static const QString SETTINGKEY_WINDOW_GEOMETRY_REMEMBER;
 
 };

@@ -26,18 +26,32 @@ namespace Ui {
 class AboutDialog;
 }
 
+/**
+ *@brief Our About dialog
+ */
 class AboutDialog : public QDialog
 {
     Q_OBJECT
 
 public:
+    /**
+     * Constructor
+     * @param parent Qt parent
+     */
     explicit AboutDialog(QWidget *parent = 0);
+
+    /** Desctructor */
     ~AboutDialog();
 
 protected:
+    /**
+     * Caught a change event
+     * @param e the event
+     */
     void changeEvent(QEvent *e);
 
 private:
+    /** Our UI */
     Ui::AboutDialog *ui;
 };
 

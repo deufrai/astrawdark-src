@@ -163,7 +163,7 @@ void DataStore::updateCommandModel(int row, AbstractCommand *command)
     QString status;
     switch ( command->getStatus() ) {
 
-    case AbstractCommand::PENDING:
+    case AbstractCommand::SCHEDULED:
         status = tr("Scheduled");
         break;
 

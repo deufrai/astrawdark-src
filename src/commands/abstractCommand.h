@@ -25,7 +25,7 @@
 #include <QElapsedTimer>
 
 /**
- * @brief Interface for all commands
+ * @brief Interface for all commands.
  *
  * Provides generic ways to interract with any command type
  */
@@ -35,51 +35,51 @@ class AbstractCommand: public QObject
 
 protected:
     /**
-     * @brief Default constructor
+     * Default constructor
      */
     AbstractCommand();
 public:
     /**
-     * @brief Default destructor
+     * Default destructor
      */
     virtual ~AbstractCommand();
 
     /**
-     * @brief The Status enum describes a command's running status
+     * The Status enum describes a command's running status
      */
     enum Status {
 
-        PENDING,
+        SCHEDULED,
         RUNNING,
         COMPLETE
     };
 
 public:
     /**
-     * @brief execute command payload
+     * execute command payload
      */
     void execute();
 
     /**
-     * @brief get command's description displayed in command log
+     * get command's description displayed in command log
      * @return the command's description
      */
     const QString getDescription() const {return _description;}
 
     /**
-     * @brief get command's running status
+     * get command's running status
      * @return the status
      */
     Status getStatus() const {return _status;}
 
     /**
-     * @brief Get command's total execution time
+     * Get command's total execution time
      * @return elapsed time
      */
     qint64 getElapsed() const {return _elapsed;}
 
     /**
-     * @brief Get command's serial number.
+     * Get command's serial number.
      *
      * This serial number starts at 0 and incremented by 1 upon every
      * command construction.
@@ -89,19 +89,19 @@ public:
     quint64 getSerial() const {return _serial;}
 
     /**
-     * @brief Tells if this command encountered errors during execution.
+     * Tells if this command encountered errors during execution.
      * @return true if errors were encountered
      */
     bool hasErrors() const {return _error;}
 
     /**
-     * @brief Get command's error message
+     * Get command's error message
      * @return the error message
      */
     QString getErrorMessage() const {return _errorMessage;}
 
     /**
-     * @brief Get command's progress message.
+     * Get command's progress message.
      *
      * This message is displayed in command log
      * @return the progress message
@@ -115,18 +115,18 @@ private:
 
 protected:
     /**
-     * @brief Any subclass can redefine this function to make any necessary
+     * Any subclass can redefine this function to make any necessary
      * preparation before acutal payload processing.
      */
     virtual void setup() {}
     /**
-     * @brief Any subclass can redefine this function to make any necessary
+     * Any subclass can redefine this function to make any necessary
      * cleanup before acutal payload processing.
      */
     virtual void cleanup() {}
 
     /**
-     * @brief The actual processing payload of this command.
+     * The actual processing payload of this command.
      * All sublasses MUST implement this function.
      */
     virtual void do_processing() = 0;

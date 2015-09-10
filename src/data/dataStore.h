@@ -28,21 +28,56 @@
 
 /**
  * @brief Stores all application data.
+ *
+ * Implemented as a Singleton
  */
 class DataStore : public QObject
 {
     Q_OBJECT
 
 private:
+    /**
+     * Default constructor
+     */
     DataStore();
+
+    /** The unique instance */
     static DataStore* _instance;
 public:
+    /**
+     * Retrieve unique instance
+     * @return the instance
+     */
     static DataStore* getInstance();
 
+    /**
+     * Get dark list model
+     * @return the model
+     */
     QStandardItemModel* getDarkModel() const {return _darkListModel;}
+
+    /**
+     * Get command list model
+     * @return the model
+     */
     QStandardItemModel* getCommandListModel() const {return _commandListModel;}
+
+    /**
+     * Get dark source folder paths
+     * @return a list of paths
+     */
     const QStringList& getDarkSources() const {return _darkSources;}
+
+    /**
+     * Does the user want the window to remember its geometry ?
+     * @return true if user wants it
+     */
     bool getRememberWindowGeometry() const {return _rememberWindowGeometry;}
+
+    /**
+     * Set the flag telling if user wants the window to remember its geometry
+     * @param remember true or false
+     */
     void setRememberWindowGeometry(bool remember);
 
 private:
@@ -51,17 +86,45 @@ private:
     QStringList         _darkSources;
     bool                _rememberWindowGeometry;
 
+    /**
+     * Update an already known command
+     *
+     * @param row the model row to update
+     * @param command the data to update it with
+     */
     void updateCommandModel(int row, AbstractCommand* command);
 
 signals:
+    /** advertise update of the dark model */
     void darkListUpdated();
+    /** advertise changes in dark sources */
     void darkSourcesChanged(const QStringList& sources);
+    /** advertise reception of a newly created command */
     void commandAdded();
 
 public slots:
+    /**
+     * Registers a new dark frame scan result
+     * @param darks scan result
+     */
     void on_newDarkScanResult(QList<ImageInfo> darks);
+
+    /**
+     * Update model with changed command
+     * @param command the command to update model with
+     */
     void on_CommandStatusChange(AbstractCommand* command);
+
+    /**
+     * Update model wi newly created command
+     * @param command the command to update model with
+     */
     void on_CommandCreated(AbstractCommand* command);
+
+    /**
+     * Register new dark sources
+     * @param paths a list of dark folder source paths
+     */
     void on_newDarkSources(QStringList paths);
 };
 

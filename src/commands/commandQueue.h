@@ -25,19 +25,41 @@
 #include "abstractCommand.h"
 
 /**
- * @brief Holds commands that need to be executed.
+ * @brief Queue that holds commands that need to be executed.
  */
 class CommandQueue : public QObject
 {
     Q_OBJECT
 public:
-    AbstractCommand* getCommand();
+    /**
+     * Constructor
+     * @param parent Qt parent
+     */
     explicit CommandQueue(QObject *parent = 0);
+
+    /** Get the command in the front of the queue */
+    AbstractCommand* getCommand();
+
+    /**
+     * Put a command at the back of the queue
+     * @param command command to be queued
+     */
     void enqueueCommand(AbstractCommand* command);
+
+    /**
+     * Used to check if the queue contains at least one command
+     * @return true if queue has commands
+     */
     bool hasCommands() const {return ! _commands.empty();}
+
 private:
+    /** the command queue */
     QQueue<AbstractCommand*> _commands;
+
 signals:
+    /**
+     * Advertise that a command has been queued
+     */
     void commandEnqueued(AbstractCommand*);
 
 };
