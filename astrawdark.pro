@@ -48,3 +48,6 @@ FORMS    += \
     src/gui/forms/aboutDialog.ui
 
 LIBS += -lexiv2
+
+#DISTFILES += \
+#    Doxyfile
