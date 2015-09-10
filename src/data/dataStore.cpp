@@ -143,16 +143,6 @@ void DataStore::on_newDarkSources(QStringList paths)
 {
     _darkSources = paths;
 
-    /*
-     * If we have no dark sources, we clear the dark model
-     */
-    if ( _darkSources.empty() ) {
-
-        _darkListModel->setRowCount(0);
-        emit darkListUpdated();
-    }
-
-
     QSettings().setValue(Globals::SETTINGKEY_DARK_SOURCES, _darkSources);
 
     emit darkSourcesChanged(_darkSources);
@@ -216,6 +206,12 @@ void DataStore::updateCommandModel(int row, AbstractCommand *command)
                                status);
 
 
+}
+
+void DataStore::on_newDarkScanStarted()
+{
+    _darkListModel->setRowCount(0);
+    emit darkListUpdated();
 }
 
 

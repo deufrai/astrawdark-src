@@ -111,7 +111,9 @@ void MainWindow::on_btnRescanDarks_clicked()
 void MainWindow::on_darkListUpdated()
 {
     ui->lblDarkCount->setText(QString(tr("Total frame count : %1"))
-                              .arg(DataStore::getInstance()->getDarkModel()->rowCount()));
+                              .arg(DataStore::getInstance()->getDarkModel()->rowCount()==0?
+                                       tr("Scanning..."):
+                                       QString::number(DataStore::getInstance()->getDarkModel()->rowCount())));
 }
 
 void MainWindow::on_commandAdded()
