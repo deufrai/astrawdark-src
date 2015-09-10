@@ -24,15 +24,22 @@
 #include <string>
 
 /**
- * @brief Command factory.
+ * @brief Command factory in charge of instanciating all command types in a static
+ * function for each type.
  */
 class CommandFactory
 {
 private:
+    /** Constructor */
     CommandFactory();
 
 public:
-    static AbstractCommand *createScanDarkSourceCommand(const QStringList &sources);
+    /**
+     * Create a ScanDarkSourceCommand.
+     * @param sources a list of dark frame source folder paths
+     * @return a pointer to the newly created command
+     */
+    static AbstractCommand* createScanDarkSourceCommand(const QStringList &sources);
 
 };
 

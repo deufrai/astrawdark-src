@@ -27,23 +27,32 @@
 
 
 /**
- * @brief Manages commands from their creation to their execution in
- * an isolated thread.
+ * @brief Manages commands, from creation to queueing and execution.
+ *
+ * It is mostly in charge of recieving command creation requests from the GUI
+ * It enqueues those commands before they are picked up by the CommandExecutor.
  */
 class CommandManager : public QObject
 {
     Q_OBJECT
 public:
+    /**
+     * @brief Constructor
+     * @param parent Qt parent
+     */
     explicit CommandManager(QObject *parent = 0);
     ~CommandManager();
 
 private:
+    /** the command queue */
     CommandQueue*   _queue;
+    /** the command executor */
     CommandExecutor _executor;
 
 signals:
 
 public slots:
+    /** Slot triggered by dark library scan requests */
     void on_scanDarkLibrary();
 
 };

@@ -26,21 +26,50 @@
 #include "abstractCommand.h"
 #include "commandQueue.h"
 
+/**
+ * @brief The Command Executor is in charge of executing all application commands.
+ *
+ * It justs keeps polling the command queue and executes every available command
+ * in an isolated thread.
+ */
 class CommandExecutor : public QObject
 {
     Q_OBJECT
 public:
+    /**
+     * Constructor
+     * @param queue Pointer to the unique command queue
+     * @param parent Qt parent
+     */
     explicit CommandExecutor(CommandQueue* queue, QObject *parent = 0);
+
+    /**
+     * Desctructor
+     */
     ~CommandExecutor();
+
+    /**
+     * Start polling the command queue
+     */
     void start();
+
+    /**
+     * Stop polling the command queue
+     */
     void stop();
 
 private:
-    static bool _running;
-
+    /**
+     * poll command queue in an infinite loop
+     * @param queue Pointer to the unique command queue
+     */
     static void run(CommandQueue* queue);
 
+    /** Pointer to the command queue */
     CommandQueue* _queue;
+
+    /** flag used to stop polling the command queue */
+    static bool   _keepRunning;
 
 signals:
 

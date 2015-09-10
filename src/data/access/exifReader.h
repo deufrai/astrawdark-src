@@ -31,15 +31,40 @@ class ImageInfo;
 class ExifReader
 {
 private:
+    /**
+     * Constructor.
+     *
+     * All functions are static, so constructor is private
+     */
     ExifReader();
 
 public:
+    /**
+     * Retrieve EXIF metadata for an ImageInfo and populates it in-place.
+     *
+     * @param imageInfo The ImageInfo to populate
+     */
     static void retrieveExifMetadata(ImageInfo& imageInfo);
 
 private:
+    /** Constant used to replace non-existant values */
     static QString NOT_AVAILABLE;
 
+    /**
+     * Extract EXIF value from EXIF metadata for a specific EXIF tag
+     *
+     * @param data the EXIF metadata
+     * @param tag  te EXIF tag
+     * @return the corresponding EXIF value
+     */
     static QString getValue(const Exiv2::ExifData &data, const QString tag);
+
+    /**
+     * Format exposure time for human
+     *
+     * @param unformatted exposure time to be formatted
+     * @return formatted exposure time
+     */
     static QString formatExposure(QString unformatted);
 
 };

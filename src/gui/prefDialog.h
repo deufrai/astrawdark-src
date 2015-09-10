@@ -34,26 +34,53 @@ class PrefDialog : public QDialog
     Q_OBJECT
 
 public:
+    /**
+     * Constructor
+     * @param parent Qt parent
+     */
     explicit PrefDialog(QWidget *parent = 0);
+
+    /** Desctructor */
     ~PrefDialog();
 
+    /**
+     * Get dark sources
+     * @return a list of dark source folder paths
+     */
     const QStringList& getDarkSources() const { return _darkSources; }
 
 protected:
+    /**
+     * Caught a change event
+     * @param e the event
+     */
     void changeEvent(QEvent *e);
 
 private:
+    /** Our UI */
     Ui::PrefDialog *ui;
 
+    /** Dark sources */
     QStringList _darkSources;
 
 signals:
+    /**
+     * Dark sources have changed
+     * @param paths a list of dark source folder paths
+     */
     void newDarkSources(const QStringList& paths);
 
 private slots:
+    /** User clicked the 'Add' button in dark source setting section */
     void on_btnAddDarkFolder_clicked();
+
+    /** User selected a list item in dark source setting section */
     void on_lstDarkFolders_itemSelectionChanged();
+
+    /** User clicked the 'Remove' button in dark source setting section */
     void on_btnRemoveDarkFolder_clicked();
+
+    /** User clicked the global OK button */
     virtual void accept();
 };
 

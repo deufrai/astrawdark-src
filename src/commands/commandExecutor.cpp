@@ -19,7 +19,7 @@
 
 #include "commandExecutor.h"
 
-bool CommandExecutor::_running = true;
+bool CommandExecutor::_keepRunning = true;
 
 CommandExecutor::CommandExecutor(CommandQueue *queue, QObject *parent)
     : QObject(parent), _queue(queue)
@@ -43,7 +43,7 @@ void CommandExecutor::start()
 
 void CommandExecutor::stop()
 {
-    _running = false;
+    _keepRunning = false;
 }
 
 void CommandExecutor::run(CommandQueue* queue)
@@ -55,7 +55,7 @@ void CommandExecutor::run(CommandQueue* queue)
     /*
      * check infinitly for commands to execute
      */
-    while(_running) {
+    while(_keepRunning) {
 
         QThread::currentThread()->msleep(10);
 

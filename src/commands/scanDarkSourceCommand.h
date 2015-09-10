@@ -23,22 +23,30 @@
 #include "abstractCommand.h"
 #include "../data/imageInfo.h"
 
-#include <string>
-
 /**
- * @brief Command that fetches all dark frames from a directory.
+ * @brief Command that fetches all dark frames metadata
  */
 class ScanDarkSourceCommand : public AbstractCommand
 {
     Q_OBJECT
 public:
+    /**
+     * Constructor
+     * @param sources dark source folder paths
+     */
     explicit ScanDarkSourceCommand(const QStringList& sources);
+
+    /**
+     * Destructor
+     */
     virtual ~ScanDarkSourceCommand() {}
 
 protected:
+    /** processing payload */
     virtual void do_processing();
 
 private:
+    /** Dark source folder paths */
     const QStringList& _sources;
 
 signals:
