@@ -71,7 +71,7 @@ void ScanDarkSourceCommand::do_processing()
             ExifReader::retrieveExifMetadata(imageInfo);
             imageInfos << imageInfo;
 
-            _progressMessage = tr("Scanned file ( %1 / %2 )").arg(++fileNumber).arg(imagePaths.count());
+            _progressMessage = tr("Scanned file %1 / %2").arg(++fileNumber).arg(imagePaths.count());
             emit statusChanged(this);
         }
 
