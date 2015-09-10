@@ -110,8 +110,8 @@ void MainWindow::on_btnRescanDarks_clicked()
 
 void MainWindow::on_darkListUpdated()
 {
-    //    ui->tblDarkView->resizeColumnsToContents();
-    ui->lblDarkCount->setText(QString(tr("Total frame count : %1")).arg(DataStore::getInstance()->getDarkModel()->rowCount()));
+    ui->lblDarkCount->setText(QString(tr("Total frame count : %1"))
+                              .arg(DataStore::getInstance()->getDarkModel()->rowCount()));
 }
 
 void MainWindow::on_commandAdded()

@@ -34,6 +34,10 @@ CommandExecutor::~CommandExecutor()
 
 void CommandExecutor::start()
 {
+    /*
+     * execute run() function in an isolated thread
+     */
+
     QtConcurrent::run(&CommandExecutor::run, _queue);
 }
 
@@ -48,9 +52,12 @@ void CommandExecutor::run(CommandQueue* queue)
     qDebug() << "CommandExecutor starting...";
 #endif
 
+    /*
+     * check infinitly for commands to execute
+     */
     while(_running) {
 
-        QThread::currentThread()->msleep(100);
+        QThread::currentThread()->msleep(10);
 
         if ( queue->hasCommands() ) {
 

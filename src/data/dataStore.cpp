@@ -38,12 +38,14 @@ DataStore* DataStore::getInstance() {
 }
 
 DataStore::DataStore()
-    : QObject(0),
-      _darkListModel(new QStandardItemModel()),
+    : _darkListModel(new QStandardItemModel()),
       _commandListModel(new QStandardItemModel())
 {
     QSettings settings;
 
+    /*
+     * Load values from stored preferences
+     */
     if ( settings.contains(Globals::SETTINGKEY_DARK_SOURCES) ) {
 
         _darkSources = settings.value(Globals::SETTINGKEY_DARK_SOURCES).toStringList();
@@ -54,6 +56,9 @@ DataStore::DataStore()
         _rememberWindowGeometry = settings.value(Globals::SETTINGKEY_WINDOW_GEOMETRY_REMEMBER).toBool();
     }
 
+    /*
+     * Model setup
+     */
     _commandListModel->setColumnCount(4);
     _commandListModel->setHorizontalHeaderLabels(QStringList()
                                                  << tr("Time")
@@ -123,9 +128,13 @@ void DataStore::on_CommandStatusChange(AbstractCommand* command)
 void DataStore::on_CommandCreated(AbstractCommand *command)
 {
     _commandListModel->setRowCount(_commandListModel->rowCount()+1);
-    _commandListModel->setData(_commandListModel->index(_commandListModel->rowCount()-1,0,QModelIndex()),
+    _commandListModel->setData(_commandListModel->index(_commandListModel->rowCount()-1,
+                                                        0,
+                                                        QModelIndex()),
                                QTime::currentTime().toString("hh:mm:ss"));
+
     updateCommandModel(_commandListModel->rowCount()-1, command);
+
     emit commandAdded();
 
 }
@@ -134,11 +143,15 @@ void DataStore::on_newDarkSources(QStringList paths)
 {
     _darkSources = paths;
 
+    /*
+     * If we have no dark sources, we clear the dark model
+     */
     if ( _darkSources.empty() ) {
 
         _darkListModel->setRowCount(0);
         emit darkListUpdated();
     }
+
 
     QSettings().setValue(Globals::SETTINGKEY_DARK_SOURCES, _darkSources);
 
@@ -200,7 +213,7 @@ void DataStore::updateCommandModel(int row, AbstractCommand *command)
     }
 
     _commandListModel->setData(_commandListModel->index(row,1,QModelIndex()),
-                               QString(status));
+                               status);
 
 
 }

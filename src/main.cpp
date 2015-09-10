@@ -52,16 +52,16 @@ int main(int argc, char *argv[])
                      &commandManager,
                      &CommandManager::on_scanDarkLibrary);
 
-#ifndef QT_NO_DEBUG
-    qDebug() << "Showing main window";
-#endif
-
     if ( settings.contains(Globals::SETTINGKEY_WINDOW_GEOMETRY) &&
          DataStore::getInstance()->getRememberWindowGeometry() ) {
 
         w.setGeometry(settings.value(Globals::SETTINGKEY_WINDOW_GEOMETRY).toRect());
     }
 
+
+#ifndef QT_NO_DEBUG
+    qDebug() << "Showing main window";
+#endif
     w.show();
 
     int nRet = a.exec();

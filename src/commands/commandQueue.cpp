@@ -36,7 +36,7 @@ void CommandQueue::enqueueCommand(AbstractCommand *command)
     emit commandEnqueued(command);
 }
 
-AbstractCommand *CommandQueue::getCommand()
+AbstractCommand* CommandQueue::getCommand()
 {
     return _commands.dequeue();
 }

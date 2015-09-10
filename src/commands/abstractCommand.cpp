@@ -36,6 +36,11 @@ AbstractCommand::~AbstractCommand()
 
 void AbstractCommand::execute()
 {
+    /*
+     * this is a function template, all it does
+     * is calling redefined functions from subclasses
+     */
+
     _timer.start();
     _status = RUNNING;
     emit statusChanged(this);

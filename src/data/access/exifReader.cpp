@@ -35,6 +35,7 @@ ExifReader::ExifReader()
 
 void ExifReader::retrieveExifMetadata(ImageInfo &imageInfo)
 {
+    // Read EXIF bulk data from image
     Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(imageInfo.getPath().toStdString());
     image->readMetadata();
     Exiv2::ExifData &exifData = image->exifData();
@@ -48,6 +49,7 @@ void ExifReader::retrieveExifMetadata(ImageInfo &imageInfo)
 
     } else {
 
+        // extract relevant EXIF values
         imageInfo.setMake(getValue(exifData, "Exif.Image.Make"));
         imageInfo.setModel(getValue(exifData, "Exif.Image.Model"));
         imageInfo.setExposure(formatExposure(getValue(exifData, "Exif.Photo.ExposureTime")));
@@ -70,6 +72,10 @@ void ExifReader::retrieveExifMetadata(ImageInfo &imageInfo)
 
 QString ExifReader::getValue(const Exiv2::ExifData &data, const QString tag)
 {
+    /*
+     * retrieve value for specific EXIF tag.
+     * return "N/A" if tag is missing
+     */
     Exiv2::ExifKey exifKey(tag.toStdString());
     Exiv2::ExifData::const_iterator pos = data.findKey(exifKey);
 
