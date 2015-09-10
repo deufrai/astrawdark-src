@@ -23,9 +23,11 @@
 #include "../globals.h"
 #include "../data/dataStore.h"
 #include "aboutDialog.h"
+#include "../commands/signalDispatcher.h"
 
 #include <QFileDialog>
 #include <QDir>
+
 
 #ifndef QT_NO_DEBUG
 #include <QDebug>
@@ -64,21 +66,30 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->btnRescanDarks->setEnabled( !DataStore::getInstance()->getDarkSources().empty() );
 
-
-    connect(DataStore::getInstance(),
-            &DataStore::darkListUpdated,
-            this,
-            &MainWindow::on_darkListUpdated);
-
-    connect(DataStore::getInstance(),
-            &DataStore::commandAdded,
+    connect(SignalDispatcher::getInstance(),
+            &SignalDispatcher::commandCreated,
             this,
             &MainWindow::on_commandAdded);
 
-    connect(DataStore::getInstance(),
-            &DataStore::darkSourcesChanged,
+    connect(SignalDispatcher::getInstance(),
+            &SignalDispatcher::darkSourcesChanged,
             this,
             &MainWindow::on_darkSourcesChanged);
+
+    connect(SignalDispatcher::getInstance(),
+            &SignalDispatcher::darkScanStarted,
+            this,
+            &MainWindow::on_darkScanStart);
+
+    connect(SignalDispatcher::getInstance(),
+            &SignalDispatcher::darkScanDone,
+            this,
+            &MainWindow::on_darkScanDone);
+
+    connect(this,
+            &MainWindow::scanDarkLibrary,
+            SignalDispatcher::getInstance(),
+            &SignalDispatcher::on_createDarkScanCommand);
 }
 
 MainWindow::~MainWindow()
@@ -108,12 +119,6 @@ void MainWindow::on_btnRescanDarks_clicked()
     emit scanDarkLibrary();
 }
 
-void MainWindow::on_darkListUpdated()
-{
-    ui->lblDarkCount->setText(QString(tr("Total frame count : %1"))
-                              .arg(DataStore::getInstance()->getDarkModel()->rowCount()));
-}
-
 void MainWindow::on_commandAdded()
 {
     ui->tblCommandView->scrollToBottom();
@@ -121,11 +126,7 @@ void MainWindow::on_commandAdded()
 
 void MainWindow::on_actionPrefs_triggered()
 {
-    PrefDialog dlg;
-
-    connect(&dlg, &PrefDialog::newDarkSources, DataStore::getInstance(), &DataStore::on_newDarkSources);
-
-    dlg.exec();
+    PrefDialog().exec();
 }
 
 void MainWindow::on_actionCommandLog_toggled(bool checked)
@@ -141,4 +142,17 @@ void MainWindow::on_actionAbout_triggered()
 void MainWindow::on_darkSourcesChanged(const QStringList& sources)
 {
     ui->btnRescanDarks->setEnabled( !sources.empty() );
+}
+
+void MainWindow::on_darkScanStart()
+{
+    ui->lblDarkCount->setText(tr("Scan in progress..."));
+    ui->btnRescanDarks->setDisabled(true);
+}
+
+void MainWindow::on_darkScanDone()
+{
+    ui->lblDarkCount->setText(QString(tr("Total frame count : %1"))
+                              .arg(DataStore::getInstance()->getDarkModel()->rowCount()));
+    ui->btnRescanDarks->setEnabled(true);
 }

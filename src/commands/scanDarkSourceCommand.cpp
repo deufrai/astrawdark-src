@@ -20,6 +20,7 @@
 #include "scanDarkSourceCommand.h"
 #include "../data/access/exifReader.h"
 #include "../data/dataStore.h"
+#include "signalDispatcher.h"
 
 #include <QStringList>
 #include <QFileInfoList>
@@ -31,14 +32,20 @@
 #endif
 
 ScanDarkSourceCommand::ScanDarkSourceCommand(const QStringList &sources)
-    : AbstractCommand::AbstractCommand(), _sources(sources)
+    : AbstractCommand::AbstractCommand(),
+      _sources(sources)
 {
     _description = QString(tr("Dark library scan"));
 
     connect(this,
             &ScanDarkSourceCommand::started,
-            DataStore::getInstance(),
-            &DataStore::on_newDarkScanStarted);
+            SignalDispatcher::getInstance(),
+            &SignalDispatcher::on_darkScanStarted);
+
+    connect(this,
+            &ScanDarkSourceCommand::done,
+            SignalDispatcher::getInstance(),
+            &SignalDispatcher::on_darkScanDone);
 }
 
 void ScanDarkSourceCommand::do_processing()

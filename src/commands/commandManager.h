@@ -53,7 +53,7 @@ signals:
 
 public slots:
     /** Slot triggered by dark library scan requests */
-    void on_scanDarkLibrary();
+    void on_createDarkScanCommand();
 
 };
 

@@ -31,10 +31,6 @@ AbstractCommand *CommandFactory::createScanDarkSourceCommand(const QStringList& 
 {
     ScanDarkSourceCommand* command = new ScanDarkSourceCommand(sources);
 
-    command->connect(command,
-                     &ScanDarkSourceCommand::done,
-                     DataStore::getInstance(),
-                     &DataStore::on_newDarkScanResult);
     return command;
 }
 

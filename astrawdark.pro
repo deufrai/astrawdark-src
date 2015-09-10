@@ -25,7 +25,8 @@ SOURCES += src/main.cpp\
     src/commands/commandManager.cpp \
     src/commands/commandQueue.cpp \
     src/gui/aboutDialog.cpp \
-    src/commands/commandExecutor.cpp
+    src/commands/commandExecutor.cpp \
+    src/commands/signalDispatcher.cpp
 
 HEADERS  += \
     src/globals.h \
@@ -40,7 +41,8 @@ HEADERS  += \
     src/commands/commandManager.h \
     src/commands/commandQueue.h \
     src/gui/aboutDialog.h \
-    src/commands/commandExecutor.h
+    src/commands/commandExecutor.h \
+    src/commands/signalDispatcher.h
 
 FORMS    += \
     src/gui/forms/mainWindow.ui \

@@ -20,9 +20,11 @@
 #include "dataStore.h"
 #include "imageInfo.h"
 #include "../globals.h"
+#include "../commands/signalDispatcher.h"
 
 #include <QSettings>
 #include <QTime>
+
 
 #ifndef QT_NO_DEBUG
 #include <QDebug>
@@ -85,6 +87,33 @@ DataStore::DataStore()
                               << tr ("Temperature\n(°C)");
 
     _darkListModel->setHorizontalHeaderLabels(darkListModelHeaderLabels);
+
+    // signaling
+    connect(SignalDispatcher::getInstance(),
+            &SignalDispatcher::darkScanStarted,
+            this,
+            &DataStore::on_newDarkScanStarted);
+
+    connect(SignalDispatcher::getInstance(),
+            &SignalDispatcher::darkScanDone,
+            this,
+            &DataStore::on_newDarkScanResult);
+
+    connect(SignalDispatcher::getInstance(),
+            &SignalDispatcher::commandCreated,
+            this,
+            &DataStore::on_CommandCreated);
+
+    connect(SignalDispatcher::getInstance(),
+            &SignalDispatcher::commandStatusChange,
+            this,
+            &DataStore::on_CommandStatusChange);
+
+    connect(SignalDispatcher::getInstance(),
+            &SignalDispatcher::darkSourcesChanged,
+            this,
+            &DataStore::on_newDarkSources);
+
 }
 
 void DataStore::on_newDarkScanResult(QList<ImageInfo> darks)
@@ -123,8 +152,6 @@ void DataStore::on_newDarkScanResult(QList<ImageInfo> darks)
     }
 
     _darkListModel->sort(0);
-
-    emit darkListUpdated();
 }
 
 void DataStore::on_CommandStatusChange(AbstractCommand* command)
@@ -141,9 +168,6 @@ void DataStore::on_CommandCreated(AbstractCommand *command)
                                QTime::currentTime().toString("hh:mm:ss"));
 
     updateCommandModel(_commandListModel->rowCount()-1, command);
-
-    emit commandAdded();
-
 }
 
 void DataStore::on_newDarkSources(QStringList paths)
@@ -151,8 +175,6 @@ void DataStore::on_newDarkSources(QStringList paths)
     _darkSources = paths;
 
     QSettings().setValue(Globals::SETTINGKEY_DARK_SOURCES, _darkSources);
-
-    emit darkSourcesChanged(_darkSources);
 }
 
 void DataStore::updateCommandModel(int row, AbstractCommand *command)
@@ -218,7 +240,6 @@ void DataStore::updateCommandModel(int row, AbstractCommand *command)
 void DataStore::on_newDarkScanStarted()
 {
     _darkListModel->setRowCount(0);
-    emit darkListUpdated();
 }
 
 

@@ -45,12 +45,7 @@ int main(int argc, char *argv[])
     qRegisterMetaType< QList<ImageInfo> >("QList<ImageInfo>");
 
     MainWindow w;
-    CommandManager commandManager;
-
-    QObject::connect(&w,
-                     &MainWindow::scanDarkLibrary,
-                     &commandManager,
-                     &CommandManager::on_scanDarkLibrary);
+    CommandManager* commandManager = new CommandManager();
 
     if ( settings.contains(Globals::SETTINGKEY_WINDOW_GEOMETRY) &&
          DataStore::getInstance()->getRememberWindowGeometry() ) {
@@ -65,6 +60,8 @@ int main(int argc, char *argv[])
     w.show();
 
     int nRet = a.exec();
+
+    delete commandManager;
 
     if ( DataStore::getInstance()->getRememberWindowGeometry() ) {
 

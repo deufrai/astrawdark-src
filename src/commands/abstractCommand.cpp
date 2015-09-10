@@ -18,6 +18,7 @@
  */
 
 #include "abstractCommand.h"
+#include "signalDispatcher.h"
 
 quint64 AbstractCommand::SERIAL = 0;
 
@@ -27,6 +28,11 @@ AbstractCommand::AbstractCommand()
     _elapsed = 0;
     _serial = SERIAL++;
     _error = false;
+
+    connect(this,
+            &AbstractCommand::statusChanged,
+            SignalDispatcher::getInstance(),
+            &SignalDispatcher::on_CommandStatusChange);
 }
 
 AbstractCommand::~AbstractCommand()

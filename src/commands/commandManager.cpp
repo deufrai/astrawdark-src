@@ -21,6 +21,7 @@
 #include "commandFactory.h"
 #include "../data/dataStore.h"
 #include "../globals.h"
+#include "signalDispatcher.h"
 
 #include <QThread>
 #include <QSettings>
@@ -34,12 +35,17 @@ CommandManager::CommandManager(QObject *parent)
       _queue(new CommandQueue()),
       _executor(_queue)
 {
+    QObject::connect(SignalDispatcher::getInstance(),
+                     &SignalDispatcher::createDarkScanCommand,
+                     this,
+                     &CommandManager::on_createDarkScanCommand);
+
     _executor.start();
 
     // launch a dark scan on startup, if user wants it
     if ( QSettings().value(Globals::SETTINGKEY_SCANDARKS_ON_STARTUP, false).toBool() ) {
 
-        on_scanDarkLibrary();
+        on_createDarkScanCommand();
     }
 }
 
@@ -48,7 +54,7 @@ CommandManager::~CommandManager()
     _executor.stop();
 }
 
-void CommandManager::on_scanDarkLibrary()
+void CommandManager::on_createDarkScanCommand()
 {
     AbstractCommand* command =
             CommandFactory::createScanDarkSourceCommand(DataStore::getInstance()->getDarkSources());

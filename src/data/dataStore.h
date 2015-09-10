@@ -108,12 +108,6 @@ private:
     void updateCommandModel(int row, AbstractCommand* command);
 
 signals:
-    /** advertise update of the dark model */
-    void darkListUpdated();
-    /** advertise changes in dark sources */
-    void darkSourcesChanged(const QStringList& sources);
-    /** advertise reception of a newly created command */
-    void commandAdded();
 
 public slots:
 

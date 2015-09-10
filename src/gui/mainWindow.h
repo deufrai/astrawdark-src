@@ -82,8 +82,11 @@ public slots:
      */
     void on_darkSourcesChanged(const QStringList &sources);
 
-    /** Dark list model changed */
-    void on_darkListUpdated();
+    /** A dark scan just started */
+    void on_darkScanStart();
+
+    /** A dark scan just finished */
+    void on_darkScanDone();
 
     /** A new command has been queued */
     void on_commandAdded();

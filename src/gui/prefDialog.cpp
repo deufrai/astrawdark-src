@@ -20,6 +20,7 @@
 #include "prefDialog.h"
 #include "ui_prefDialog.h"
 #include "../data/dataStore.h"
+#include "../commands/signalDispatcher.h"
 #include "../globals.h"
 
 #include <QFileDialog>
@@ -41,6 +42,11 @@ PrefDialog::PrefDialog(QWidget *parent) :
 
     ui->chkRemeberWindowGeometry->setChecked(DataStore::getInstance()->getRememberWindowGeometry());
     ui->chkDarkScanOnStartup->setChecked(DataStore::getInstance()->getScanDarkOnStartup());
+
+    connect(this,
+            &PrefDialog::newDarkSources,
+            SignalDispatcher::getInstance(),
+            &SignalDispatcher::on_darkSourcesChanged);
 }
 
 PrefDialog::~PrefDialog()

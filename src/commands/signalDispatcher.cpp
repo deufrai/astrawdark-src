@@ -17,27 +17,22 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "commandQueue.h"
 #include "signalDispatcher.h"
 
-#include "../data/dataStore.h"
+SignalDispatcher* SignalDispatcher::_instance = NULL;
 
-CommandQueue::CommandQueue(QObject *parent) : QObject(parent)
+SignalDispatcher::SignalDispatcher(QObject *parent) : QObject(parent)
 {
-    connect(this,
-            &CommandQueue::commandEnqueued,
-            SignalDispatcher::getInstance(),
-            &SignalDispatcher::on_commandCreated);
+
 }
 
-void CommandQueue::enqueueCommand(AbstractCommand *command)
+SignalDispatcher *SignalDispatcher::getInstance()
 {
-    _commands.enqueue(command);
-    emit commandEnqueued(command);
-}
+    if ( NULL == _instance ) {
 
-AbstractCommand* CommandQueue::getCommand()
-{
-    return _commands.dequeue();
+        _instance = new SignalDispatcher();
+    }
+
+    return _instance;
 }
 
