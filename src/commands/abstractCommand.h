@@ -50,6 +50,7 @@ public:
     quint64 getSerial() const {return _serial;}
     bool hasErrors() const {return _error;}
     QString getErrorMessage() const {return _errorMessage;}
+    QString getProgessMessage() const {return _progressMessage;}
 
 private:
     static quint64 SERIAL;
@@ -60,6 +61,7 @@ protected:
     virtual void do_processing() = 0;
 
     QString _description;
+    QString _progressMessage;
     QString _errorMessage;
     Status _status;
     QElapsedTimer _timer;
