@@ -37,6 +37,7 @@ public:
 
 private:
     static bool _running;
+
     static void run(CommandQueue* queue);
 
     CommandQueue* _queue;

@@ -32,7 +32,6 @@ private:
     CommandFactory();
 
 public:
-
     static AbstractCommand *createScanDarkSourceCommand(const QStringList &sources);
 
 };

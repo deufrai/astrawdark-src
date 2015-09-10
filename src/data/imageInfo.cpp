@@ -20,6 +20,5 @@
 #include "imageInfo.h"
 
 ImageInfo::ImageInfo(const QString path)
-{
-    _path = path;
-}
+    : _path(path)
+{}

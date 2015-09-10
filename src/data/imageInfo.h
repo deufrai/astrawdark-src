@@ -37,7 +37,7 @@ protected:
     QString _exposure;
     QString _iso;
     QString _date;
-    int _temperature;
+    int     _temperature;
 
 public:
     const QString getPath() const { return _path; }

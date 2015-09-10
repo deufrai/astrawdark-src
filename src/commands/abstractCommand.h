@@ -60,14 +60,14 @@ protected:
     virtual void cleanup() {}
     virtual void do_processing() = 0;
 
-    QString _description;
-    QString _progressMessage;
-    QString _errorMessage;
-    Status _status;
-    QElapsedTimer _timer;
-    qint64 _elapsed;
-    quint64 _serial;
-    bool    _error;
+    QString         _description;
+    QString         _progressMessage;
+    QString         _errorMessage;
+    Status          _status;
+    QElapsedTimer   _timer;
+    qint64          _elapsed;
+    quint64         _serial;
+    bool            _error;
 
 signals:
     void statusChanged(AbstractCommand*);
