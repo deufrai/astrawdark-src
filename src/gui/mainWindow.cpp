@@ -21,8 +21,6 @@
 #include "prefDialog.h"
 #include "ui_mainWindow.h"
 #include "../globals.h"
-#include "../commands/abstractCommand.h"
-#include "../commands/commandFactory.h"
 #include "../data/dataStore.h"
 #include "aboutDialog.h"
 
@@ -65,6 +63,22 @@ MainWindow::MainWindow(QWidget *parent) :
     commandVv->hide();
 
     ui->btnRescanDarks->setEnabled( !DataStore::getInstance()->getDarkSources().empty() );
+
+
+    connect(DataStore::getInstance(),
+            &DataStore::darkListUpdated,
+            this,
+            &MainWindow::on_darkListUpdated);
+
+    connect(DataStore::getInstance(),
+            &DataStore::commandAdded,
+            this,
+            &MainWindow::on_commandAdded);
+
+    connect(DataStore::getInstance(),
+            &DataStore::darkSourcesChanged,
+            this,
+            &MainWindow::on_darkSourcesChanged);
 }
 
 MainWindow::~MainWindow()

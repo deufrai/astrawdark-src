@@ -19,7 +19,6 @@
 
 #include "commandManager.h"
 #include "commandFactory.h"
-#include "commandQueue.h"
 #include "../data/dataStore.h"
 
 #include <QThread>
@@ -29,49 +28,23 @@
 #include <QDebug>
 #endif
 
-CommandManager* CommandManager::_instance = NULL;
-
 CommandManager::CommandManager(QObject *parent)
-    : QObject(parent), _running(true)
+    : QObject(parent),
+      _queue(new CommandQueue()),
+      _executor(_queue)
 {
-
+    _executor.start();
 }
 
-CommandManager* CommandManager::getInstance() {
-
-    if ( NULL == _instance ) {
-
-        _instance = new CommandManager();
-    }
-
-    return _instance;
+CommandManager::~CommandManager()
+{
+    _executor.stop();
 }
 
-void CommandManager::start()
+void CommandManager::on_scanDarkLibrary()
 {
-    CommandManager* manager = getInstance();
-    manager->run();
-}
+    AbstractCommand* command =
+            CommandFactory::createScanDarkSourceCommand(DataStore::getInstance()->getDarkSources());
 
-void CommandManager::stop()
-{
-    getInstance()->setRunning(false);
-}
-
-void CommandManager::run()
-{
-#ifndef QT_NO_DEBUG
-    qDebug() << "CommandManager is running";
-#endif
-
-    while(_running) {
-
-        QThread::currentThread()->msleep(100);
-        AbstractCommand* command = CommandQueue::getInstance()->getCommand();
-
-        if ( command ) {
-
-            command->execute();
-        }
-    }
+    _queue->enqueueCommand(command);
 }

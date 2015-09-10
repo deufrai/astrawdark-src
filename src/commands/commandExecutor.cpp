@@ -17,27 +17,48 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "commandQueue.h"
+#include "commandExecutor.h"
 
-#include "../data/dataStore.h"
+bool CommandExecutor::_running = true;
 
-CommandQueue::CommandQueue(QObject *parent) : QObject(parent)
+CommandExecutor::CommandExecutor(CommandQueue *queue, QObject *parent)
+    : QObject(parent), _queue(queue)
 {
-    connect(this,
-            &CommandQueue::commandEnqueued,
-            DataStore::getInstance(),
-            &DataStore::on_CommandCreated);
+
 }
 
-void CommandQueue::enqueueCommand(AbstractCommand *command)
+CommandExecutor::~CommandExecutor()
 {
-    connect(command, &AbstractCommand::statusChanged, DataStore::getInstance(), &DataStore::on_CommandStatusChange);
-    _commands.enqueue(command);
-    emit commandEnqueued(command);
+
 }
 
-AbstractCommand *CommandQueue::getCommand()
+void CommandExecutor::start()
 {
-    return _commands.dequeue();
+    QtConcurrent::run(&CommandExecutor::run, _queue);
 }
 
+void CommandExecutor::stop()
+{
+    _running = false;
+}
+
+void CommandExecutor::run(CommandQueue* queue)
+{
+#ifndef QT_NO_DEBUG
+    qDebug() << "CommandExecutor starting...";
+#endif
+
+    while(_running) {
+
+        QThread::currentThread()->msleep(100);
+
+        if ( queue->hasCommands() ) {
+
+            queue->getCommand()->execute();
+        }
+    }
+
+#ifndef QT_NO_DEBUG
+    qDebug() << "CommandExecutor stopped";
+#endif
+}

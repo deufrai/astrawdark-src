@@ -24,7 +24,8 @@ SOURCES += src/main.cpp\
     src/gui/prefDialog.cpp \
     src/commands/commandManager.cpp \
     src/commands/commandQueue.cpp \
-    src/gui/aboutDialog.cpp
+    src/gui/aboutDialog.cpp \
+    src/commands/commandExecutor.cpp
 
 HEADERS  += \
     src/globals.h \
@@ -38,7 +39,8 @@ HEADERS  += \
     src/gui/prefDialog.h \
     src/commands/commandManager.h \
     src/commands/commandQueue.h \
-    src/gui/aboutDialog.h
+    src/gui/aboutDialog.h \
+    src/commands/commandExecutor.h
 
 FORMS    += \
     src/gui/forms/mainWindow.ui \

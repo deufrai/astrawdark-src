@@ -17,27 +17,33 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifndef COMMANDEXECUTOR_H
+#define COMMANDEXECUTOR_H
+
+#include <QObject>
+#include <QtConcurrent>
+
+#include "abstractCommand.h"
 #include "commandQueue.h"
 
-#include "../data/dataStore.h"
-
-CommandQueue::CommandQueue(QObject *parent) : QObject(parent)
+class CommandExecutor : public QObject
 {
-    connect(this,
-            &CommandQueue::commandEnqueued,
-            DataStore::getInstance(),
-            &DataStore::on_CommandCreated);
-}
+    Q_OBJECT
+public:
+    explicit CommandExecutor(CommandQueue* queue, QObject *parent = 0);
+    ~CommandExecutor();
+    void start();
+    void stop();
 
-void CommandQueue::enqueueCommand(AbstractCommand *command)
-{
-    connect(command, &AbstractCommand::statusChanged, DataStore::getInstance(), &DataStore::on_CommandStatusChange);
-    _commands.enqueue(command);
-    emit commandEnqueued(command);
-}
+private:
+    static bool _running;
+    static void run(CommandQueue* queue);
 
-AbstractCommand *CommandQueue::getCommand()
-{
-    return _commands.dequeue();
-}
+    CommandQueue* _queue;
 
+signals:
+
+public slots:
+};
+
+#endif // COMMANDEXECUTOR_H
