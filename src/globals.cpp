@@ -25,6 +25,7 @@ const QString Globals::APPLICATION_NAME = "AstRawDark";
 const QString Globals::SETTINGKEY_DARK_SOURCES = "darkSources";
 const QString Globals::SETTINGKEY_WINDOW_GEOMETRY = "windowGeometry";
 const QString Globals::SETTINGKEY_WINDOW_GEOMETRY_REMEMBER = "rememberWindowGeometry";
+const QString Globals::SETTINGKEY_SCANDARKS_ON_STARTUP = "scanDarksOnStartup";
 
 Globals::Globals()
 {

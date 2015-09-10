@@ -20,9 +20,10 @@
 #include "commandManager.h"
 #include "commandFactory.h"
 #include "../data/dataStore.h"
+#include "../globals.h"
 
 #include <QThread>
-#include <iostream>
+#include <QSettings>
 
 #ifndef QT_NO_DEBUG
 #include <QDebug>
@@ -34,6 +35,12 @@ CommandManager::CommandManager(QObject *parent)
       _executor(_queue)
 {
     _executor.start();
+
+    // launch a dark scan on startup, if user wants it
+    if ( QSettings().value(Globals::SETTINGKEY_SCANDARKS_ON_STARTUP, false).toBool() ) {
+
+        on_scanDarkLibrary();
+    }
 }
 
 CommandManager::~CommandManager()

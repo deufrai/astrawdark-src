@@ -39,7 +39,9 @@ DataStore* DataStore::getInstance() {
 
 DataStore::DataStore()
     : _darkListModel(new QStandardItemModel()),
-      _commandListModel(new QStandardItemModel())
+      _commandListModel(new QStandardItemModel()),
+      _rememberWindowGeometry(false),
+      _scanDarksOnStartup(false)
 {
     QSettings settings;
 
@@ -54,6 +56,11 @@ DataStore::DataStore()
     if ( settings.contains(Globals::SETTINGKEY_WINDOW_GEOMETRY_REMEMBER) ) {
 
         _rememberWindowGeometry = settings.value(Globals::SETTINGKEY_WINDOW_GEOMETRY_REMEMBER).toBool();
+    }
+
+    if ( settings.contains(Globals::SETTINGKEY_SCANDARKS_ON_STARTUP) ) {
+
+        _scanDarksOnStartup = settings.value(Globals::SETTINGKEY_SCANDARKS_ON_STARTUP).toBool();
     }
 
     /*
@@ -219,4 +226,10 @@ void DataStore::setRememberWindowGeometry(bool remember)
 {
     _rememberWindowGeometry = remember;
     QSettings().setValue(Globals::SETTINGKEY_WINDOW_GEOMETRY_REMEMBER, _rememberWindowGeometry);
+}
+
+void DataStore::setScanDarkOnStartup(bool scan)
+{
+    _scanDarksOnStartup = scan;
+    QSettings().setValue(Globals::SETTINGKEY_SCANDARKS_ON_STARTUP, _scanDarksOnStartup);
 }

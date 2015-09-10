@@ -80,11 +80,24 @@ public:
      */
     void setRememberWindowGeometry(bool remember);
 
+    /**
+     * Set the flag telling if user wants a dark lib scan on app startup
+     * @param scan true or false
+     */
+    void setScanDarkOnStartup(bool scan);
+
+    /**
+     * Does the user want a dark lib scan on app startup ?
+     * @return true if user wants it
+     */
+    bool getScanDarkOnStartup() const {return _scanDarksOnStartup;}
+
 private:
     QStandardItemModel* _darkListModel;
     QStandardItemModel* _commandListModel;
     QStringList         _darkSources;
     bool                _rememberWindowGeometry;
+    bool                _scanDarksOnStartup;
 
     /**
      * Update an already known command
