@@ -49,8 +49,6 @@ private:
     /** the command executor */
     CommandExecutor _executor;
 
-signals:
-
 public slots:
     /** Slot triggered by dark library scan requests */
     void on_createDarkScanCommand();

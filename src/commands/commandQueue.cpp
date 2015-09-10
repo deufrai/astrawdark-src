@@ -20,8 +20,6 @@
 #include "commandQueue.h"
 #include "signalDispatcher.h"
 
-#include "../data/dataStore.h"
-
 CommandQueue::CommandQueue(QObject *parent) : QObject(parent)
 {
     connect(this,

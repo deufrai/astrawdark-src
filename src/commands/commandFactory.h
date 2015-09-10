@@ -21,7 +21,6 @@
 #define COMMANDFACTORY_H
 
 #include "abstractCommand.h"
-#include <string>
 
 /**
  * @brief Command factory in charge of instanciating all command types in a static

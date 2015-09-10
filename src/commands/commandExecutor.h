@@ -20,7 +20,6 @@
 #ifndef COMMANDEXECUTOR_H
 #define COMMANDEXECUTOR_H
 
-#include <QObject>
 #include <QtConcurrent>
 
 #include "abstractCommand.h"
@@ -32,16 +31,15 @@
  * It justs keeps polling the command queue and executes every available command
  * in an isolated thread.
  */
-class CommandExecutor : public QObject
+class CommandExecutor
 {
-    Q_OBJECT
 public:
     /**
      * Constructor
      * @param queue Pointer to the unique command queue
      * @param parent Qt parent
      */
-    explicit CommandExecutor(CommandQueue* queue, QObject *parent = 0);
+    explicit CommandExecutor(CommandQueue* queue);
 
     /**
      * Desctructor
@@ -71,9 +69,6 @@ private:
     /** flag used to stop polling the command queue */
     static bool   _keepRunning;
 
-signals:
-
-public slots:
 };
 
 #endif // COMMANDEXECUTOR_H

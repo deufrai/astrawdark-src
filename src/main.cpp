@@ -25,9 +25,6 @@
 
 #include <QApplication>
 #include <QSettings>
-#include <QtConcurrent>
-#include <QObject>
-
 
 #ifndef QT_NO_DEBUG
 #include <QDebug>

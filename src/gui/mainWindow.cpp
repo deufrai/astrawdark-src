@@ -25,10 +25,6 @@
 #include "aboutDialog.h"
 #include "../commands/signalDispatcher.h"
 
-#include <QFileDialog>
-#include <QDir>
-
-
 #ifndef QT_NO_DEBUG
 #include <QDebug>
 #endif

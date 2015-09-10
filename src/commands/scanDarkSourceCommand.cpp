@@ -19,13 +19,11 @@
 
 #include "scanDarkSourceCommand.h"
 #include "../data/access/exifReader.h"
-#include "../data/dataStore.h"
 #include "signalDispatcher.h"
 
 #include <QStringList>
 #include <QFileInfoList>
 #include <QDirIterator>
-#include <QObject>
 
 #ifndef QT_NO_DEBUG
 #include <QDebug>

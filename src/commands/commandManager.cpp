@@ -23,7 +23,6 @@
 #include "../globals.h"
 #include "signalDispatcher.h"
 
-#include <QThread>
 #include <QSettings>
 
 #ifndef QT_NO_DEBUG

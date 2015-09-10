@@ -21,8 +21,8 @@
 
 bool CommandExecutor::_keepRunning = true;
 
-CommandExecutor::CommandExecutor(CommandQueue *queue, QObject *parent)
-    : QObject(parent), _queue(queue)
+CommandExecutor::CommandExecutor(CommandQueue *queue)
+    : _queue(queue)
 {
 
 }
