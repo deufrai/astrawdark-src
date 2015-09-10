@@ -41,7 +41,7 @@ void ScanDarkSourceCommand::do_processing()
     if ( ! _sources.empty() ) {
 
         QList<QString> missingDirs;
-
+        QList<QString> imagePaths;
         QList<ImageInfo> imageInfos;
 
         foreach (QString path, _sources) {
@@ -60,10 +60,19 @@ void ScanDarkSourceCommand::do_processing()
 
             while (it.hasNext()) {
 
-                ImageInfo imageInfo(it.next());
-                ExifReader::retrieveExifMetadata(imageInfo);
-                imageInfos << imageInfo;
+                imagePaths << it.next();
             }
+        }
+
+        long fileNumber = 0;
+        foreach (QString filePath, imagePaths) {
+
+            ImageInfo imageInfo(filePath);
+            ExifReader::retrieveExifMetadata(imageInfo);
+            imageInfos << imageInfo;
+
+            _progressMessage = tr("Scanned file ( %1 / %2 )").arg(++fileNumber).arg(imagePaths.count());
+            emit statusChanged(this);
         }
 
         if ( ! missingDirs.empty() ) {

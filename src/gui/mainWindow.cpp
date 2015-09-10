@@ -54,10 +54,12 @@ MainWindow::MainWindow(QWidget *parent) :
     darkVv->hide();
 
     ui->tblCommandView->setModel(DataStore::getInstance()->getCommandListModel());
+    ui->tblCommandView->setGridStyle(Qt::NoPen);
     QHeaderView* commandHv = ui->tblCommandView->horizontalHeader();
     commandHv->setSectionResizeMode(0, QHeaderView::ResizeToContents);
-    commandHv->setSectionResizeMode(1, QHeaderView::Stretch);
+    commandHv->setSectionResizeMode(1, QHeaderView::ResizeToContents);
     commandHv->setSectionResizeMode(2, QHeaderView::ResizeToContents);
+    commandHv->setSectionResizeMode(3, QHeaderView::Stretch);
     QHeaderView* commandVv = ui->tblCommandView->verticalHeader();
     commandVv->setSectionResizeMode(QHeaderView::ResizeToContents);
     commandVv->hide();

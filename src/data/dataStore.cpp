@@ -54,11 +54,12 @@ DataStore::DataStore()
         _rememberWindowGeometry = settings.value(Globals::SETTINGKEY_WINDOW_GEOMETRY_REMEMBER).toBool();
     }
 
-    _commandListModel->setColumnCount(3);
+    _commandListModel->setColumnCount(4);
     _commandListModel->setHorizontalHeaderLabels(QStringList()
                                                  << tr("Time")
+                                                 << tr("Status")
                                                  << tr("Command")
-                                                 << tr("Status"));
+                                                 << tr("Details"));
 
     _darkListModel->setColumnCount(7);
     QStringList darkListModelHeaderLabels;
@@ -159,6 +160,18 @@ void DataStore::updateCommandModel(int row, AbstractCommand *command)
 
     case AbstractCommand::COMPLETE:
         status = tr("Finished (%1 ms)").arg(command->getElapsed());
+
+        if ( command->hasErrors() ) {
+
+            _commandListModel->setData(_commandListModel->index(row,1,QModelIndex()),
+                                       QColor(Qt::red),
+                                       Qt::DecorationRole);
+        } else {
+
+            _commandListModel->setData(_commandListModel->index(row,1,QModelIndex()),
+                                       QColor(Qt::green),
+                                       Qt::DecorationRole);
+        }
         break;
 
     default:
@@ -168,16 +181,28 @@ void DataStore::updateCommandModel(int row, AbstractCommand *command)
 
     QString description = command->getDescription();
 
+    _commandListModel->setData(_commandListModel->index(row,2,QModelIndex()),
+                               description);
+
     if ( command->hasErrors() ) {
 
-        description.append(" - ").append(tr("*Error* ")).append(command->getErrorMessage());
+        _commandListModel->setData(_commandListModel->index(row,3,QModelIndex()),
+                                   command->getProgessMessage()
+                                   .append(" - ")
+                                   .append(tr("*Error* "))
+                                   .append(command->getErrorMessage()));
+
+    } else {
+
+        _commandListModel->setData(_commandListModel->index(row,3,QModelIndex()),
+                                   command->getProgessMessage());
+
     }
 
     _commandListModel->setData(_commandListModel->index(row,1,QModelIndex()),
-                               description);
-
-    _commandListModel->setData(_commandListModel->index(row,2,QModelIndex()),
                                QString(status));
+
+
 }
 
 
