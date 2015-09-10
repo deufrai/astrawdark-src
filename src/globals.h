@@ -42,6 +42,8 @@ public:
     static const QString SETTINGKEY_WINDOW_GEOMETRY;
     /** Key for 'remember window size & position' feature */
     static const QString SETTINGKEY_WINDOW_GEOMETRY_REMEMBER;
+    /** Key for 'scan darks on starup' flag */
+    static const QString SETTINGKEY_SCANDARKS_ON_STARTUP;
 
 };
 

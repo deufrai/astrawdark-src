@@ -40,6 +40,7 @@ PrefDialog::PrefDialog(QWidget *parent) :
     ui->lstDarkFolders->clearSelection();
 
     ui->chkRemeberWindowGeometry->setChecked(DataStore::getInstance()->getRememberWindowGeometry());
+    ui->chkDarkScanOnStartup->setChecked(DataStore::getInstance()->getScanDarkOnStartup());
 }
 
 PrefDialog::~PrefDialog()
@@ -141,6 +142,7 @@ void PrefDialog::accept()
     emit newDarkSources(_darkSources);
 
     DataStore::getInstance()->setRememberWindowGeometry(ui->chkRemeberWindowGeometry->isChecked());
+    DataStore::getInstance()->setScanDarkOnStartup(ui->chkDarkScanOnStartup->isChecked());
 
     QDialog::accept();
 }
