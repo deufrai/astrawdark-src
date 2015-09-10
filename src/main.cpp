@@ -19,7 +19,6 @@
 
 #include "gui/mainWindow.h"
 #include "commands/commandManager.h"
-#include "commands/commandQueue.h"
 #include "data/imageInfo.h"
 #include "data/dataStore.h"
 #include "globals.h"
@@ -45,33 +44,13 @@ int main(int argc, char *argv[])
 
     qRegisterMetaType< QList<ImageInfo> >("QList<ImageInfo>");
 
-    QtConcurrent::run(&CommandManager::start);
     MainWindow w;
+    CommandManager commandManager;
 
     QObject::connect(&w,
                      &MainWindow::scanDarkLibrary,
-                     CommandQueue::getInstance(),
-                     &CommandQueue::on_scanDarkLibrary);
-
-    QObject::connect(CommandQueue::getInstance(),
-                     &CommandQueue::createdCommand,
-                     DataStore::getInstance(),
-                     &DataStore::on_CommandCreated);
-
-    QObject::connect(DataStore::getInstance(),
-                     &DataStore::darkListUpdated,
-                     &w,
-                     &MainWindow::on_darkListUpdated);
-
-    QObject::connect(DataStore::getInstance(),
-                     &DataStore::commandAdded,
-                     &w,
-                     &MainWindow::on_commandAdded);
-
-    QObject::connect(DataStore::getInstance(),
-                     &DataStore::darkSourcesChanged,
-                     &w,
-                     &MainWindow::on_darkSourcesChanged);
+                     &commandManager,
+                     &CommandManager::on_scanDarkLibrary);
 
 #ifndef QT_NO_DEBUG
     qDebug() << "Showing main window";
@@ -82,6 +61,7 @@ int main(int argc, char *argv[])
 
         w.setGeometry(settings.value(Globals::SETTINGKEY_WINDOW_GEOMETRY).toRect());
     }
+
     w.show();
 
     int nRet = a.exec();
@@ -91,7 +71,6 @@ int main(int argc, char *argv[])
         settings.setValue(Globals::SETTINGKEY_WINDOW_GEOMETRY, w.geometry());
     }
 
-    CommandManager::stop();
     settings.sync();
 
     return nRet;

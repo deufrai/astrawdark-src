@@ -21,9 +21,10 @@
 #define COMMANDMANAGER_H
 
 #include <QObject>
-#include <QtConcurrent>
 
-#include "abstractCommand.h"
+#include "commandExecutor.h"
+#include "commandQueue.h"
+
 
 /**
  * @brief Manages commands from their creation to their execution in
@@ -32,24 +33,18 @@
 class CommandManager : public QObject
 {
     Q_OBJECT
-private:
-    explicit CommandManager(QObject *parent = 0);
-    bool _running;
-    static CommandManager* _instance;
-
-
 public:
-    static CommandManager* getInstance();
+    explicit CommandManager(QObject *parent = 0);
+    ~CommandManager();
 
-    static void start();
-    static void stop();
-
-    void run();
-    void setRunning(const bool running) { _running = running;}
+private:
+    CommandQueue*   _queue;
+    CommandExecutor _executor;
 
 signals:
 
 public slots:
+    void on_scanDarkLibrary();
 
 };
 

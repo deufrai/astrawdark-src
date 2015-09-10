@@ -32,21 +32,14 @@ class CommandQueue : public QObject
     Q_OBJECT
 public:
     AbstractCommand* getCommand();
-    static CommandQueue* getInstance();
-
+    explicit CommandQueue(QObject *parent = 0);
+    void enqueueCommand(AbstractCommand* command);
+    bool hasCommands() const {return ! _commands.empty();}
 private:
     QQueue<AbstractCommand*> _commands;
-
-    static CommandQueue* _instance;
-    explicit CommandQueue(QObject *parent = 0);
-
-    void enqueueCommand(AbstractCommand* command);
-
 signals:
-    void createdCommand(AbstractCommand*);
+    void commandEnqueued(AbstractCommand*);
 
-public slots:
-    void on_scanDarkLibrary();
 };
 
 #endif // COMMANDQUEUE_H
