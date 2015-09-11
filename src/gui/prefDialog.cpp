@@ -73,6 +73,42 @@ void PrefDialog::changeEvent(QEvent *e)
     }
 }
 
+bool PrefDialog::canPathBeUsedAsDarkSource(const QString &path)
+{
+    // check if folder is a child, parent or duplicate of any other source folder
+    QDir candidate(path);
+
+    for (int i=0; i<ui->lstDarkFolders->count(); i++) {
+
+        QDir test(ui->lstDarkFolders->item(i)->text());
+
+        if ( test.exists() ) {
+
+            if ( test.canonicalPath().startsWith(candidate.canonicalPath()) ||
+                 candidate.canonicalPath().startsWith(test.canonicalPath()) ||
+                 test.absolutePath().startsWith(candidate.absolutePath())   ||
+                 candidate.absolutePath().startsWith(test.absolutePath()) ) {
+
+                QString warningMsg = QString("<h3>").append(tr("Folder '"))
+                        .append(path)
+                        .append(tr("' cannot be used as a dark source."))
+                        .append("</h3>")
+                        .append(tr("It is either a child, a parent or a duplicate"))
+                        .append(tr(" of one of your existing sources."));
+
+                QMessageBox::critical(this,
+                                      tr("Cannot add this folder as dark source"),
+                                      warningMsg);
+
+                return false;
+
+            }
+        }
+    }
+
+    return true;
+}
+
 void PrefDialog::on_btnAddDarkFolder_clicked()
 {
     ui->lstDarkFolders->clearSelection();
@@ -82,43 +118,9 @@ void PrefDialog::on_btnAddDarkFolder_clicked()
                                                            QDir::homePath(),
                                                            QFileDialog::ShowDirsOnly);
 
-    if ( ! basefolder.isEmpty() ) {
+    if ( ! basefolder.isEmpty() && canPathBeUsedAsDarkSource(basefolder)) {
 
-        // check if folder is a child, parent or duplicate of any other source folder
-        QDir candidate(basefolder);
-        bool canUseThisFolder = true;
-
-        for (int i=0; i<ui->lstDarkFolders->count(); i++) {
-
-            QDir test(ui->lstDarkFolders->item(i)->text());
-
-            if ( test.exists() ) {
-
-                if ( test.canonicalPath().startsWith(candidate.canonicalPath()) ||
-                     candidate.canonicalPath().startsWith(test.canonicalPath()) ||
-                     test.absolutePath().startsWith(candidate.absolutePath())   ||
-                     candidate.absolutePath().startsWith(test.absolutePath()) ) {
-
-                    QString warningMsg = QString("<h3>").append(tr("Folder '"))
-                            .append(basefolder)
-                            .append(tr("' cannot be used as a dark source."))
-                            .append("</h3>")
-                            .append(tr("It is either a child, a parent or a duplicate"))
-                            .append(tr(" of one of your existing sources."));
-
-                    QMessageBox::critical(this,
-                                          tr("Cannot add this folder as dark source"),
-                                          warningMsg);
-
-                    canUseThisFolder = false;
-                }
-            }
-        }
-
-        if ( canUseThisFolder ) {
-
-            ui->lstDarkFolders->addItem(basefolder);
-        }
+        ui->lstDarkFolders->addItem(basefolder);
     }
 }
 
@@ -154,7 +156,7 @@ void PrefDialog::on_btnEditDarkFolder_clicked()
                                                                selectedPath,
                                                                QFileDialog::ShowDirsOnly);
 
-        if (  ! basefolder.isEmpty() ) {
+        if (  ! basefolder.isEmpty() && canPathBeUsedAsDarkSource(basefolder)) {
 
             ui->lstDarkFolders->item(ui->lstDarkFolders->currentRow())->setText(basefolder);
         }
@@ -172,7 +174,7 @@ void PrefDialog::on_lstDarkFolders_itemDoubleClicked(QListWidgetItem *item)
                                                                item->text(),
                                                                QFileDialog::ShowDirsOnly);
 
-        if (  ! basefolder.isEmpty() ) {
+        if (  ! basefolder.isEmpty() && canPathBeUsedAsDarkSource(basefolder)) {
 
             ui->lstDarkFolders->item(ui->lstDarkFolders->currentRow())->setText(basefolder);
         }
