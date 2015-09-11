@@ -145,7 +145,9 @@ void DataStore::on_newDarkScanResult(QList<ImageInfo> darks)
                                 info.getDate());
 
         _darkListModel->setData(_darkListModel->index(row, 6, QModelIndex()),
-                                QString::number(info.getTemperature()));
+                                info.getTemperature() == ImageInfo::UNDEFINED?
+                                    "":
+                                    QString::number(info.getTemperature()));
 
         ++row;
 
@@ -156,18 +158,19 @@ void DataStore::on_newDarkScanResult(QList<ImageInfo> darks)
 
 void DataStore::on_CommandStatusChange(AbstractCommand* command)
 {
-    updateCommandModel(command->getSerial(), command);
+    // warning, commands are inserted at model top
+    updateCommandModelRow(_commandListModel->rowCount() - command->getSerial() -1, command);
 }
 
 void DataStore::on_CommandCreated(AbstractCommand *command)
 {
-    _commandListModel->setRowCount(_commandListModel->rowCount()+1);
-    _commandListModel->setData(_commandListModel->index(_commandListModel->rowCount()-1,
+    _commandListModel->insertRows(0,1);
+    _commandListModel->setData(_commandListModel->index(0,
                                                         0,
                                                         QModelIndex()),
                                QTime::currentTime().toString("hh:mm:ss"));
 
-    updateCommandModel(_commandListModel->rowCount()-1, command);
+    updateCommandModelRow(0, command);
 }
 
 void DataStore::on_newDarkSources(QStringList paths)
@@ -177,7 +180,7 @@ void DataStore::on_newDarkSources(QStringList paths)
     QSettings().setValue(Globals::SETTINGKEY_DARK_SOURCES, _darkSources);
 }
 
-void DataStore::updateCommandModel(int row, AbstractCommand *command)
+void DataStore::updateCommandModelRow(int row, AbstractCommand *command)
 {
     QString status;
     QColor statusBackground;

@@ -59,7 +59,7 @@ void CommandExecutor::run(CommandQueue* queue)
 
         QThread::currentThread()->msleep(10);
 
-        if ( queue->hasCommands() ) {
+        if ( queue && queue->hasCommands() ) {
 
             queue->getCommand()->execute();
         }

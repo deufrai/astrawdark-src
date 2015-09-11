@@ -26,46 +26,58 @@
 #include <QDebug>
 #endif
 
-QString ExifReader::NOT_AVAILABLE = "N/A";
-
 ExifReader::ExifReader()
 {
 
 }
 
-void ExifReader::retrieveExifMetadata(ImageInfo &imageInfo)
+bool ExifReader::retrieveExifMetadata(ImageInfo &imageInfo)
 {
-    // Read EXIF bulk data from image
-    Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(imageInfo.getPath().toStdString());
-    image->readMetadata();
-    Exiv2::ExifData &exifData = image->exifData();
+    try {
 
-    if (exifData.empty()) {
+        // Read EXIF bulk data from image
+        Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(imageInfo.getPath().toStdString());
+        image->readMetadata();
+        Exiv2::ExifData &exifData = image->exifData();
+
+        if (exifData.empty()) {
 
 #ifndef QT_NO_DEBUG
-        qWarning() << imageInfo.getPath() << ": No Exif data found in the file";
+            qWarning() << imageInfo.getPath() << ": No Exif data found in the file";
 #endif
 
 
-    } else {
-
-        // extract relevant EXIF values
-        imageInfo.setMake(getValue(exifData, "Exif.Image.Make"));
-        imageInfo.setModel(getValue(exifData, "Exif.Image.Model"));
-        imageInfo.setExposure(formatExposure(getValue(exifData, "Exif.Photo.ExposureTime")));
-        imageInfo.setIso(getValue(exifData, "Exif.Photo.ISOSpeedRatings"));
-        imageInfo.setDate(getValue(exifData, "Exif.Photo.DateTimeDigitized"));
-
-        QString temp = getValue(exifData, "Exif.CanonSi.0x000c");
-
-        if ( temp == NOT_AVAILABLE ) {
-
-            imageInfo.setTemperature(-1);
-
         } else {
 
-            imageInfo.setTemperature(temp.toInt() -128);
+            // extract relevant EXIF values
+            imageInfo.setMake(getValue(exifData, "Exif.Image.Make"));
+            imageInfo.setModel(getValue(exifData, "Exif.Image.Model"));
+            imageInfo.setExposure(formatExposure(getValue(exifData, "Exif.Photo.ExposureTime")));
+            imageInfo.setIso(getValue(exifData, "Exif.Photo.ISOSpeedRatings"));
+            imageInfo.setDate(getValue(exifData, "Exif.Photo.DateTimeDigitized"));
+
+            QString temp = getValue(exifData, "Exif.CanonSi.0x000c");
+
+            if ( temp == ImageInfo::NOT_AVAILABLE ) {
+
+                imageInfo.setTemperature(ImageInfo::UNDEFINED);
+
+            } else {
+
+                imageInfo.setTemperature(temp.toInt() -128);
+            }
+
         }
+
+        return true;
+
+    } catch ( Exiv2::Error e ) {
+
+#ifndef QT_NO_DEBUG
+        qWarning() << e.what();
+#endif
+
+        return false;
 
     }
 }
@@ -81,7 +93,7 @@ QString ExifReader::getValue(const Exiv2::ExifData &data, const QString tag)
 
     if (pos == data.end()) {
 
-        return NOT_AVAILABLE;
+        return ImageInfo::NOT_AVAILABLE;
 
     } else {
 

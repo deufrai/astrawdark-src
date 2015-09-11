@@ -156,7 +156,8 @@ void PrefDialog::on_btnEditDarkFolder_clicked()
                                                                selectedPath,
                                                                QFileDialog::ShowDirsOnly);
 
-        if (  ! basefolder.isEmpty() && canPathBeUsedAsDarkSource(basefolder)) {
+        if (  ! basefolder.isEmpty() &&
+              ( ui->lstDarkFolders->count() == 1 || canPathBeUsedAsDarkSource(basefolder))) {
 
             ui->lstDarkFolders->item(ui->lstDarkFolders->currentRow())->setText(basefolder);
         }
@@ -174,7 +175,8 @@ void PrefDialog::on_lstDarkFolders_itemDoubleClicked(QListWidgetItem *item)
                                                                item->text(),
                                                                QFileDialog::ShowDirsOnly);
 
-        if (  ! basefolder.isEmpty() && canPathBeUsedAsDarkSource(basefolder)) {
+        if (  ! basefolder.isEmpty() &&
+              ( ui->lstDarkFolders->count() == 1 || canPathBeUsedAsDarkSource(basefolder)) ) {
 
             ui->lstDarkFolders->item(ui->lstDarkFolders->currentRow())->setText(basefolder);
         }

@@ -43,13 +43,11 @@ public:
      * Retrieve EXIF metadata for an ImageInfo and populates it in-place.
      *
      * @param imageInfo The ImageInfo to populate
+     * @return true if metadata extration went well
      */
-    static void retrieveExifMetadata(ImageInfo& imageInfo);
+    static bool retrieveExifMetadata(ImageInfo& imageInfo);
 
 private:
-    /** Constant used to replace non-existant values */
-    static QString NOT_AVAILABLE;
-
     /**
      * Extract EXIF value from EXIF metadata for a specific EXIF tag
      *

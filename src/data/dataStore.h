@@ -105,7 +105,7 @@ private:
      * @param row the model row to update
      * @param command the data to update it with
      */
-    void updateCommandModel(int row, AbstractCommand* command);
+    void updateCommandModelRow(int row, AbstractCommand* command);
 
 signals:
 

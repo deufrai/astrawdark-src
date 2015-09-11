@@ -51,6 +51,13 @@ protected:
     int     _temperature;
 
 public:
+
+    /** Constant used to replace non-existant string values */
+    static QString NOT_AVAILABLE;
+
+    /** Constant used to replace non-existant/invalid int values */
+    static const int UNDEFINED = -999;
+
     /**
      * Get image path
      * @return image path

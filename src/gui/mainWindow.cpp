@@ -50,7 +50,6 @@ MainWindow::MainWindow(QWidget *parent) :
     darkVv->hide();
 
     ui->tblCommandView->setModel(DataStore::getInstance()->getCommandListModel());
-    ui->tblCommandView->setGridStyle(Qt::NoPen);
     QHeaderView* commandHv = ui->tblCommandView->horizontalHeader();
     commandHv->setSectionResizeMode(0, QHeaderView::ResizeToContents);
     commandHv->setSectionResizeMode(1, QHeaderView::ResizeToContents);
@@ -61,11 +60,6 @@ MainWindow::MainWindow(QWidget *parent) :
     commandVv->hide();
 
     ui->btnRescanDarks->setEnabled( !DataStore::getInstance()->getDarkSources().empty() );
-
-    connect(SignalDispatcher::getInstance(),
-            &SignalDispatcher::commandCreated,
-            this,
-            &MainWindow::on_commandAdded);
 
     connect(SignalDispatcher::getInstance(),
             &SignalDispatcher::darkSourcesChanged,
@@ -113,11 +107,6 @@ void MainWindow::on_actionQuit_triggered()
 void MainWindow::on_btnRescanDarks_clicked()
 {
     emit scanDarkLibrary();
-}
-
-void MainWindow::on_commandAdded()
-{
-    ui->tblCommandView->scrollToBottom();
 }
 
 void MainWindow::on_actionPrefs_triggered()
