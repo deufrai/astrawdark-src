@@ -304,11 +304,7 @@ void DataStore::breakDownImageInfos(QList<ImageInfo> imageInfos)
                 newRowItems->append(new QStandardItem(serialIsoExpo.split('|').at(2)));
                 newRowItems->append(new QStandardItem(QString::number(expoMap.values(serialIsoExpo).count()).append(tr(" Images"))));
 
-                QList<QStandardItem*> found = _darkTreeModel->findItems(serialIsoExpo.split('|').at(1));
-
-#ifndef QT_NO_DEBUG
-                qDebug() << "isoSplit :" << serialIsoExpo.split('|').at(1);
-#endif
+                QList<QStandardItem*> found = _darkTreeModel->findItems(serialIsoExpo.split('|').at(1), Qt::MatchRecursive);
 
                 if ( found.count() > 0 ) {
 
@@ -322,10 +318,6 @@ void DataStore::breakDownImageInfos(QList<ImageInfo> imageInfos)
             }
         }
     }
-
-#ifndef QT_NO_DEBUG
-    qDebug() << "rowNum:" << _darkTreeModel->rowCount();
-#endif
 }
 
 void DataStore::on_newDarkScanStarted()
