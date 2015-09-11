@@ -26,6 +26,8 @@ namespace Ui {
 class PrefDialog;
 }
 
+class QListWidgetItem;
+
 /**
  * @brief Dialog used to set application preferences
  */
@@ -79,6 +81,12 @@ private slots:
 
     /** User clicked the 'Remove' button in dark source setting section */
     void on_btnRemoveDarkFolder_clicked();
+
+    /** User clicked the 'Edit' button in dark source setting section */
+    void on_btnEditDarkFolder_clicked();
+
+    /** User double-clicked a list item in dark source setting section */
+    void on_lstDarkFolders_itemDoubleClicked(QListWidgetItem * item);
 
     /** User clicked the global OK button */
     virtual void accept();

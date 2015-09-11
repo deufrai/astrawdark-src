@@ -26,6 +26,7 @@
 #include <QFileDialog>
 #include <QDir>
 #include <QMessageBox>
+#include <QListWidgetItem>
 
 #ifndef QT_NO_DEBUG
 #include <QDebug>
@@ -118,10 +119,11 @@ void PrefDialog::on_lstDarkFolders_itemSelectionChanged()
 {
     /*
      * if one item is selected in the dark sources list
-     * we activate the 'remove' button
+     * we activate the 'remove' & 'edit' buttons
      */
 
     ui->btnRemoveDarkFolder->setEnabled( ! ui->lstDarkFolders->selectedItems().empty() );
+    ui->btnEditDarkFolder->setEnabled( ! ui->lstDarkFolders->selectedItems().empty() );
 }
 
 void PrefDialog::on_btnRemoveDarkFolder_clicked()
@@ -129,6 +131,46 @@ void PrefDialog::on_btnRemoveDarkFolder_clicked()
     if ( ! ui->lstDarkFolders->selectedItems().empty() ) {
 
         ui->lstDarkFolders->takeItem(ui->lstDarkFolders->currentRow());
+    }
+
+    ui->lstDarkFolders->clearSelection();
+}
+
+void PrefDialog::on_btnEditDarkFolder_clicked()
+{
+    if ( ! ui->lstDarkFolders->selectedItems().empty() ) {
+
+        QString selectedPath = ui->lstDarkFolders->item(ui->lstDarkFolders->currentRow())->text();
+
+        QString basefolder = QFileDialog::getExistingDirectory(this,
+                                                               tr("Please select dark base folder"),
+                                                               selectedPath,
+                                                               QFileDialog::ShowDirsOnly);
+
+        if (  ! basefolder.isEmpty() ) {
+
+            ui->lstDarkFolders->item(ui->lstDarkFolders->currentRow())->setText(basefolder);
+        }
+
+        ui->lstDarkFolders->clearSelection();
+    }
+}
+
+void PrefDialog::on_lstDarkFolders_itemDoubleClicked(QListWidgetItem *item)
+{
+    if ( item ) {
+
+        QString basefolder = QFileDialog::getExistingDirectory(this,
+                                                               tr("Please select dark base folder"),
+                                                               item->text(),
+                                                               QFileDialog::ShowDirsOnly);
+
+        if (  ! basefolder.isEmpty() ) {
+
+            ui->lstDarkFolders->item(ui->lstDarkFolders->currentRow())->setText(basefolder);
+        }
+
+        ui->lstDarkFolders->clearSelection();
     }
 }
 
