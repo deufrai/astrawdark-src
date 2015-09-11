@@ -318,6 +318,8 @@ void DataStore::breakDownImageInfos(QList<ImageInfo> imageInfos)
             }
         }
     }
+
+    _darkTreeModel->setData(_darkTreeModel->index(0,0), tr("Camera N° ").append(_darkTreeModel->index(0,0).data().toString()));
 }
 
 void DataStore::on_newDarkScanStarted()
