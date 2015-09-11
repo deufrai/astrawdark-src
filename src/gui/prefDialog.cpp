@@ -27,6 +27,7 @@
 #include <QDir>
 #include <QMessageBox>
 #include <QListWidgetItem>
+#include <QMessageBox>
 
 #ifndef QT_NO_DEBUG
 #include <QDebug>
@@ -48,6 +49,11 @@ PrefDialog::PrefDialog(QWidget *parent) :
             &PrefDialog::newDarkSources,
             SignalDispatcher::getInstance(),
             &SignalDispatcher::on_darkSourcesChanged);
+
+    connect(this,
+            &PrefDialog::createDarkScanCommand,
+            SignalDispatcher::getInstance(),
+            &SignalDispatcher::on_createDarkScanCommand);
 }
 
 PrefDialog::~PrefDialog()
@@ -93,11 +99,12 @@ void PrefDialog::on_btnAddDarkFolder_clicked()
                      test.absolutePath().startsWith(candidate.absolutePath())   ||
                      candidate.absolutePath().startsWith(test.absolutePath()) ) {
 
-                    QString warningMsg(tr("Folder '")
-                                       .append(basefolder)
-                                       .append(tr("' cannot be used as a dark source.\n"))
-                                       .append(tr("It is either a child, a parent or a duplicate"))
-                                       .append(tr(" of one of your existing sources.")));
+                    QString warningMsg = QString("<h3>").append(tr("Folder '"))
+                            .append(basefolder)
+                            .append(tr("' cannot be used as a dark source."))
+                            .append("</h3>")
+                            .append(tr("It is either a child, a parent or a duplicate"))
+                            .append(tr(" of one of your existing sources."));
 
                     QMessageBox::critical(this,
                                           tr("Cannot add this folder as dark source"),
@@ -183,11 +190,30 @@ void PrefDialog::accept()
         _darkSources << ui->lstDarkFolders->item(i)->text();
     }
 
-#ifndef QT_NO_DEBUG
-    qDebug() << "Sources : " << _darkSources;
-#endif
+    QStringList oldDarkSources = DataStore::getInstance()->getDarkSources();
+    oldDarkSources.sort();
+    _darkSources.sort();
 
-    emit newDarkSources(_darkSources);
+    bool samesources = oldDarkSources.size() == _darkSources.size() &&
+            std::equal(oldDarkSources.begin(), oldDarkSources.end(), _darkSources.begin());
+
+    if ( ! samesources ) {
+
+        emit newDarkSources(_darkSources);
+
+        hide();
+        if ( QMessageBox::Yes == QMessageBox::question(this,
+                                 tr("Rescan advice"),
+                                 QString("<h3>")
+                                 .append(tr("Your dark sources have changed. "))
+                                 .append("</h3>")
+                                 .append(tr("Would you like to rescan your library now ?")))) {
+
+            emit createDarkScanCommand();
+        }
+
+
+    }
 
     DataStore::getInstance()->setRememberWindowGeometry(ui->chkRemeberWindowGeometry->isChecked());
     DataStore::getInstance()->setScanDarkOnStartup(ui->chkDarkScanOnStartup->isChecked());

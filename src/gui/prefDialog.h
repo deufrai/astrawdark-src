@@ -72,6 +72,11 @@ signals:
      */
     void newDarkSources(const QStringList& paths);
 
+    /**
+     * We want a new dark scan now
+     */
+    void createDarkScanCommand();
+
 private slots:
     /** User clicked the 'Add' button in dark source setting section */
     void on_btnAddDarkFolder_clicked();
