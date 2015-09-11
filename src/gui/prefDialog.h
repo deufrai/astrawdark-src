@@ -66,12 +66,21 @@ private:
     QStringList _darkSources;
 
     /**
-     * Check if a path can be used as dark frame source.
+     * Check if a path can be added as dark frame source.
      *
      * @param path a  path
      * @return true or false
      */
-    bool canPathBeUsedAsDarkSource(const QString& path);
+    bool canPathBeAddedAsDarkSource(const QString& path);
+
+    /**
+     * Check if darksources list item change is valid.
+     *
+     * @param row  the changed item's row
+     * @param path the changed item new value
+     * @return true or false
+     */
+    bool isDarkSourceListItemValidAsDarkSource(const QString& path, const int row);
 
 signals:
     /**
