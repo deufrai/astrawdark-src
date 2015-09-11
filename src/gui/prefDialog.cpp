@@ -211,8 +211,6 @@ void PrefDialog::accept()
 
             emit createDarkScanCommand();
         }
-
-
     }
 
     DataStore::getInstance()->setRememberWindowGeometry(ui->chkRemeberWindowGeometry->isChecked());

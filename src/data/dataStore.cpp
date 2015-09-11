@@ -180,6 +180,8 @@ void DataStore::on_newDarkSources(QStringList paths)
 void DataStore::updateCommandModel(int row, AbstractCommand *command)
 {
     QString status;
+    QColor statusBackground;
+
     switch ( command->getStatus() ) {
 
     case AbstractCommand::SCHEDULED:
@@ -195,22 +197,16 @@ void DataStore::updateCommandModel(int row, AbstractCommand *command)
 
         if ( command->hasErrors() ) {
 
-            for (int col=0; col<_commandListModel->columnCount(); col++) {
-
-                _commandListModel->setData(_commandListModel->index(row,col,QModelIndex()),
-                                           QColor(255, 200, 200),
-                                           Qt::BackgroundRole);
-            }
+            statusBackground = QColor(255, 200, 200);
 
         } else {
 
-            for (int col=0; col<_commandListModel->columnCount(); col++) {
-
-                _commandListModel->setData(_commandListModel->index(row,col,QModelIndex()),
-                                           QColor(200, 255, 200),
-                                           Qt::BackgroundRole);
-            }
+            statusBackground = QColor(200, 255, 200);
         }
+
+        _commandListModel->setData(_commandListModel->index(row,1,QModelIndex()),
+                                   statusBackground,
+                                   Qt::BackgroundRole);
         break;
 
     default:
@@ -226,10 +222,7 @@ void DataStore::updateCommandModel(int row, AbstractCommand *command)
     if ( command->hasErrors() ) {
 
         _commandListModel->setData(_commandListModel->index(row,3,QModelIndex()),
-                                   command->getProgessMessage()
-                                   .append(" - ")
-                                   .append(tr("*Error* "))
-                                   .append(command->getErrorMessage()));
+                                   command->getErrorMessage());
 
     } else {
 
