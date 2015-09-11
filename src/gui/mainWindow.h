@@ -88,9 +88,6 @@ public slots:
     /** A dark scan just finished */
     void on_darkScanDone();
 
-    /** A new command has been queued */
-    void on_commandAdded();
-
 signals:
     /** Tell the CommandManager to create a ScanDark command */
     void scanDarkLibrary();

@@ -52,9 +52,10 @@ void ScanDarkSourceCommand::do_processing()
 
     if ( ! _sources.isEmpty() ) {
 
-        QList<QString> missingDirs;
-        QList<QString> imagePaths;
-        QList<ImageInfo> imageInfos;
+        QList<QString>      missingDirs;
+        QList<QString>      badFiles;
+        QList<QString>      imagePaths;
+        QList<ImageInfo>    imageInfos;
 
         foreach (QString path, _sources) {
 
@@ -97,7 +98,12 @@ void ScanDarkSourceCommand::do_processing()
         foreach (QString filePath, imagePaths) {
 
             ImageInfo imageInfo(filePath);
-            ExifReader::retrieveExifMetadata(imageInfo);
+
+            if ( ! ExifReader::retrieveExifMetadata(imageInfo) ) {
+
+                badFiles << imageInfo.getPath();
+            }
+
             imageInfos << imageInfo;
 
             _progressMessage = tr("Scanned file %1 / %2").arg(++fileCount).arg(imagePaths.count());
@@ -105,20 +111,36 @@ void ScanDarkSourceCommand::do_processing()
         }
 
         /*
-         * If dark sources were missing, update error message
+         * If we saw bad files, update error message
          */
-        if ( ! missingDirs.empty() ) {
+        if ( ! badFiles.isEmpty() ) {
 
             _error = true;
 
-            _errorMessage = tr("The following dark sources are missing and have been skipped: ");
-            foreach (QString missing, missingDirs) {
+            _errorMessage.append(tr("There are invalid RAW files in your dark library :"));
 
-                _errorMessage.append(missing).append(" ");
+            foreach (QString badFile, badFiles) {
+
+                _errorMessage.append("\n - ").append(badFile);
             }
         }
 
-        // register results in datastore
+        /*
+         * If dark sources were missing, update error message
+         */
+        if ( ! missingDirs.isEmpty() ) {
+
+            _error = true;
+
+            _errorMessage.append(_errorMessage.isEmpty()?"":"\n");
+            _errorMessage.append(tr("The following dark sources are missing and have been skipped: "));
+            foreach (QString missing, missingDirs) {
+
+                _errorMessage.append("\n - ").append(missing);
+            }
+        }
+
+        // tell the world we're done
         emit done(imageInfos);
     }
 }

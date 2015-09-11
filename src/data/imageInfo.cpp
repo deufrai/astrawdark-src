@@ -19,6 +19,9 @@
 
 #include "imageInfo.h"
 
+QString ImageInfo::NOT_AVAILABLE = "N/A";
+
 ImageInfo::ImageInfo(const QString path)
-    : _path(path)
+    : _path(path),
+      _temperature(UNDEFINED)
 {}
