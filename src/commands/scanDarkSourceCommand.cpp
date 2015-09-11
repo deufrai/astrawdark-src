@@ -121,7 +121,7 @@ void ScanDarkSourceCommand::do_processing()
 
             foreach (QString badFile, badFiles) {
 
-                _errorMessage.append("\n - ").append(badFile);
+                _errorMessage.append("\n    - ").append(badFile);
             }
         }
 
@@ -136,7 +136,7 @@ void ScanDarkSourceCommand::do_processing()
             _errorMessage.append(tr("The following dark sources are missing and have been skipped: "));
             foreach (QString missing, missingDirs) {
 
-                _errorMessage.append("\n - ").append(missing);
+                _errorMessage.append("\n    - ").append(missing);
             }
         }
 
