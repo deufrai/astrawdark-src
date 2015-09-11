@@ -203,9 +203,9 @@ void PrefDialog::accept()
 
         hide();
         if ( QMessageBox::Yes == QMessageBox::question(this,
-                                 tr("Rescan advice"),
+                                 tr("Dark library rescan needed"),
                                  QString("<h3>")
-                                 .append(tr("Your dark sources have changed. "))
+                                 .append(tr("Your dark frames sources have changed. "))
                                  .append("</h3>")
                                  .append(tr("Would you like to rescan your library now ?")))) {
 
