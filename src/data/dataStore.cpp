@@ -195,14 +195,21 @@ void DataStore::updateCommandModel(int row, AbstractCommand *command)
 
         if ( command->hasErrors() ) {
 
-            _commandListModel->setData(_commandListModel->index(row,1,QModelIndex()),
-                                       QColor(Qt::red),
-                                       Qt::DecorationRole);
+            for (int col=0; col<_commandListModel->columnCount(); col++) {
+
+                _commandListModel->setData(_commandListModel->index(row,col,QModelIndex()),
+                                           QColor(255, 200, 200),
+                                           Qt::BackgroundRole);
+            }
+
         } else {
 
-            _commandListModel->setData(_commandListModel->index(row,1,QModelIndex()),
-                                       QColor(Qt::green),
-                                       Qt::DecorationRole);
+            for (int col=0; col<_commandListModel->columnCount(); col++) {
+
+                _commandListModel->setData(_commandListModel->index(row,col,QModelIndex()),
+                                           QColor(200, 255, 200),
+                                           Qt::BackgroundRole);
+            }
         }
         break;
 
