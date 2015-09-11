@@ -72,10 +72,16 @@ void ScanDarkSourceCommand::do_processing()
              * retrieve paths of all RAW files located in current dark source folder,
              * including subdirectories
              */
+            _progressMessage = tr("Locating raw files...");
+            emit statusChanged(this);
+
             QDirIterator it(path,
                             QStringList() << "*.CR2" << "*.CRW",
                             QDir::NoDotAndDotDot | QDir::Files,
                             QDirIterator::Subdirectories);
+
+            _progressMessage = tr("Found 0 raw file");
+            emit statusChanged(this);
 
             while (it.hasNext()) {
 
@@ -83,7 +89,7 @@ void ScanDarkSourceCommand::do_processing()
             }
         }
 
-        long fileNumber = 0;
+        long fileCount = 0;
 
         /*
          * Retrieve EXIF metadata for each RAW file
@@ -94,7 +100,7 @@ void ScanDarkSourceCommand::do_processing()
             ExifReader::retrieveExifMetadata(imageInfo);
             imageInfos << imageInfo;
 
-            _progressMessage = tr("Scanned file %1 / %2").arg(++fileNumber).arg(imagePaths.count());
+            _progressMessage = tr("Scanned file %1 / %2").arg(++fileCount).arg(imagePaths.count());
             emit statusChanged(this);
         }
 
