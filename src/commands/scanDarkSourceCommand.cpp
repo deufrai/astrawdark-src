@@ -50,7 +50,7 @@ void ScanDarkSourceCommand::do_processing()
 {
     emit started();
 
-    if ( ! _sources.empty() ) {
+    if ( ! _sources.isEmpty() ) {
 
         QList<QString> missingDirs;
         QList<QString> imagePaths;

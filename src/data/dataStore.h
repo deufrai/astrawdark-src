@@ -66,7 +66,7 @@ public:
      * Get dark source folder paths
      * @return a list of paths
      */
-    const QStringList& getDarkSources() const {return _darkSources;}
+    QStringList& getDarkSources() {return _darkSources;}
 
     /**
      * Does the user want the window to remember its geometry ?
