@@ -59,6 +59,8 @@ MainWindow::MainWindow(QWidget *parent) :
     commandVv->setSectionResizeMode(QHeaderView::ResizeToContents);
     commandVv->hide();
 
+    ui->treeDarkView->setModel(DataStore::getInstance()->getDarkTreeModel());
+
     ui->btnRescanDarks->setEnabled( !DataStore::getInstance()->getDarkSources().empty() );
 
     connect(SignalDispatcher::getInstance(),

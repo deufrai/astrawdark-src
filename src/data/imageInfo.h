@@ -41,6 +41,8 @@ protected:
     QString _make;
     /** Camera model */
     QString _model;
+    /** Camera serial number */
+    QString _cameraSerial;
     /** Exposure time */
     QString _exposure;
     /** Sensor ISO */
@@ -101,6 +103,12 @@ public:
     int getTemperature() const { return _temperature;}
 
     /**
+     * Get camera serial number
+     * @return camera serial number
+     */
+    const QString getCameraSerial() const {return _cameraSerial;}
+
+    /**
      * Set image path
      * @param path image path
      */
@@ -141,6 +149,12 @@ public:
      * @param temperature Sensor temperature
      */
     void setTemperature (const int temperature) { _temperature = temperature;}
+
+    /**
+     * Set camera serial number
+     * @param serial camera serial number
+     */
+    void setCameraSerial(const QString serial)  {_cameraSerial = serial;}
 
 };
 

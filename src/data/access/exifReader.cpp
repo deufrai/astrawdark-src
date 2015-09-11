@@ -67,6 +67,8 @@ bool ExifReader::retrieveExifMetadata(ImageInfo &imageInfo)
                 imageInfo.setTemperature(temp.toInt() -128);
             }
 
+            imageInfo.setCameraSerial(getValue(exifData, "Exif.Photo.BodySerialNumber"));
+
         }
 
         return true;

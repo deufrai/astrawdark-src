@@ -70,6 +70,9 @@
            </property>
           </widget>
          </item>
+         <item>
+          <widget class="QTreeView" name="treeDarkView"/>
+         </item>
         </layout>
        </item>
       </layout>

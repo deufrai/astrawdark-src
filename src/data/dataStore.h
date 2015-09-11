@@ -57,6 +57,12 @@ public:
     QStandardItemModel* getDarkModel() const {return _darkListModel;}
 
     /**
+     * Get dark tree model
+     * @return the model
+     */
+    QStandardItemModel* getDarkTreeModel() const {return _darkTreeModel;}
+
+    /**
      * Get command list model
      * @return the model
      */
@@ -95,7 +101,9 @@ public:
 private:
     QStandardItemModel* _darkListModel;
     QStandardItemModel* _commandListModel;
+    QStandardItemModel* _darkTreeModel;
     QStringList         _darkSources;
+    QList<ImageInfo>    _scannedDarks;
     bool                _rememberWindowGeometry;
     bool                _scanDarksOnStartup;
 
@@ -106,6 +114,8 @@ private:
      * @param command the data to update it with
      */
     void updateCommandModelRow(int row, AbstractCommand* command);
+
+    void breakDownImageInfos(QList<ImageInfo> imageInfos);
 
 signals:
 

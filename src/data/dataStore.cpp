@@ -42,6 +42,7 @@ DataStore* DataStore::getInstance() {
 DataStore::DataStore()
     : _darkListModel(new QStandardItemModel()),
       _commandListModel(new QStandardItemModel()),
+      _darkTreeModel(new QStandardItemModel()),
       _rememberWindowGeometry(false),
       _scanDarksOnStartup(false)
 {
@@ -118,13 +119,16 @@ DataStore::DataStore()
 
 void DataStore::on_newDarkScanResult(QList<ImageInfo> darks)
 {
+    _scannedDarks = darks;
+
+    breakDownImageInfos(_scannedDarks);
 
     _darkListModel->setRowCount(0);
-    _darkListModel->setRowCount(darks.count());
+    _darkListModel->setRowCount(_scannedDarks.count());
 
     int row = 0;
 
-    foreach (ImageInfo info, darks) {
+    foreach (ImageInfo info, _scannedDarks) {
 
         _darkListModel->setData(_darkListModel->index(row, 0, QModelIndex()),
                                 info.getPath());
@@ -238,6 +242,90 @@ void DataStore::updateCommandModelRow(int row, AbstractCommand *command)
                                status);
 
 
+}
+
+void DataStore::breakDownImageInfos(QList<ImageInfo> imageInfos)
+{
+    /*
+     * browse all images and break them down according to this hierarchy
+     *
+     * - camera serial
+     *   - ISO
+     *     - Exposure
+     */
+    _darkTreeModel->setRowCount(0);
+    QStandardItem *rootNode = _darkTreeModel->invisibleRootItem();
+
+    QMap< QString, ImageInfo > serialMap;
+
+    foreach (ImageInfo info, imageInfos) {
+
+        serialMap.insertMulti(info.getCameraSerial(), info);
+    }
+
+    foreach (QString serial , serialMap.uniqueKeys()) {
+
+        QList<QStandardItem*> *newRowItems = new QList<QStandardItem*>();
+        newRowItems->append(new QStandardItem(serial));
+        newRowItems->append(new QStandardItem(QString::number(serialMap.values(serial).count()).append(tr(" Images"))));
+
+        rootNode->appendRow(*newRowItems);
+
+        QMap <QString, ImageInfo > isoMap;
+
+        foreach (ImageInfo info, serialMap.values(serial)) {
+
+          QString formattedIso;
+          formattedIso.sprintf("%06d", (info.getIso().toInt()));
+            isoMap.insertMulti(serial + '|' + formattedIso, info);
+        }
+
+        foreach (QString serialIso, isoMap.uniqueKeys()) {
+
+            QList<QStandardItem*> *newRowItems = new QList<QStandardItem*>();
+            newRowItems->append(new QStandardItem(serialIso.split('|').at(1)));
+            newRowItems->append(new QStandardItem(QString::number(isoMap.values(serialIso).count()).append(tr(" Images"))));
+
+            _darkTreeModel->findItems(serialIso.split('|').at(0)).at(0)->appendRow(*newRowItems);
+
+            QMap<QString, ImageInfo> expoMap;
+
+            foreach (ImageInfo info, isoMap.values(serialIso)) {
+
+                QString formattedExposure;
+                formattedExposure.sprintf("%06.2f", (info.getExposure().toDouble()));
+
+                  expoMap.insertMulti(serialIso + '|' + formattedExposure, info);
+            }
+
+            foreach (QString serialIsoExpo, expoMap.uniqueKeys()) {
+
+                QList<QStandardItem*> *newRowItems = new QList<QStandardItem*>();
+                newRowItems->append(new QStandardItem(serialIsoExpo.split('|').at(2)));
+                newRowItems->append(new QStandardItem(QString::number(expoMap.values(serialIsoExpo).count()).append(tr(" Images"))));
+
+                QList<QStandardItem*> found = _darkTreeModel->findItems(serialIsoExpo.split('|').at(1));
+
+#ifndef QT_NO_DEBUG
+                qDebug() << "isoSplit :" << serialIsoExpo.split('|').at(1);
+#endif
+
+                if ( found.count() > 0 ) {
+
+                    found.at(0)->appendRow(*newRowItems);
+                }
+
+
+#ifndef QT_NO_DEBUG
+            qDebug() << QString("SerialIsoExpo %1 : %2 images").arg(serialIsoExpo).arg(expoMap.values(serialIsoExpo).count());
+#endif
+            }
+        }
+    }
+
+#ifndef QT_NO_DEBUG
+    qDebug() << "rowNum:" << _darkTreeModel->rowCount();
+#endif
 }
 
 void DataStore::on_newDarkScanStarted()
