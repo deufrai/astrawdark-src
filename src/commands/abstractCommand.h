@@ -95,10 +95,22 @@ public:
     bool hasErrors() const {return _error;}
 
     /**
+     * Tells if this command encountered warnings during execution.
+     * @return true if warnings were encountered
+     */
+    bool hasWarning() const {return _warning;}
+
+    /**
      * Get command's error message
      * @return the error message
      */
     QString getErrorMessage() const {return _errorMessage;}
+
+    /**
+     * Get command's warning message
+     * @return the warning message
+     */
+    QString getWarningMessage() const {return _warningMessage;}
 
     /**
      * Get command's progress message.
@@ -137,6 +149,8 @@ protected:
     QString         _progressMessage;
     /** Command error message */
     QString         _errorMessage;
+    /** Command warning message */
+    QString         _warningMessage;
     /** Command running status */
     Status          _status;
     /** Timer used to get total running time */
@@ -147,6 +161,8 @@ protected:
     quint64         _serial;
     /** Flag used to tell if command encountered error during payload processing */
     bool            _error;
+    /** Flag used to tell if command encountered warnings during payload processing */
+    bool            _warning;
 
 signals:
     /** Advertise status changes */
