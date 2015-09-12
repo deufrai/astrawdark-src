@@ -23,11 +23,11 @@
 quint64 AbstractCommand::SERIAL = 0;
 
 AbstractCommand::AbstractCommand()
-{
-    _status = SCHEDULED;
-    _elapsed = 0;
-    _serial = SERIAL++;
-    _error = false;
+    : _status(SCHEDULED),
+      _elapsed(0),
+      _serial(SERIAL++),
+      _error(false),
+      _warning(false) {
 
     connect(this,
             &AbstractCommand::statusChanged,
