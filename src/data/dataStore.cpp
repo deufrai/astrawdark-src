@@ -319,7 +319,33 @@ void DataStore::breakDownImageInfos(QList<ImageInfo> imageInfos)
         }
     }
 
-    _darkTreeModel->setData(_darkTreeModel->index(0,0), tr("Camera N° ").append(_darkTreeModel->index(0,0).data().toString()));
+    QModelIndex rootIndex =  _darkTreeModel->index(0,0);
+    _darkTreeModel->setData(rootIndex,
+                            tr("Camera N° ").append(_darkTreeModel->index(0,0).data().toString()));
+
+    QModelIndex firstIsoIndex = rootIndex.child(0,0);
+
+    if ( firstIsoIndex.isValid() ) {
+
+        _darkTreeModel->setData(firstIsoIndex,
+                                _darkTreeModel->index(0,0,rootIndex).data().toString().append(tr(" ISO")).remove(QRegExp("^0*")));
+
+        int row = 0;
+
+        QModelIndex nextIsoIndex = firstIsoIndex.sibling(++row,0);
+
+        while ( nextIsoIndex.isValid() ) {
+
+            _darkTreeModel->setData(nextIsoIndex,
+                                    _darkTreeModel->index(row,0,rootIndex).data().toString().append(tr(" ISO")).remove(QRegExp("^0*")));
+
+            nextIsoIndex = firstIsoIndex.sibling(++row,0);
+        }
+
+
+    }
+
+
 }
 
 void DataStore::on_newDarkScanStarted()
