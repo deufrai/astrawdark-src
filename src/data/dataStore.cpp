@@ -68,12 +68,14 @@ DataStore::DataStore()
     /*
      * Model setup
      */
-    _commandListModel->setColumnCount(4);
+    _commandListModel->setColumnCount(6);
     _commandListModel->setHorizontalHeaderLabels(QStringList()
+                                                 << tr("N°")
                                                  << tr("Time")
                                                  << tr("Status")
                                                  << tr("Command")
-                                                 << tr("Details"));
+                                                 << tr("Progress")
+                                                 << tr("Report"));
 
     _darkListModel->setColumnCount(7);
     QStringList darkListModelHeaderLabels;
@@ -166,9 +168,13 @@ void DataStore::on_CommandCreated(AbstractCommand *command)
 {
     _commandListModel->insertRows(0,1);
     _commandListModel->setData(_commandListModel->index(0,
-                                                        0,
+                                                        1,
                                                         QModelIndex()),
                                QTime::currentTime().toString("hh:mm:ss"));
+    _commandListModel->setData(_commandListModel->index(0,
+                                                        0,
+                                                        QModelIndex()),
+                               command->getSerial()+1); // commands are numbered from 0
 
     updateCommandModelRow(0, command);
 }
@@ -204,10 +210,17 @@ void DataStore::updateCommandModelRow(int row, AbstractCommand *command)
 
         } else {
 
-            statusBackground = QColor(200, 255, 200);
+            if ( command->hasWarning() ) {
+
+                statusBackground = QColor(255, 220, 150);
+
+            } else {
+
+                statusBackground = QColor(200, 255, 200);
+            }
         }
 
-        _commandListModel->setData(_commandListModel->index(row,1,QModelIndex()),
+        _commandListModel->setData(_commandListModel->index(row,2,QModelIndex()),
                                    statusBackground,
                                    Qt::BackgroundRole);
         break;
@@ -217,25 +230,19 @@ void DataStore::updateCommandModelRow(int row, AbstractCommand *command)
         break;
     }
 
-    QString description = command->getDescription();
-
     _commandListModel->setData(_commandListModel->index(row,2,QModelIndex()),
-                               description);
-
-    if ( command->hasErrors() ) {
-
-        _commandListModel->setData(_commandListModel->index(row,3,QModelIndex()),
-                                   command->getErrorMessage());
-
-    } else {
-
-        _commandListModel->setData(_commandListModel->index(row,3,QModelIndex()),
-                                   command->getProgessMessage());
-
-    }
-
-    _commandListModel->setData(_commandListModel->index(row,1,QModelIndex()),
                                status);
+
+    _commandListModel->setData(_commandListModel->index(row,3,QModelIndex()),
+                               command->getDescription());
+
+    _commandListModel->setData(_commandListModel->index(row,4,QModelIndex()),
+                               command->getProgessMessage());
+
+    _commandListModel->setData(_commandListModel->index(row,5,QModelIndex()),
+                               command->getReportMessages().join('\n'));
+
+
 
 
 }

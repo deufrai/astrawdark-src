@@ -49,6 +49,15 @@ private:
     /** Dark source folder paths */
     const QStringList& _sources;
 
+    /** Paths of missing dark source folders */
+    QStringList      _missingDirsPaths;
+    /** Paths of invalid files */
+    QStringList      _badFilesPaths;
+    /** Paths of short exposure files */
+    QStringList      _shortFilesPaths;
+
+    void checkForErrors();
+
 signals:
     /** tell everyone we completed the scan */
     void done(QList<ImageInfo> result);

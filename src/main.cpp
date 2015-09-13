@@ -41,8 +41,8 @@ int main(int argc, char *argv[])
 
     qRegisterMetaType< QList<ImageInfo> >("QList<ImageInfo>");
 
-    MainWindow w;
     CommandManager* commandManager = new CommandManager();
+    MainWindow w(commandManager);
 
     if ( settings.contains(Globals::SETTINGKEY_WINDOW_GEOMETRY) &&
          DataStore::getInstance()->getRememberWindowGeometry() ) {

@@ -24,6 +24,8 @@
 #include <QObject>
 #include <QElapsedTimer>
 
+#include "reports/commandReport.h"
+
 /**
  * @brief Interface for all commands.
  *
@@ -86,7 +88,7 @@ public:
      *
      * @return the serial
      */
-    quint64 getSerial() const {return _serial;}
+    int getSerial() const {return _serial;}
 
     /**
      * Tells if this command encountered errors during execution.
@@ -101,16 +103,10 @@ public:
     bool hasWarning() const {return _warning;}
 
     /**
-     * Get command's error message
-     * @return the error message
+     * Get command's report messages
+     * @return the report message
      */
-    QString getErrorMessage() const {return _errorMessage;}
-
-    /**
-     * Get command's warning message
-     * @return the warning message
-     */
-    QString getWarningMessage() const {return _warningMessage;}
+    QStringList getReportMessages() const {return _reportMessages;}
 
     /**
      * Get command's progress message.
@@ -120,10 +116,16 @@ public:
      */
     QString getProgessMessage() const {return _progressMessage;}
 
+    /**
+     * Get command's processing report
+     * @return the report
+     */
+    const CommandReport* getCommandReport() const {return &_commandReport;}
+
 
 private:
     /** The serial number */
-    static quint64 SERIAL;
+    static int SERIAL;
 
 protected:
     /**
@@ -147,10 +149,8 @@ protected:
     QString         _description;
     /** Command progress message */
     QString         _progressMessage;
-    /** Command error message */
-    QString         _errorMessage;
-    /** Command warning message */
-    QString         _warningMessage;
+    /** Command report messages */
+    QStringList     _reportMessages;
     /** Command running status */
     Status          _status;
     /** Timer used to get total running time */
@@ -158,11 +158,13 @@ protected:
     /** Command total running time */
     qint64          _elapsed;
     /** Command serial number */
-    quint64         _serial;
+    int         _serial;
     /** Flag used to tell if command encountered error during payload processing */
     bool            _error;
     /** Flag used to tell if command encountered warnings during payload processing */
     bool            _warning;
+    /** The command's processing report */
+    CommandReport   _commandReport;
 
 signals:
     /** Advertise status changes */

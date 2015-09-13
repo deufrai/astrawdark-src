@@ -22,6 +22,8 @@
 
 #include <QMainWindow>
 
+#include "../commands/commandManager.h"
+
 namespace Ui {
 
 class MainWindow;
@@ -39,7 +41,7 @@ public:
      * Constructor
      * @param parent Qt parent
      */
-    explicit MainWindow(QWidget *parent = 0);
+    explicit MainWindow(CommandManager* manager, QWidget *parent = 0);
 
     /** Destructor */
     ~MainWindow();
@@ -52,6 +54,9 @@ protected:
     void changeEvent(QEvent *e);
 
 private:
+    /** the command manager */
+    CommandManager* _commandManager;
+
     /** Our UI */
     Ui::MainWindow *ui;
 
@@ -74,6 +79,13 @@ private slots:
 
     /** User wants to see About dialog */
     void on_actionAbout_triggered();
+
+    /**
+     * User double clicked a command log view cell
+     *
+     * @param index the model index displayed in this cell
+     */
+    void on_tblCommandView_doubleClicked(const QModelIndex & index);
 
 public slots:
     /**

@@ -20,7 +20,7 @@
 #include "abstractCommand.h"
 #include "signalDispatcher.h"
 
-quint64 AbstractCommand::SERIAL = 0;
+int AbstractCommand::SERIAL = 0;
 
 AbstractCommand::AbstractCommand()
     : _status(SCHEDULED),

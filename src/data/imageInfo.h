@@ -42,7 +42,7 @@ protected:
     /** Camera model */
     QString _model;
     /** Exposure time */
-    QString _exposure;
+    double _exposure;
     /** Sensor ISO */
     QString _iso;
     /** Shoot date & time */
@@ -80,7 +80,7 @@ public:
      * Get exposure time
      * @return exposure time
      */
-    const QString getExposure() const { return _exposure;}
+    double getExposure() const { return _exposure;}
 
     /**
      * Get Sensor ISO
@@ -122,7 +122,7 @@ public:
      * Set exposure time
      * @param exposure exposure time
      */
-    void setExposure (const QString exposure) { _exposure = exposure;}
+    void setExposure (double exposure) { _exposure = exposure;}
 
     /**
      * Set Sensor ISO

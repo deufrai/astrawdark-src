@@ -26,7 +26,9 @@ SOURCES += src/main.cpp\
     src/commands/commandQueue.cpp \
     src/gui/aboutDialog.cpp \
     src/commands/commandExecutor.cpp \
-    src/commands/signalDispatcher.cpp
+    src/commands/signalDispatcher.cpp \
+    src/commands/reports/commandReport.cpp \
+    src/gui/commandReportDisplay.cpp
 
 HEADERS  += \
     src/globals.h \
@@ -42,12 +44,15 @@ HEADERS  += \
     src/commands/commandQueue.h \
     src/gui/aboutDialog.h \
     src/commands/commandExecutor.h \
-    src/commands/signalDispatcher.h
+    src/commands/signalDispatcher.h \
+    src/commands/reports/commandReport.h \
+    src/gui/commandReportDisplay.h
 
 FORMS    += \
     src/gui/forms/mainWindow.ui \
     src/gui/forms/prefDialog.ui \
-    src/gui/forms/aboutDialog.ui
+    src/gui/forms/aboutDialog.ui \
+    src/gui/forms/commandReportDisplay.ui
 
 LIBS += -lexiv2
 

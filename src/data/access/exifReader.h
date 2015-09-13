@@ -58,12 +58,12 @@ private:
     static QString getValue(const Exiv2::ExifData &data, const QString tag);
 
     /**
-     * Format exposure time for human
+     * convert a string representation of expo time into a double
      *
      * @param unformatted exposure time to be formatted
      * @return formatted exposure time
      */
-    static QString formatExposure(QString unformatted);
+    static double formatExposure(QString expoString);
 
 };
 

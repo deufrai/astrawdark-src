@@ -53,6 +53,7 @@ bool ExifReader::retrieveExifMetadata(ImageInfo &imageInfo)
             imageInfo.setMake(getValue(exifData, "Exif.Image.Make"));
             imageInfo.setModel(getValue(exifData, "Exif.Image.Model"));
             imageInfo.setExposure(formatExposure(getValue(exifData, "Exif.Photo.ExposureTime")));
+            if ( imageInfo.getExposure() == 0.0 ) return false;
             imageInfo.setIso(getValue(exifData, "Exif.Photo.ISOSpeedRatings"));
             imageInfo.setDate(getValue(exifData, "Exif.Photo.DateTimeDigitized"));
 
@@ -101,22 +102,28 @@ QString ExifReader::getValue(const Exiv2::ExifData &data, const QString tag)
     }
 }
 
-QString ExifReader::formatExposure(QString unformatted)
+double ExifReader::formatExposure(QString expoString)
 {
-    if ( ! unformatted.isEmpty() ) {
+    if ( expoString.isEmpty() || ImageInfo::NOT_AVAILABLE == expoString ) {
 
-        // we get rid of "/1" suffixes
-        if ( unformatted.endsWith("/1") ) return unformatted.remove("/1");
-
-        // we simplify "x/10" values but leave "1/10" special case alone
-        if ( unformatted.endsWith("/10") && unformatted != "1/10" ) {
-
-            int numerator = unformatted.left(unformatted.indexOf('/')).toInt();
-            double value = numerator / 10.0;
-            return QString::number(value);
-        }
+        return 0.0;
     }
 
-    return unformatted;
+    double dRet = 0.0;
+
+    if ( expoString.contains('/') ) {
+
+        int num   = QString(expoString.split('/').at(0)).toInt();
+        int denom = QString(expoString.split('/').at(1)).toInt();
+
+        dRet = num / static_cast<double> (denom);
+
+    } else {
+
+        dRet = expoString.toDouble();
+    }
+
+    return dRet;
+
 }
 

@@ -24,6 +24,7 @@
 
 #include "commandExecutor.h"
 #include "commandQueue.h"
+#include "reports/commandReport.h"
 
 
 /**
@@ -48,6 +49,15 @@ private:
     CommandQueue*   _queue;
     /** the command executor */
     CommandExecutor _executor;
+
+public:
+    /**
+     * Get a command by its serial number
+     *
+     * @param serial the command's serial number
+     * @return the command
+     */
+    const AbstractCommand* getCommand(int serial);
 
 public slots:
     /** Slot triggered by dark library scan requests */
