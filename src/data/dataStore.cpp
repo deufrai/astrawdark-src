@@ -262,7 +262,7 @@ void DataStore::breakDownImageInfos(QList<ImageInfo> imageInfos)
 
         QList<QStandardItem*> *newRowItems = new QList<QStandardItem*>();
         newRowItems->append(new QStandardItem(serial));
-        newRowItems->append(new QStandardItem(QString::number(serialMap.values(serial).count()).append(tr(" Images"))));
+        newRowItems->append(new QStandardItem(QString::number(serialMap.values(serial).count())));
 
         rootNode->appendRow(*newRowItems);
 
@@ -271,7 +271,7 @@ void DataStore::breakDownImageInfos(QList<ImageInfo> imageInfos)
         foreach (ImageInfo info, serialMap.values(serial)) {
 
             QString formattedIso;
-            formattedIso.sprintf("%06d", (info.getIso().toInt()));
+            formattedIso.sprintf("%06d", (info.getIso()));
             isoMap.insertMulti(serial + '|' + formattedIso, info);
         }
 
@@ -279,7 +279,7 @@ void DataStore::breakDownImageInfos(QList<ImageInfo> imageInfos)
 
             QList<QStandardItem*> *newRowItems = new QList<QStandardItem*>();
             newRowItems->append(new QStandardItem(serialIso.split('|').at(1)));
-            newRowItems->append(new QStandardItem(QString::number(isoMap.values(serialIso).count()).append(tr(" Images"))));
+            newRowItems->append(new QStandardItem(QString::number(isoMap.values(serialIso).count())));
 
             _darkTreeModel->findItems(serialIso.split('|').at(0)).at(0)->appendRow(*newRowItems);
 
@@ -288,7 +288,7 @@ void DataStore::breakDownImageInfos(QList<ImageInfo> imageInfos)
             foreach (ImageInfo info, isoMap.values(serialIso)) {
 
                 QString formattedExposure;
-                formattedExposure.sprintf("%06.2f", (info.getExposure()));
+                formattedExposure.sprintf("%04d", (info.getExposure()));
 
                 expoMap.insertMulti(serialIso + '|' + formattedExposure, info);
             }
@@ -297,7 +297,7 @@ void DataStore::breakDownImageInfos(QList<ImageInfo> imageInfos)
 
                 QList<QStandardItem*> *newRowItems = new QList<QStandardItem*>();
                 newRowItems->append(new QStandardItem(serialIsoExpo.split('|').at(2)));
-                newRowItems->append(new QStandardItem(QString::number(expoMap.values(serialIsoExpo).count()).append(tr(" Images"))));
+                newRowItems->append(new QStandardItem(QString::number(expoMap.values(serialIsoExpo).count())));
 
                 QList<QStandardItem*> found = _darkTreeModel->findItems(serialIsoExpo.split('|').at(1), Qt::MatchRecursive);
 

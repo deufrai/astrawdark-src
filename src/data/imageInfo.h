@@ -44,9 +44,9 @@ protected:
     /** Camera serial number */
     QString _cameraSerial;
     /** Exposure time */
-    double _exposure;
+    int _exposure;
     /** Sensor ISO */
-    QString _iso;
+    int _iso;
     /** Shoot date & time */
     QString _date;
     /** Sensor temperature */
@@ -82,13 +82,13 @@ public:
      * Get exposure time
      * @return exposure time
      */
-    double getExposure() const { return _exposure;}
+    int getExposure() const { return _exposure;}
 
     /**
      * Get Sensor ISO
      * @return Sensor ISO
      */
-    const QString getIso() const { return _iso;}
+    int getIso() const { return _iso;}
 
     /**
      * Get Shoot date & time
@@ -130,13 +130,13 @@ public:
      * Set exposure time
      * @param exposure exposure time
      */
-    void setExposure (double exposure) { _exposure = exposure;}
+    void setExposure (int exposure) { _exposure = exposure;}
 
     /**
      * Set Sensor ISO
      * @param iso Sensor ISO
      */
-    void setIso (const QString iso) { _iso = iso;}
+    void setIso (int iso) { _iso = iso;}
 
     /**
      * Set Shoot date & time

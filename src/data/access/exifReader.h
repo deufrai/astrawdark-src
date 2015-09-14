@@ -58,12 +58,14 @@ private:
     static QString getValue(const Exiv2::ExifData &data, const QString tag);
 
     /**
-     * convert a string representation of expo time into a double
+     * convert a string representation of expo time into an int.
+     *
+     * Data is rounded to nearest integer
      *
      * @param expoString exposure time
-     * @return exposure time as double
+     * @return rounded exposure time
      */
-    static double formatExposure(QString expoString);
+    static int formatExposure(QString expoString);
 
 };
 
