@@ -20,6 +20,7 @@
 #include "exifReader.h"
 #include "../imageInfo.h"
 
+#include <QStringList>
 #include <QString>
 
 #ifndef QT_NO_DEBUG
