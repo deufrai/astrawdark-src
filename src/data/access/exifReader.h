@@ -60,8 +60,8 @@ private:
     /**
      * convert a string representation of expo time into a double
      *
-     * @param unformatted exposure time to be formatted
-     * @return formatted exposure time
+     * @param expoString exposure time
+     * @return exposure time as double
      */
     static double formatExposure(QString expoString);
 
