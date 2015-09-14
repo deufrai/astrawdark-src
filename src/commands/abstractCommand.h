@@ -67,13 +67,13 @@ public:
      * get command's description displayed in command log
      * @return the command's description
      */
-    const QString getDescription() const {return _description;}
+    const QString& getDescription() const {return _description;}
 
     /**
      * get command's running status
      * @return the status
      */
-    Status getStatus() const {return _status;}
+    const Status& getStatus() const {return _status;}
 
     /**
      * Get command's total execution time
@@ -107,7 +107,7 @@ public:
      * Get command's report messages
      * @return the report message
      */
-    QStringList getReportMessages() const {return _reportMessages;}
+    const QStringList& getReportMessages() const {return _reportMessages;}
 
     /**
      * Get command's progress message.
@@ -115,7 +115,7 @@ public:
      * This message is displayed in command log
      * @return the progress message
      */
-    QString getProgessMessage() const {return _progressMessage;}
+    const QString& getProgessMessage() const {return _progressMessage;}
 
     /**
      * Get command's processing report
