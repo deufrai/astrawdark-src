@@ -270,8 +270,8 @@ void DataStore::breakDownImageInfos(QList<ImageInfo> imageInfos)
 
         foreach (ImageInfo info, serialMap.values(serial)) {
 
-          QString formattedIso;
-          formattedIso.sprintf("%06d", (info.getIso().toInt()));
+            QString formattedIso;
+            formattedIso.sprintf("%06d", (info.getIso().toInt()));
             isoMap.insertMulti(serial + '|' + formattedIso, info);
         }
 
@@ -290,7 +290,7 @@ void DataStore::breakDownImageInfos(QList<ImageInfo> imageInfos)
                 QString formattedExposure;
                 formattedExposure.sprintf("%06.2f", (info.getExposure()));
 
-                  expoMap.insertMulti(serialIso + '|' + formattedExposure, info);
+                expoMap.insertMulti(serialIso + '|' + formattedExposure, info);
             }
 
             foreach (QString serialIsoExpo, expoMap.uniqueKeys()) {
@@ -308,37 +308,43 @@ void DataStore::breakDownImageInfos(QList<ImageInfo> imageInfos)
 
 
 #ifndef QT_NO_DEBUG
-            qDebug() << QString("SerialIsoExpo %1 : %2 images").arg(serialIsoExpo).arg(expoMap.values(serialIsoExpo).count());
+                qDebug() << QString("SerialIsoExpo %1 : %2 images").arg(serialIsoExpo).arg(expoMap.values(serialIsoExpo).count());
 #endif
             }
         }
     }
 
-    QModelIndex rootIndex =  _darkTreeModel->index(0,0);
-    _darkTreeModel->setData(rootIndex,
-                            tr("Camera N° ").append(_darkTreeModel->index(0,0).data().toString()));
+    QModelIndex nextSerialIndex = _darkTreeModel->index(0,0);
 
-    QModelIndex firstIsoIndex = rootIndex.child(0,0);
+    while ( nextSerialIndex.isValid() ) {
 
-    if ( firstIsoIndex.isValid() ) {
+        _darkTreeModel->setData(nextSerialIndex,
+                                "Camera #" + _darkTreeModel->data(nextSerialIndex).toString());
 
-        _darkTreeModel->setData(firstIsoIndex,
-                                _darkTreeModel->index(0,0,rootIndex).data().toString().append(tr(" ISO")).remove(QRegExp("^0*")));
-
-        int row = 0;
-
-        QModelIndex nextIsoIndex = firstIsoIndex.sibling(++row,0);
+        QModelIndex nextIsoIndex = nextSerialIndex.child(0, 0);
 
         while ( nextIsoIndex.isValid() ) {
 
             _darkTreeModel->setData(nextIsoIndex,
-                                    _darkTreeModel->index(row,0,rootIndex).data().toString().append(tr(" ISO")).remove(QRegExp("^0*")));
+                                    _darkTreeModel->data(nextIsoIndex).toString().append(tr(" ISO")).remove(QRegExp("^0*")));
 
-            nextIsoIndex = firstIsoIndex.sibling(++row,0);
+            QModelIndex nextExpoIndex = nextIsoIndex.child(0,0);
+
+            while ( nextExpoIndex.isValid() ) {
+
+                _darkTreeModel->setData(nextExpoIndex,
+                                        _darkTreeModel->data( nextExpoIndex ).toString().append(tr(" sec")).remove(QRegExp("^0*")));
+
+                nextExpoIndex = nextExpoIndex.sibling(nextExpoIndex.row() + 1, 0);
+            }
+
+            nextIsoIndex = nextIsoIndex.sibling(nextIsoIndex.row() + 1, 0);
         }
 
+        nextSerialIndex = _darkTreeModel->index(nextSerialIndex.row() + 1, 0);
 
     }
+
 
 
 }
