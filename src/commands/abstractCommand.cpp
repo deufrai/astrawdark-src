@@ -60,3 +60,28 @@ void AbstractCommand::execute()
     emit statusChanged(this);
 }
 
+const QString AbstractCommand::getStatusString() const
+{
+    QString sRet;
+
+    switch ( _status ) {
+
+    case AbstractCommand::SCHEDULED:
+        sRet = tr("Scheduled");
+        break;
+
+    case AbstractCommand::RUNNING:
+        sRet = tr("Running");
+        break;
+    case AbstractCommand::COMPLETE:
+        sRet = tr("Finished (%1 ms)").arg(getElapsed());
+        break;
+
+    default:
+        sRet = tr("Undefined");
+        break;
+    }
+
+    return sRet;
+}
+

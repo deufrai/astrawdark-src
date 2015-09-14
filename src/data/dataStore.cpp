@@ -188,50 +188,38 @@ void DataStore::on_newDarkSources(QStringList paths)
 
 void DataStore::updateCommandModelRow(int row, AbstractCommand *command)
 {
-    QString status;
-    QColor statusBackground;
 
-    switch ( command->getStatus() ) {
+    static QColor redBackground(255, 200, 200);
+    static QColor yellowBackground(255, 220, 150);
+    static QColor greenBackground(200, 255, 200);
 
-    case AbstractCommand::SCHEDULED:
-        status = tr("Scheduled");
-        break;
+    if ( AbstractCommand::COMPLETE == command->getStatus() ) {
 
-    case AbstractCommand::RUNNING:
-        status = tr("Running");
-        break;
-
-    case AbstractCommand::COMPLETE:
-        status = tr("Finished (%1 ms)").arg(command->getElapsed());
+        QColor statusBackground;
 
         if ( command->hasErrors() ) {
 
-            statusBackground = QColor(255, 200, 200);
+            statusBackground = redBackground;
 
         } else {
 
             if ( command->hasWarning() ) {
 
-                statusBackground = QColor(255, 220, 150);
+                statusBackground = yellowBackground;
 
             } else {
 
-                statusBackground = QColor(200, 255, 200);
+                statusBackground = greenBackground;
             }
         }
 
         _commandListModel->setData(_commandListModel->index(row,2,QModelIndex()),
                                    statusBackground,
                                    Qt::BackgroundRole);
-        break;
-
-    default:
-        status = tr("Undefined");
-        break;
     }
 
     _commandListModel->setData(_commandListModel->index(row,2,QModelIndex()),
-                               status);
+                               command->getStatusString());
 
     _commandListModel->setData(_commandListModel->index(row,3,QModelIndex()),
                                command->getDescription());

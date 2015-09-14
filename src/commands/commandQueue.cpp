@@ -64,9 +64,6 @@ AbstractCommand *CommandQueue::getCommand(int serial)
 {
     foreach (AbstractCommand* command, _commands) {
 
-#ifndef QT_NO_DEBUG
-        qDebug() << QString("Inspecting command %1, seeking for serial# %2").arg(command->getSerial()).arg(serial);
-#endif
 
         if ( serial == command->getSerial() ) {
 

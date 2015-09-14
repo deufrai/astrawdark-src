@@ -136,10 +136,6 @@ void MainWindow::on_tblCommandView_doubleClicked(const QModelIndex &index)
 
     CommandReportDisplay* d = new CommandReportDisplay(command);
     d->show();
-
-#ifndef QT_NO_DEBUG
-    qDebug() << "User wants details on command N°" << commandSerial;
-#endif
 }
 
 void MainWindow::on_darkSourcesChanged(const QStringList& sources)

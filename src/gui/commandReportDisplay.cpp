@@ -23,8 +23,6 @@
 #include "../commands/signalDispatcher.h"
 
 #include <QListWidget>
-#include <QThread>
-#include <QDebug>
 
 CommandReportDisplay::CommandReportDisplay(const AbstractCommand *command, QWidget *parent) :
     QDialog(parent),
@@ -35,7 +33,6 @@ CommandReportDisplay::CommandReportDisplay(const AbstractCommand *command, QWidg
 
     ui->lblSerial->setText(QString::number(_command->getSerial()));
     ui->lblDescription->setText(_command->getDescription());
-    delete ui->grpReports->layout();
     ui->grpReports->setLayout(new QVBoxLayout());
 
     setWindowTitle(tr("Details for command N°%1").arg(_command->getSerial() +1));
@@ -67,41 +64,24 @@ void CommandReportDisplay::changeEvent(QEvent *e)
 
 void CommandReportDisplay::updateDisplay()
 {
-    QString status;
-
-    switch ( _command->getStatus() ) {
-
-    case AbstractCommand::SCHEDULED:
-        status = tr("Scheduled");
-        break;
-
-    case AbstractCommand::RUNNING:
-        status = tr("Running");
-        break;
-
-    case AbstractCommand::COMPLETE:
-        status = tr("Finished (%1 ms)").arg(_command->getElapsed());
-        break;
-
-    default:
-        status = tr("Undefined");
-        break;
-    }
-
-    ui->lblStatus->setText(status);
+    ui->lblStatus->setText(_command->getStatusString());
     ui->lblProgress->setText(_command->getProgessMessage());
 
+    /*
+     * If command is complete
+     * We add command reports if not already done
+     */
     if ( AbstractCommand::COMPLETE == _command->getStatus() && ui->grpReports->layout()->count() == 0 ) {
-
-        qDebug() << "BEFORE : layout count" << ui->grpReports->layout()->count();
 
         for ( int i=0; i<_command->getCommandReport()->getHeaders().count(); i++ ) {
 
             ui->grpReports->layout()->addWidget(new QLabel(_command->getCommandReport()->getHeaders().at(i), this));
 
-
             QStringList currentContent = _command->getCommandReport()->getContents().at(i);
 
+            /*
+             * some report sections may only have headers
+             */
             if ( currentContent.count() > 0 ) {
 
                 QListWidget* list = new QListWidget(this);
@@ -109,8 +89,6 @@ void CommandReportDisplay::updateDisplay()
                 ui->grpReports->layout()->addWidget(list);
             }
         }
-
-        qDebug() << "AFTER : layout count" << ui->grpReports->layout()->count();
     }
 }
 

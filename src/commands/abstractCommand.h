@@ -40,6 +40,7 @@ protected:
      * Default constructor
      */
     AbstractCommand();
+
 public:
     /**
      * Default destructor
@@ -56,7 +57,7 @@ public:
         COMPLETE
     };
 
-public:
+
     /**
      * execute command payload
      */
@@ -121,6 +122,12 @@ public:
      * @return the report
      */
     const CommandReport* getCommandReport() const {return &_commandReport;}
+
+    /**
+     * Get a string representation of a command's status
+     * @return a string representation
+     */
+    const QString getStatusString() const;
 
 
 private:
