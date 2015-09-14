@@ -288,7 +288,7 @@ void DataStore::breakDownImageInfos(QList<ImageInfo> imageInfos)
             foreach (ImageInfo info, isoMap.values(serialIso)) {
 
                 QString formattedExposure;
-                formattedExposure.sprintf("%06.2f", (info.getExposure().toDouble()));
+                formattedExposure.sprintf("%06.2f", (info.getExposure()));
 
                   expoMap.insertMulti(serialIso + '|' + formattedExposure, info);
             }
