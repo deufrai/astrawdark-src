@@ -24,14 +24,16 @@
 #include "../data/dataStore.h"
 #include "aboutDialog.h"
 #include "../commands/signalDispatcher.h"
+#include "commandReportDisplay.h"
 
 #ifndef QT_NO_DEBUG
 #include <QDebug>
 #endif
 
-MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::MainWindow)
+MainWindow::MainWindow(CommandManager *manager, QWidget *parent)
+    : QMainWindow(parent),
+      _commandManager(manager),
+      ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
 
@@ -54,7 +56,9 @@ MainWindow::MainWindow(QWidget *parent) :
     commandHv->setSectionResizeMode(0, QHeaderView::ResizeToContents);
     commandHv->setSectionResizeMode(1, QHeaderView::ResizeToContents);
     commandHv->setSectionResizeMode(2, QHeaderView::ResizeToContents);
-    commandHv->setSectionResizeMode(3, QHeaderView::Stretch);
+    commandHv->setSectionResizeMode(3, QHeaderView::ResizeToContents);
+    commandHv->setSectionResizeMode(4, QHeaderView::ResizeToContents);
+    commandHv->setSectionResizeMode(5, QHeaderView::Stretch);
     QHeaderView* commandVv = ui->tblCommandView->verticalHeader();
     commandVv->setSectionResizeMode(QHeaderView::ResizeToContents);
     commandVv->hide();
@@ -124,6 +128,16 @@ void MainWindow::on_actionCommandLog_toggled(bool checked)
 void MainWindow::on_actionAbout_triggered()
 {
     AboutDialog().exec();
+}
+
+void MainWindow::on_tblCommandView_doubleClicked(const QModelIndex &index)
+{
+    int commandSerial = index.model()->data(index.model()->index(index.row(), 0)).toInt() -1;
+
+    const AbstractCommand* command = _commandManager->getCommand(commandSerial);
+
+    CommandReportDisplay* d = new CommandReportDisplay(command);
+    d->show();
 }
 
 void MainWindow::on_darkSourcesChanged(const QStringList& sources)

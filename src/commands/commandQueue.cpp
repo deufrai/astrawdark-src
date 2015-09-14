@@ -20,6 +20,10 @@
 #include "commandQueue.h"
 #include "signalDispatcher.h"
 
+#ifndef QT_NO_DEBUG
+#include <QDebug>
+#endif
+
 CommandQueue::CommandQueue(QObject *parent) : QObject(parent)
 {
     connect(this,
@@ -34,8 +38,40 @@ void CommandQueue::enqueueCommand(AbstractCommand *command)
     emit commandEnqueued(command);
 }
 
+bool CommandQueue::hasCommands() const
+{
+    return NULL != getScheduledCommand();
+}
+
+AbstractCommand *CommandQueue::getScheduledCommand() const
+{
+    foreach (AbstractCommand* command, _commands) {
+
+        if ( AbstractCommand::SCHEDULED == command->getStatus() ) {
+
+            return command;
+        }
+    }
+    return NULL;
+}
+
 AbstractCommand* CommandQueue::getCommand()
 {
-    return _commands.dequeue();
+    return getScheduledCommand();
 }
+
+AbstractCommand *CommandQueue::getCommand(int serial)
+{
+    foreach (AbstractCommand* command, _commands) {
+
+
+        if ( serial == command->getSerial() ) {
+
+            return command;
+        }
+    }
+    return NULL;
+}
+
+
 

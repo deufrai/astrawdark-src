@@ -37,8 +37,11 @@ public:
      */
     explicit CommandQueue(QObject *parent = 0);
 
-    /** Get the command in the front of the queue */
+    /** Get the next scheduled command */
     AbstractCommand* getCommand();
+
+    /** Get the command that has serial number n */
+    AbstractCommand* getCommand(int serial);
 
     /**
      * Put a command at the back of the queue
@@ -47,14 +50,16 @@ public:
     void enqueueCommand(AbstractCommand* command);
 
     /**
-     * Used to check if the queue contains at least one command
-     * @return true if queue has commands
+     * Used to check if the queue contains a scheduled command
+     * @return true if queue has scheduled commands
      */
-    bool hasCommands() const {return ! _commands.empty();}
+    bool hasCommands() const;
 
 private:
     /** the command queue */
     QQueue<AbstractCommand*> _commands;
+
+    AbstractCommand* getScheduledCommand() const;
 
 signals:
     /**

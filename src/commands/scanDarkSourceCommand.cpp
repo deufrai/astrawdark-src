@@ -46,14 +46,67 @@ ScanDarkSourceCommand::ScanDarkSourceCommand(const QStringList &sources)
             &SignalDispatcher::on_darkScanDone);
 }
 
+void ScanDarkSourceCommand::checkForErrors()
+{
+    if ( ! _shortFilesPaths.isEmpty() ) {
+
+        _warning = true;
+
+        QString msg = tr("WARNING - Ignored %1 short exposure image(s)")
+                .arg(_shortFilesPaths.count());
+
+        _reportMessages << msg;
+
+        _commandReport.addSection(msg, _shortFilesPaths);
+    }
+
+    /*
+     * If dark sources were missing, update error message
+     */
+    if ( ! _missingDirsPaths.isEmpty() ) {
+
+        _warning = true;
+
+        QString msg = tr("WARNING - Ignored %1 missing dark source folder")
+                .arg(_missingDirsPaths.count());
+
+        _reportMessages << msg;
+
+        _commandReport.addSection(msg, _missingDirsPaths);
+    }
+
+    /*
+     * If we saw bad files, update error message
+     */
+    if ( ! _badFilesPaths.isEmpty() ) {
+
+        _warning = true;
+
+        QString msg = tr("WARNING - Ignored %1 invalid RAW file(s)")
+                .arg(_badFilesPaths.count());
+
+        _reportMessages << msg;
+
+        _commandReport.addSection(msg, _badFilesPaths);
+    }
+
+    if ( ! _warning && ! _error ) {
+
+        _reportMessages << tr("OK");
+        _commandReport.addSection(tr("Completed successfully"),QStringList());
+
+    } else {
+
+        _reportMessages.insert(0, tr("Some items need your attention :"));
+    }
+}
+
 void ScanDarkSourceCommand::do_processing()
 {
     emit started();
 
     if ( ! _sources.isEmpty() ) {
 
-        QList<QString>      missingDirs;
-        QList<QString>      badFiles;
         QList<QString>      imagePaths;
         QList<ImageInfo>    imageInfos;
 
@@ -65,7 +118,7 @@ void ScanDarkSourceCommand::do_processing()
              */
             if ( ! QDir(path).exists() ) {
 
-                missingDirs << path;
+                _missingDirsPaths << path;
                 continue;
             }
 
@@ -101,44 +154,26 @@ void ScanDarkSourceCommand::do_processing()
 
             if ( ! ExifReader::retrieveExifMetadata(imageInfo) ) {
 
-                badFiles << imageInfo.getPath();
-            }
+                _badFilesPaths << imageInfo.getPath();
 
-            imageInfos << imageInfo;
+            }
+            else if ( imageInfo.getExposure() < 1 ) {
+
+                _shortFilesPaths << imageInfo.getPath();
+
+            } else {
+
+                imageInfos << imageInfo;
+            }
 
             _progressMessage = tr("Scanned file %1 / %2").arg(++fileCount).arg(imagePaths.count());
             emit statusChanged(this);
         }
 
         /*
-         * If we saw bad files, update error message
+         * If we saw short frames, update warnings & errors
          */
-        if ( ! badFiles.isEmpty() ) {
-
-            _error = true;
-
-            _errorMessage.append(tr("There are invalid RAW files in your dark library :"));
-
-            foreach (QString badFile, badFiles) {
-
-                _errorMessage.append("\n    - ").append(badFile);
-            }
-        }
-
-        /*
-         * If dark sources were missing, update error message
-         */
-        if ( ! missingDirs.isEmpty() ) {
-
-            _error = true;
-
-            _errorMessage.append(_errorMessage.isEmpty()?"":"\n");
-            _errorMessage.append(tr("The following dark sources are missing and have been skipped: "));
-            foreach (QString missing, missingDirs) {
-
-                _errorMessage.append("\n    - ").append(missing);
-            }
-        }
+        checkForErrors();
 
         // tell the world we're done
         emit done(imageInfos);

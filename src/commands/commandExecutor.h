@@ -37,7 +37,6 @@ public:
     /**
      * Constructor
      * @param queue Pointer to the unique command queue
-     * @param parent Qt parent
      */
     explicit CommandExecutor(CommandQueue* queue);
 

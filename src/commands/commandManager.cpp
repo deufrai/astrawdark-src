@@ -22,6 +22,7 @@
 #include "../data/dataStore.h"
 #include "../globals.h"
 #include "signalDispatcher.h"
+#include "abstractCommand.h"
 
 #include <QSettings>
 
@@ -51,6 +52,11 @@ CommandManager::CommandManager(QObject *parent)
 CommandManager::~CommandManager()
 {
     _executor.stop();
+}
+
+const AbstractCommand *CommandManager::getCommand(int serial)
+{
+    return _queue->getCommand(serial);
 }
 
 void CommandManager::on_createDarkScanCommand()

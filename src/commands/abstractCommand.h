@@ -24,6 +24,8 @@
 #include <QObject>
 #include <QElapsedTimer>
 
+#include "reports/commandReport.h"
+
 /**
  * @brief Interface for all commands.
  *
@@ -38,6 +40,7 @@ protected:
      * Default constructor
      */
     AbstractCommand();
+
 public:
     /**
      * Default destructor
@@ -54,7 +57,7 @@ public:
         COMPLETE
     };
 
-public:
+
     /**
      * execute command payload
      */
@@ -64,13 +67,13 @@ public:
      * get command's description displayed in command log
      * @return the command's description
      */
-    const QString getDescription() const {return _description;}
+    const QString& getDescription() const {return _description;}
 
     /**
      * get command's running status
      * @return the status
      */
-    Status getStatus() const {return _status;}
+    const Status& getStatus() const {return _status;}
 
     /**
      * Get command's total execution time
@@ -86,7 +89,7 @@ public:
      *
      * @return the serial
      */
-    quint64 getSerial() const {return _serial;}
+    int getSerial() const {return _serial;}
 
     /**
      * Tells if this command encountered errors during execution.
@@ -95,10 +98,16 @@ public:
     bool hasErrors() const {return _error;}
 
     /**
-     * Get command's error message
-     * @return the error message
+     * Tells if this command encountered warnings during execution.
+     * @return true if warnings were encountered
      */
-    QString getErrorMessage() const {return _errorMessage;}
+    bool hasWarning() const {return _warning;}
+
+    /**
+     * Get command's report messages
+     * @return the report message
+     */
+    const QStringList& getReportMessages() const {return _reportMessages;}
 
     /**
      * Get command's progress message.
@@ -106,12 +115,24 @@ public:
      * This message is displayed in command log
      * @return the progress message
      */
-    QString getProgessMessage() const {return _progressMessage;}
+    const QString& getProgessMessage() const {return _progressMessage;}
+
+    /**
+     * Get command's processing report
+     * @return the report
+     */
+    const CommandReport* getCommandReport() const {return &_commandReport;}
+
+    /**
+     * Get a string representation of a command's status
+     * @return a string representation
+     */
+    const QString getStatusString() const;
 
 
 private:
     /** The serial number */
-    static quint64 SERIAL;
+    static int SERIAL;
 
 protected:
     /**
@@ -135,8 +156,8 @@ protected:
     QString         _description;
     /** Command progress message */
     QString         _progressMessage;
-    /** Command error message */
-    QString         _errorMessage;
+    /** Command report messages */
+    QStringList     _reportMessages;
     /** Command running status */
     Status          _status;
     /** Timer used to get total running time */
@@ -144,9 +165,13 @@ protected:
     /** Command total running time */
     qint64          _elapsed;
     /** Command serial number */
-    quint64         _serial;
+    int         _serial;
     /** Flag used to tell if command encountered error during payload processing */
     bool            _error;
+    /** Flag used to tell if command encountered warnings during payload processing */
+    bool            _warning;
+    /** The command's processing report */
+    CommandReport   _commandReport;
 
 signals:
     /** Advertise status changes */

@@ -69,12 +69,14 @@ DataStore::DataStore()
     /*
      * Model setup
      */
-    _commandListModel->setColumnCount(4);
+    _commandListModel->setColumnCount(6);
     _commandListModel->setHorizontalHeaderLabels(QStringList()
+                                                 << tr("N°")
                                                  << tr("Time")
                                                  << tr("Status")
                                                  << tr("Command")
-                                                 << tr("Details"));
+                                                 << tr("Progress")
+                                                 << tr("Report"));
 
     _darkListModel->setColumnCount(7);
     QStringList darkListModelHeaderLabels;
@@ -170,9 +172,13 @@ void DataStore::on_CommandCreated(AbstractCommand *command)
 {
     _commandListModel->insertRows(0,1);
     _commandListModel->setData(_commandListModel->index(0,
-                                                        0,
+                                                        1,
                                                         QModelIndex()),
                                QTime::currentTime().toString("hh:mm:ss"));
+    _commandListModel->setData(_commandListModel->index(0,
+                                                        0,
+                                                        QModelIndex()),
+                               command->getSerial()+1); // commands are numbered from 0
 
     updateCommandModelRow(0, command);
 }
@@ -186,60 +192,49 @@ void DataStore::on_newDarkSources(QStringList paths)
 
 void DataStore::updateCommandModelRow(int row, AbstractCommand *command)
 {
-    QString status;
-    QColor statusBackground;
 
-    switch ( command->getStatus() ) {
+    static QColor redBackground(255, 200, 200);
+    static QColor yellowBackground(255, 220, 150);
+    static QColor greenBackground(200, 255, 200);
 
-    case AbstractCommand::SCHEDULED:
-        status = tr("Scheduled");
-        break;
+    if ( AbstractCommand::COMPLETE == command->getStatus() ) {
 
-    case AbstractCommand::RUNNING:
-        status = tr("Running");
-        break;
-
-    case AbstractCommand::COMPLETE:
-        status = tr("Finished (%1 ms)").arg(command->getElapsed());
+        QColor statusBackground;
 
         if ( command->hasErrors() ) {
 
-            statusBackground = QColor(255, 200, 200);
+            statusBackground = redBackground;
 
         } else {
 
-            statusBackground = QColor(200, 255, 200);
+            if ( command->hasWarning() ) {
+
+                statusBackground = yellowBackground;
+
+            } else {
+
+                statusBackground = greenBackground;
+            }
         }
 
-        _commandListModel->setData(_commandListModel->index(row,1,QModelIndex()),
+        _commandListModel->setData(_commandListModel->index(row,2,QModelIndex()),
                                    statusBackground,
                                    Qt::BackgroundRole);
-        break;
-
-    default:
-        status = tr("Undefined");
-        break;
     }
-
-    QString description = command->getDescription();
 
     _commandListModel->setData(_commandListModel->index(row,2,QModelIndex()),
-                               description);
+                               command->getStatusString());
 
-    if ( command->hasErrors() ) {
+    _commandListModel->setData(_commandListModel->index(row,3,QModelIndex()),
+                               command->getDescription());
 
-        _commandListModel->setData(_commandListModel->index(row,3,QModelIndex()),
-                                   command->getErrorMessage());
+    _commandListModel->setData(_commandListModel->index(row,4,QModelIndex()),
+                               command->getProgessMessage());
 
-    } else {
+    _commandListModel->setData(_commandListModel->index(row,5,QModelIndex()),
+                               command->getReportMessages().join('\n'));
 
-        _commandListModel->setData(_commandListModel->index(row,3,QModelIndex()),
-                                   command->getProgessMessage());
 
-    }
-
-    _commandListModel->setData(_commandListModel->index(row,1,QModelIndex()),
-                               status);
 
 
 }

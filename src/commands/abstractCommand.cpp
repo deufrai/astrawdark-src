@@ -20,14 +20,14 @@
 #include "abstractCommand.h"
 #include "signalDispatcher.h"
 
-quint64 AbstractCommand::SERIAL = 0;
+int AbstractCommand::SERIAL = 0;
 
 AbstractCommand::AbstractCommand()
-{
-    _status = SCHEDULED;
-    _elapsed = 0;
-    _serial = SERIAL++;
-    _error = false;
+    : _status(SCHEDULED),
+      _elapsed(0),
+      _serial(SERIAL++),
+      _error(false),
+      _warning(false) {
 
     connect(this,
             &AbstractCommand::statusChanged,
@@ -58,5 +58,30 @@ void AbstractCommand::execute()
     _elapsed = _timer.elapsed();
     _status = COMPLETE;
     emit statusChanged(this);
+}
+
+const QString AbstractCommand::getStatusString() const
+{
+    QString sRet;
+
+    switch ( _status ) {
+
+    case AbstractCommand::SCHEDULED:
+        sRet = tr("Scheduled");
+        break;
+
+    case AbstractCommand::RUNNING:
+        sRet = tr("Running");
+        break;
+    case AbstractCommand::COMPLETE:
+        sRet = tr("Finished (%1 ms)").arg(getElapsed());
+        break;
+
+    default:
+        sRet = tr("Undefined");
+        break;
+    }
+
+    return sRet;
 }
 
