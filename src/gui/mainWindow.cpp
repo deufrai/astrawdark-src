@@ -64,6 +64,9 @@ MainWindow::MainWindow(CommandManager *manager, QWidget *parent)
     commandVv->hide();
 
     ui->treeDarkView->setModel(DataStore::getInstance()->getDarkTreeModel());
+    QHeaderView* darkTreeHv = ui->treeDarkView->header();
+    darkTreeHv->setSectionResizeMode(0, QHeaderView::ResizeToContents);
+    darkTreeHv->setSectionResizeMode(1, QHeaderView::Stretch);
 
     ui->btnRescanDarks->setEnabled( !DataStore::getInstance()->getDarkSources().empty() );
 

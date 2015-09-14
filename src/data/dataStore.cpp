@@ -79,17 +79,19 @@ DataStore::DataStore()
                                                  << tr("Report"));
 
     _darkListModel->setColumnCount(7);
-    QStringList darkListModelHeaderLabels;
+    _darkListModel->setHorizontalHeaderLabels(QStringList()
+                                              << tr("Path")
+                                              << tr("Make")
+                                              << tr("Model")
+                                              << tr("Exposure\n(sec.)")
+                                              << tr("ISO")
+                                              << tr("Date")
+                                              << tr ("Temperature\n(°C)"));
 
-    darkListModelHeaderLabels << tr("Path")
-                              << tr("Make")
-                              << tr("Model")
-                              << tr("Exposure\n(sec.)")
-                              << tr("ISO")
-                              << tr("Date")
-                              << tr ("Temperature\n(°C)");
-
-    _darkListModel->setHorizontalHeaderLabels(darkListModelHeaderLabels);
+    _darkTreeModel->setColumnCount(2);
+    _darkTreeModel->setHorizontalHeaderLabels(QStringList()
+                                              << tr("Shot settings")
+                                              << tr("Image count"));
 
     // signaling
     connect(SignalDispatcher::getInstance(),
@@ -248,7 +250,6 @@ void DataStore::breakDownImageInfos(QList<ImageInfo> imageInfos)
      *   - ISO
      *     - Exposure
      */
-    _darkTreeModel->setRowCount(0);
     QStandardItem *rootNode = _darkTreeModel->invisibleRootItem();
 
     QMap< QString, ImageInfo > serialMap;
@@ -344,14 +345,12 @@ void DataStore::breakDownImageInfos(QList<ImageInfo> imageInfos)
         nextSerialIndex = _darkTreeModel->index(nextSerialIndex.row() + 1, 0);
 
     }
-
-
-
 }
 
 void DataStore::on_newDarkScanStarted()
 {
     _darkListModel->setRowCount(0);
+    _darkTreeModel->setRowCount(0);
 }
 
 
