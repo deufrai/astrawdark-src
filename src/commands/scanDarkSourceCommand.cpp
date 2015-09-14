@@ -52,7 +52,7 @@ void ScanDarkSourceCommand::checkForErrors()
 
         _warning = true;
 
-        QString msg = tr("WARNING - We found %1 short exposure image(s) in your dark library :")
+        QString msg = tr("WARNING - Ignored %1 short exposure image(s)")
                 .arg(_shortFilesPaths.count());
 
         _reportMessages << msg;
@@ -67,7 +67,8 @@ void ScanDarkSourceCommand::checkForErrors()
 
         _warning = true;
 
-        QString msg = tr("WARNING - Some of your dark sources folders are missing :");
+        QString msg = tr("WARNING - Ignored %1 missing dark source folder")
+                .arg(_missingDirsPaths.count());
 
         _reportMessages << msg;
 
@@ -79,9 +80,9 @@ void ScanDarkSourceCommand::checkForErrors()
      */
     if ( ! _badFilesPaths.isEmpty() ) {
 
-        _error = true;
+        _warning = true;
 
-        QString msg = tr("ERROR - We found %1 invalid RAW file(s) in your dark library :")
+        QString msg = tr("WARNING - Ignored %1 invalid RAW file(s)")
                 .arg(_badFilesPaths.count());
 
         _reportMessages << msg;
