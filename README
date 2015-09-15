@@ -1,1 +1,21 @@
 astrawdark : a tool to manage astrophotography dark frames - (c) Frédéric CORNU - 2015
+
+Building astrawdark :
+=====================
+
+You need Qt5 framework and a standard C++ compiler
+
+Build dependencies :
+====================
+
+AstRawDarks depends on the following libraries :
+
+- libExiv2
+  http://www.exiv2.org/
+
+External code sources :
+=======================
+
+- Plots source code based on the QCustomPlot project
+  http://www.qcustomplot.com/
+

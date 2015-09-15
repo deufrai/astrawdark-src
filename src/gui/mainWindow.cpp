@@ -139,7 +139,7 @@ void MainWindow::on_actionCommandLog_toggled(bool checked)
 
 void MainWindow::on_actionAbout_triggered()
 {
-    AboutDialog().exec();
+    AboutDialog(this).exec();
 }
 
 void MainWindow::on_tblCommandView_doubleClicked(const QModelIndex &index)
