@@ -39,6 +39,8 @@ MainWindow::MainWindow(CommandManager *manager, QWidget *parent)
 {
     ui->setupUi(this);
 
+    _plotManager = new PlotManager(ui->pltDarkTempPlot, this);
+
     setWindowTitle(Globals::APPLICATION_NAME);
 
     ui->tblDarkView->setModel(DataStore::getInstance()->getDarkModel());

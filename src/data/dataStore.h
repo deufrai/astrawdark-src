@@ -110,6 +110,18 @@ public:
      */
     int getDarkLibrarySize() const {return _scannedDarks.count();}
 
+    /**
+     * Get all scanned darks
+     * @return a list of darks infos
+     */
+    const QList<ImageInfo>& getScannedDarks() const {return _scannedDarks;}
+
+    /**
+     * Get all scanned darks
+     * @return a list of darks infos
+     */
+    const QList<ImageInfo>& getFilteredDarks() const {return _filteredDarks;}
+
 private:
     QStandardItemModel* _darkListModel;
     QStandardItemModel* _commandListModel;
@@ -147,6 +159,11 @@ private:
      * @return true if dark is to be kept
      */
     static bool filterDark(ImageInfo dark);
+
+    /**
+     * Filter our dark list
+     */
+    void filterDarks();
 
 signals:
 

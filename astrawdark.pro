@@ -29,7 +29,8 @@ SOURCES += src/main.cpp\
     src/commands/signalDispatcher.cpp \
     src/commands/reports/commandReport.cpp \
     src/gui/commandReportDisplay.cpp \
-    src/contrib/qCustomPlot/qcustomplot.cpp
+    src/contrib/qCustomPlot/qcustomplot.cpp \
+    src/gui/plotManager.cpp
 
 HEADERS  += \
     src/globals.h \
@@ -48,7 +49,8 @@ HEADERS  += \
     src/commands/signalDispatcher.h \
     src/commands/reports/commandReport.h \
     src/gui/commandReportDisplay.h \
-    src/contrib/qCustomPlot/qcustomplot.h
+    src/contrib/qCustomPlot/qcustomplot.h \
+    src/gui/plotManager.h
 
 FORMS    += \
     src/gui/forms/mainWindow.ui \

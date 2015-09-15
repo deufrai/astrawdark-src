@@ -23,6 +23,8 @@
 #include <QMainWindow>
 
 #include "../commands/commandManager.h"
+#include "plotManager.h"
+
 
 namespace Ui {
 
@@ -65,6 +67,8 @@ private:
     void updateDarkContentCount();
 
     static const QString LBL_DARKCOUNT_BASETEXT;
+
+    PlotManager* _plotManager;
 
 private slots:
     /** User wants to quit */

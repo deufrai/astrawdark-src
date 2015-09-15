@@ -166,6 +166,8 @@ void DataStore::populateDarkListModel(QList<ImageInfo> darks)
 
 bool DataStore::filterDark(ImageInfo dark)
 {
+    if ( _S_DarkDisplayFilter.isEmpty() ) return true;
+
     QStringList filters = _S_DarkDisplayFilter.split('|');
 
     QString  serial = "";
@@ -198,7 +200,6 @@ bool DataStore::filterDark(ImageInfo dark)
         serial = filters.at(0);
 
         return dark.getCameraSerial() == serial;
-
         break;
 
     default:
@@ -213,7 +214,7 @@ void DataStore::on_newDarkScanResult(QList<ImageInfo> darks)
 
     populateDarkFiltersTreeView(_scannedDarks);
 
-    populateDarkListModel(_scannedDarks);
+    filterDarks();
 }
 
 void DataStore::on_CommandStatusChange(AbstractCommand* command)
@@ -376,18 +377,16 @@ void DataStore::setScanDarkOnStartup(bool scan)
     QSettings().setValue(Globals::SETTINGKEY_SCANDARKS_ON_STARTUP, _scanDarksOnStartup);
 }
 
+void DataStore::filterDarks()
+{
+    _filteredDarks = QtConcurrent::blockingFiltered(_scannedDarks,
+                                                    &DataStore::filterDark);
+    populateDarkListModel(_filteredDarks);
+}
+
 void DataStore::setDarkDisplayFilter(const QString filter)
 {
     _S_DarkDisplayFilter = filter;
 
-    if ( "" != _S_DarkDisplayFilter ) {
-
-        QList<ImageInfo> filteredDarks = QtConcurrent::blockingFiltered(_scannedDarks,
-                                                                        &DataStore::filterDark);
-        populateDarkListModel(filteredDarks);
-
-    } else {
-
-        populateDarkListModel(_scannedDarks);
-    }
+    filterDarks();
 }

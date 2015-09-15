@@ -101,8 +101,13 @@
                </widget>
                <widget class="QWidget" name="tabDarkLibGraphsIndex">
                 <attribute name="title">
-                 <string>Graphs</string>
+                 <string>T° Evolution</string>
                 </attribute>
+                <layout class="QGridLayout" name="gridLayout_6">
+                 <item row="0" column="0">
+                  <widget class="QCustomPlot" name="pltDarkTempPlot" native="true"/>
+                 </item>
+                </layout>
                </widget>
               </widget>
              </item>
@@ -305,6 +310,14 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>QCustomPlot</class>
+   <extends>QWidget</extends>
+   <header>src/contrib/qCustomPlot/qcustomplot.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections>
   <connection>
