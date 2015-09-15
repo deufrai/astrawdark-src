@@ -39,6 +39,8 @@ MainWindow::MainWindow(CommandManager *manager, QWidget *parent)
 {
     ui->setupUi(this);
 
+    _plotManager = new PlotManager(ui->pltDarkTempPlot, ui->pltDarkTempDistriPlot, this);
+
     setWindowTitle(Globals::APPLICATION_NAME);
 
     ui->tblDarkView->setModel(DataStore::getInstance()->getDarkModel());
@@ -139,7 +141,7 @@ void MainWindow::on_actionCommandLog_toggled(bool checked)
 
 void MainWindow::on_actionAbout_triggered()
 {
-    AboutDialog().exec();
+    AboutDialog(this).exec();
 }
 
 void MainWindow::on_tblCommandView_doubleClicked(const QModelIndex &index)

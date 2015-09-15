@@ -68,7 +68,7 @@
           <item>
            <widget class="QGroupBox" name="groupBox_2">
             <property name="title">
-             <string>Library details</string>
+             <string>Library content</string>
             </property>
             <layout class="QGridLayout" name="gridLayout_4">
              <item row="1" column="0">
@@ -77,11 +77,11 @@
                 <enum>QTabWidget::North</enum>
                </property>
                <property name="currentIndex">
-                <number>1</number>
+                <number>0</number>
                </property>
                <widget class="QWidget" name="tabDarkLibContentIndex">
                 <attribute name="title">
-                 <string>Content</string>
+                 <string>Details</string>
                 </attribute>
                 <layout class="QGridLayout" name="gridLayout_3">
                  <item row="0" column="0">
@@ -99,10 +99,25 @@
                  </item>
                 </layout>
                </widget>
-               <widget class="QWidget" name="tabDarkLibGraphsIndex">
+               <widget class="QWidget" name="tabDarkLibTempEvoGraph">
                 <attribute name="title">
-                 <string>Graphs</string>
+                 <string>T° Evolution</string>
                 </attribute>
+                <layout class="QGridLayout" name="gridLayout_6">
+                 <item row="0" column="0">
+                  <widget class="QCustomPlot" name="pltDarkTempPlot" native="true"/>
+                 </item>
+                </layout>
+               </widget>
+               <widget class="QWidget" name="tabDarkLibTempDistriGraph">
+                <attribute name="title">
+                 <string>T° Distribution</string>
+                </attribute>
+                <layout class="QGridLayout" name="gridLayout_7">
+                 <item row="0" column="0">
+                  <widget class="QCustomPlot" name="pltDarkTempDistriPlot" native="true"/>
+                 </item>
+                </layout>
                </widget>
               </widget>
              </item>
@@ -305,6 +320,14 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>QCustomPlot</class>
+   <extends>QWidget</extends>
+   <header>src/contrib/qCustomPlot/qcustomplot.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections>
   <connection>

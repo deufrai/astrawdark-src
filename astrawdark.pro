@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui concurrent
+QT       += core gui concurrent printsupport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -28,7 +28,9 @@ SOURCES += src/main.cpp\
     src/commands/commandExecutor.cpp \
     src/commands/signalDispatcher.cpp \
     src/commands/reports/commandReport.cpp \
-    src/gui/commandReportDisplay.cpp
+    src/gui/commandReportDisplay.cpp \
+    src/contrib/qCustomPlot/qcustomplot.cpp \
+    src/gui/plotManager.cpp
 
 HEADERS  += \
     src/globals.h \
@@ -46,7 +48,9 @@ HEADERS  += \
     src/commands/commandExecutor.h \
     src/commands/signalDispatcher.h \
     src/commands/reports/commandReport.h \
-    src/gui/commandReportDisplay.h
+    src/gui/commandReportDisplay.h \
+    src/contrib/qCustomPlot/qcustomplot.h \
+    src/gui/plotManager.h
 
 FORMS    += \
     src/gui/forms/mainWindow.ui \
@@ -58,4 +62,5 @@ LIBS += -lexiv2
 
 DISTFILES += \
     doc/README \
-    Doxyfile
+    Doxyfile \
+    README
