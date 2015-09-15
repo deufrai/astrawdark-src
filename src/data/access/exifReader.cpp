@@ -84,7 +84,14 @@ bool ExifReader::retrieveExifMetadata(ImageInfo &imageInfo)
                 imageInfo.setTemperature(tempTemp.toInt() -128);
             }
 
-            imageInfo.setCameraSerial(getValue(exifData, "Exif.Photo.BodySerialNumber"));
+            QString serial = getValue(exifData, "Exif.Photo.BodySerialNumber");
+
+            if ( ImageInfo::NOT_AVAILABLE == serial ) {
+
+                serial = getValue(exifData, "Exif.Canon.SerialNumber");
+            }
+
+            imageInfo.setCameraSerial(serial);
 
         }
 

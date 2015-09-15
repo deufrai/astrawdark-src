@@ -316,7 +316,7 @@ void DataStore::populateDarkFiltersTreeView(QList<ImageInfo> imageInfos)
 
     foreach (QString serial , serialMap.uniqueKeys()) {
 
-        QStandardItem* currentSerialItem = new QStandardItem(tr("Camera #").append(serial));
+        QStandardItem* currentSerialItem = new QStandardItem(tr("Camera N°").append(serial));
 
         _darkTreeModel->invisibleRootItem()->appendRow(currentSerialItem);
         _darkTreeModel->setData(_darkTreeModel->indexFromItem(currentSerialItem), serial, Qt::UserRole);
