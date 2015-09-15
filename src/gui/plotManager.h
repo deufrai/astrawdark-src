@@ -37,14 +37,17 @@ public:
      * Constructor
      * @param parent Qt parent
      */
-    explicit PlotManager(QCustomPlot* darkTempPlot, QObject *parent = 0);
+    explicit PlotManager(QCustomPlot* darkTempPlot, QCustomPlot* darkTempDistriPlot, QObject *parent = 0);
 
 private:
-    QCustomPlot* _darkTempPlot;
+    QCustomPlot* _darkTempEvoPlot;
+    QCustomPlot* _darkTempDistriPlot;
 
-    void clearDarkTempGraph();
+    void clearDarkTempEvoGraph();
+    void refreshDarkTempEvoGraph();
 
-    void refreshDarkTempPlot();
+    void clearDarkTempDistriGraph();
+    void refreshDarkTempDistriGraph();
 
 signals:
 

@@ -23,12 +23,29 @@
 #include <QDebug>
 #endif
 
-PlotManager::PlotManager(QCustomPlot *darkTempPlot, QObject *parent)
+PlotManager::PlotManager(QCustomPlot* darkTempPlot, QCustomPlot* darkTempDistriPlot, QObject *parent)
     : QObject(parent),
-      _darkTempPlot(darkTempPlot)
+      _darkTempEvoPlot(darkTempPlot),
+      _darkTempDistriPlot(darkTempDistriPlot)
 
 {
-    _darkTempPlot->addGraph();
+    _darkTempEvoPlot->addGraph();
+    _darkTempEvoPlot->xAxis->setLabel(tr("Dark N°"));
+    _darkTempEvoPlot->xAxis->setAutoTickStep(false);
+
+    _darkTempEvoPlot->yAxis->setLabel(tr("Sensor temperature in °C"));
+
+    _darkTempDistriPlot->addPlottable(new QCPBars(_darkTempDistriPlot->xAxis, _darkTempDistriPlot->yAxis));
+    _darkTempDistriPlot->xAxis->setLabel(tr("Sensor temperature in C°"));
+    _darkTempDistriPlot->xAxis->setAutoTickStep(false);
+    _darkTempDistriPlot->xAxis->setAutoSubTicks(false);
+    _darkTempDistriPlot->xAxis->setTickStep(1);
+    _darkTempDistriPlot->xAxis->setTickLength(0);
+    _darkTempDistriPlot->xAxis->setSubTickCount(0);
+
+    _darkTempDistriPlot->yAxis->setLabel(tr("Dark count"));
+    _darkTempDistriPlot->yAxis->setAutoTickStep(false);
+
 
     connect(SignalDispatcher::getInstance(),
             &SignalDispatcher::darkListModelChanged,
@@ -43,26 +60,37 @@ PlotManager::PlotManager(QCustomPlot *darkTempPlot, QObject *parent)
 
 void PlotManager::on_darkModelChanged()
 {
-    refreshDarkTempPlot();
+    refreshDarkTempEvoGraph();
+    refreshDarkTempDistriGraph();
 }
 
 void PlotManager::on_darkScanStarted()
 {
-    clearDarkTempGraph();
+    clearDarkTempEvoGraph();
+    clearDarkTempDistriGraph();
 }
 
-void PlotManager::clearDarkTempGraph()
+void PlotManager::clearDarkTempEvoGraph()
 {
-    if ( _darkTempPlot->graphCount() > 0 ) {
+    if ( _darkTempEvoPlot->graphCount() > 0 ) {
 
-        _darkTempPlot->graph()->clearData();
-        _darkTempPlot->replot();
+        _darkTempEvoPlot->graph()->clearData();
+        _darkTempEvoPlot->replot();
     }
 }
 
-void PlotManager::refreshDarkTempPlot()
+void PlotManager::clearDarkTempDistriGraph()
 {
-    clearDarkTempGraph();
+   if ( _darkTempDistriPlot->graphCount() > 0 ) {
+
+       _darkTempDistriPlot->graph()->clearData();
+       _darkTempDistriPlot->replot();
+   }
+}
+
+void PlotManager::refreshDarkTempEvoGraph()
+{
+    clearDarkTempEvoGraph();
 
     QList<ImageInfo> data = DataStore::getInstance()->getFilteredDarks();
 
@@ -70,6 +98,7 @@ void PlotManager::refreshDarkTempPlot()
 
     int counter = 0;
     int maxTemp = 0;
+
     foreach (ImageInfo info, data) {
 
         x << counter++;
@@ -81,14 +110,66 @@ void PlotManager::refreshDarkTempPlot()
         }
     }
 
-    _darkTempPlot->graph()->setData(x,y);
-
-    _darkTempPlot->xAxis->setLabel("Dark N°");
-    _darkTempPlot->yAxis->setLabel("Sensor temperature in °C");
+    _darkTempEvoPlot->graph()->setData(x,y);
 
     // set X axis range's maximum to be the next even number after max X value
-    _darkTempPlot->xAxis->setRange(0, (data.count()/2)*2+2);
-    _darkTempPlot->yAxis->setRange(0, maxTemp);
+    _darkTempEvoPlot->xAxis->setRange(0, (data.count()/2)*2+2);
+    _darkTempEvoPlot->yAxis->setRange(0, maxTemp + 1);
 
-    _darkTempPlot->replot();
+    int xTickStep = data.count() / 20;
+
+    if ( xTickStep < 1 ) {
+
+        xTickStep = 1;
+    }
+
+    _darkTempEvoPlot->xAxis->setTickStep(xTickStep);
+
+    _darkTempEvoPlot->replot();
+}
+
+
+void PlotManager::refreshDarkTempDistriGraph()
+{
+    clearDarkTempDistriGraph();
+
+    QList<ImageInfo> darks = DataStore::getInstance()->getFilteredDarks();
+
+    QVector<double> x, y;
+
+    QMap<int, ImageInfo> data;
+    foreach ( ImageInfo info, darks ) {
+
+        data.insertMulti(info.getTemperature(), info);
+    }
+
+    int maxTemp = 0;
+    int minTemp = 200;
+
+    int maxCount = 0;
+
+    foreach (int temperature, data.uniqueKeys()) {
+
+        int count = data.values(temperature).count();
+
+        x << temperature;
+        y << count;
+
+        if ( maxTemp < temperature ) maxTemp = temperature;
+        if ( minTemp > temperature ) minTemp = temperature;
+
+        if ( maxCount < count ) maxCount = count;
+    }
+
+    ((QCPBars*)(_darkTempDistriPlot->plottable(0)))->setData(x,y);
+
+    _darkTempDistriPlot->xAxis->setRange(minTemp - 1, maxTemp + 1);
+    _darkTempDistriPlot->yAxis->setRange(0, maxCount + 1);
+
+    int yTickStep = maxCount / 20;
+    if ( yTickStep < 1 ) yTickStep = 1;
+
+    _darkTempDistriPlot->yAxis->setTickStep(yTickStep);
+
+    _darkTempDistriPlot->replot();
 }

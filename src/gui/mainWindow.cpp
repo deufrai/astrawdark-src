@@ -39,7 +39,7 @@ MainWindow::MainWindow(CommandManager *manager, QWidget *parent)
 {
     ui->setupUi(this);
 
-    _plotManager = new PlotManager(ui->pltDarkTempPlot, this);
+    _plotManager = new PlotManager(ui->pltDarkTempPlot, ui->pltDarkTempDistriPlot, this);
 
     setWindowTitle(Globals::APPLICATION_NAME);
 
