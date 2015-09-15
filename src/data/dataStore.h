@@ -98,14 +98,28 @@ public:
      */
     bool getScanDarkOnStartup() const {return _scanDarksOnStartup;}
 
+    /**
+     * Set dark display filter
+     * @param filter the filter string
+     */
+    void setDarkDisplayFilter(const QString filter);
+
+    /**
+     * Get the size of our dark library
+     * @return dark libray size
+     */
+    int getDarkLibrarySize() const {return _scannedDarks.count();}
+
 private:
     QStandardItemModel* _darkListModel;
     QStandardItemModel* _commandListModel;
     QStandardItemModel* _darkTreeModel;
     QStringList         _darkSources;
     QList<ImageInfo>    _scannedDarks;
+    QList<ImageInfo>    _filteredDarks;
     bool                _rememberWindowGeometry;
     bool                _scanDarksOnStartup;
+    static QString      _S_DarkDisplayFilter;
 
     /**
      * Update an already known command
@@ -121,7 +135,25 @@ private:
      */
     void populateDarkFiltersTreeView(QList<ImageInfo> imageInfos);
 
+    /**
+     * Populate the darklist model
+     * @ param darks the darks to populate with
+     */
+    void populateDarkListModel(QList<ImageInfo> darks);
+
+    /**
+     * Filter a dark
+     * @param dark the dark to filter
+     * @return true if dark is to be kept
+     */
+    static bool filterDark(ImageInfo dark);
+
 signals:
+
+    /**
+     * Our dark list model has been updated;
+     */
+    void darkListModelChanged();
 
 public slots:
 

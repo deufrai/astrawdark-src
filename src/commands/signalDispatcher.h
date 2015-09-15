@@ -80,6 +80,9 @@ signals:
     /** let's create a dark scan command */
     void createDarkScanCommand();
 
+    /** the dark list model has been updated */
+    void darkListModelChanged();
+
 public slots:
     /** A new dark scan has just started */
     void on_darkScanStarted() {emit darkScanStarted();}
@@ -110,6 +113,9 @@ public slots:
 
     /** let's create a dark scan command */
     void on_createDarkScanCommand() {emit createDarkScanCommand();}
+
+    /** dark list model changed */
+    void on_darkListModelChanged() {emit darkListModelChanged();}
 
 };
 
