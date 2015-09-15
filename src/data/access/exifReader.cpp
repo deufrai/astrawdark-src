@@ -55,7 +55,7 @@ bool ExifReader::retrieveExifMetadata(ImageInfo &imageInfo)
             imageInfo.setModel(getValue(exifData, "Exif.Image.Model"));
 
             imageInfo.setExposure(formatExposure(getValue(exifData, "Exif.Photo.ExposureTime")));
-            if ( imageInfo.getExposure() == 0.0 ) return false;
+            if ( imageInfo.getExposure() == ImageInfo::UNDEFINED ) return false;
 
 
             QString tempIso = getValue(exifData, "Exif.Photo.ISOSpeedRatings");
@@ -124,7 +124,7 @@ int ExifReader::formatExposure(QString expoString)
 {
     if ( expoString.isEmpty() || ImageInfo::NOT_AVAILABLE == expoString ) {
 
-        return 0;
+        return ImageInfo::UNDEFINED;
     }
 
     double dRet = 0.0;
