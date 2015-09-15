@@ -49,7 +49,6 @@ MainWindow::MainWindow(CommandManager *manager, QWidget *parent)
     darkHv->setSectionResizeMode(3, QHeaderView::ResizeToContents);
     darkHv->setSectionResizeMode(4, QHeaderView::ResizeToContents);
     darkHv->setSectionResizeMode(5, QHeaderView::ResizeToContents);
-    darkHv->setSectionResizeMode(6, QHeaderView::ResizeToContents);
     QHeaderView* darkVv = ui->tblDarkView->verticalHeader();
     darkVv->hide();
 

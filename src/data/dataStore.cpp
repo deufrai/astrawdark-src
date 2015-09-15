@@ -81,10 +81,9 @@ DataStore::DataStore()
                                                  << tr("Progress")
                                                  << tr("Report"));
 
-    _darkListModel->setColumnCount(7);
+    _darkListModel->setColumnCount(6);
     _darkListModel->setHorizontalHeaderLabels(QStringList()
                                               << tr("Path")
-                                              << tr("Make")
                                               << tr("Model")
                                               << tr("Exposure\n(sec.)")
                                               << tr("ISO")
@@ -140,21 +139,18 @@ void DataStore::populateDarkListModel(QList<ImageInfo> darks)
                                 info.getPath());
 
         _darkListModel->setData(_darkListModel->index(row, 1, QModelIndex()),
-                                info.getMake());
-
-        _darkListModel->setData(_darkListModel->index(row, 2, QModelIndex()),
                                 info.getModel());
 
-        _darkListModel->setData(_darkListModel->index(row, 3, QModelIndex()),
+        _darkListModel->setData(_darkListModel->index(row, 2, QModelIndex()),
                                 info.getExposure());
 
-        _darkListModel->setData(_darkListModel->index(row, 4, QModelIndex()),
+        _darkListModel->setData(_darkListModel->index(row, 3, QModelIndex()),
                                 info.getIso());
 
-        _darkListModel->setData(_darkListModel->index(row, 5, QModelIndex()),
+        _darkListModel->setData(_darkListModel->index(row, 4, QModelIndex()),
                                 info.getDate());
 
-        _darkListModel->setData(_darkListModel->index(row, 6, QModelIndex()),
+        _darkListModel->setData(_darkListModel->index(row, 5, QModelIndex()),
                                 info.getTemperature() == ImageInfo::UNDEFINED?
                                     "":
                                     QString::number(info.getTemperature()));
