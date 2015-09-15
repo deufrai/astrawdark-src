@@ -61,7 +61,10 @@ private:
     /** Our UI */
     Ui::MainWindow *ui;
 
+    /** update dark count indicator */
     void updateDarkContentCount();
+
+    static const QString LBL_DARKCOUNT_BASETEXT;
 
 private slots:
     /** User wants to quit */

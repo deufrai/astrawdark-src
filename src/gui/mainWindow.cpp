@@ -30,6 +30,8 @@
 #include <QDebug>
 #endif
 
+const QString MainWindow::LBL_DARKCOUNT_BASETEXT = tr("Displayed darks count");
+
 MainWindow::MainWindow(CommandManager *manager, QWidget *parent)
     : QMainWindow(parent),
       _commandManager(manager),
@@ -123,7 +125,6 @@ void MainWindow::on_actionQuit_triggered()
 
 void MainWindow::on_btnRescanDarks_clicked()
 {
-    ui->tabDarkDetailsWidget->setTabText(0, tr("Content"));
     emit scanDarkLibrary();
 }
 
@@ -155,16 +156,18 @@ void MainWindow::on_tblCommandView_doubleClicked(const QModelIndex &index)
 void MainWindow::updateDarkContentCount()
 {
 
-    QString darkContentTabText = tr("Files");
+    QString darkContentTabText = LBL_DARKCOUNT_BASETEXT;
     int darkLibrarySize = DataStore::getInstance()->getDarkLibrarySize();
     int darkModelSize = DataStore::getInstance()->getDarkModel()->rowCount();
 
     if ( darkLibrarySize != darkModelSize ) {
 
-        darkContentTabText.append(" (Filtered)");
+        darkContentTabText.append(tr(" (Filtered)"));
     }
 
-    ui->tabDarkDetailsWidget->setTabText(0, darkContentTabText.append(tr(" : %1 darks").arg(darkModelSize)));
+    darkContentTabText.append(tr(" : %1 / %2").arg(darkModelSize).arg(darkLibrarySize));
+
+    ui->lblDarkCount->setText(darkContentTabText);
 }
 
 void MainWindow::on_treeDarkView_clicked(const QModelIndex &index)
@@ -205,7 +208,7 @@ void MainWindow::on_darkSourcesChanged(const QStringList& sources)
 
 void MainWindow::on_darkScanStart()
 {
-    ui->tabDarkDetailsWidget->setTabText(0, tr("Files : (Scan in progress...)"));
+    ui->lblDarkCount->setText(LBL_DARKCOUNT_BASETEXT + tr(" : Scan in progress..."));
     ui->btnRescanDarks->setDisabled(true);
     ui->btnDarkFilterClear->setDisabled(true);
 }
