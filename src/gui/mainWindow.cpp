@@ -89,6 +89,9 @@ MainWindow::MainWindow(CommandManager *manager, QWidget *parent)
             &MainWindow::scanDarkLibrary,
             SignalDispatcher::getInstance(),
             &SignalDispatcher::on_createDarkScanCommand);
+
+    ui->tabDarkDetailsWidget->setCurrentIndex(0);
+    ui->tabMainWidget->setCurrentIndex(0);
 }
 
 MainWindow::~MainWindow()
@@ -164,13 +167,13 @@ void MainWindow::on_darkSourcesChanged(const QStringList& sources)
 
 void MainWindow::on_darkScanStart()
 {
-    ui->lblDarkCount->setText(tr("Scan in progress..."));
+    ui->tabMainWidget->setTabText(0, tr("Dark Library (Scan in progress...)"));
     ui->btnRescanDarks->setDisabled(true);
 }
 
 void MainWindow::on_darkScanDone()
 {
-    ui->lblDarkCount->setText(QString(tr("Total frame count : %1"))
+    ui->tabMainWidget->setTabText(0, tr("Dark Library (%1 darks)")
                               .arg(DataStore::getInstance()->getDarkModel()->rowCount()));
     ui->btnRescanDarks->setEnabled(true);
 }
