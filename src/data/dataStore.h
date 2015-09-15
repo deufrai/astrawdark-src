@@ -115,7 +115,11 @@ private:
      */
     void updateCommandModelRow(int row, AbstractCommand* command);
 
-    void breakDownImageInfos(QList<ImageInfo> imageInfos);
+    /**
+     * Populate the dark filter treeView
+     * @param imageInfos all scanned darks
+     */
+    void populateDarkFiltersTreeView(QList<ImageInfo> imageInfos);
 
 signals:
 
