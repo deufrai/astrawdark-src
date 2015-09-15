@@ -317,6 +317,9 @@ void DataStore::populateDarkFiltersTreeView(QList<ImageInfo> imageInfos)
 
         _darkTreeModel->invisibleRootItem()->appendRow(currentSerialItem);
         _darkTreeModel->setData(_darkTreeModel->indexFromItem(currentSerialItem), serial, Qt::UserRole);
+        _darkTreeModel->setData(_darkTreeModel->indexFromItem(currentSerialItem),
+                                tr("%1 Darks").arg(serialMap.values(serial).count()),
+                                Qt::ToolTipRole);
 
         QMap <int, ImageInfo > isoMap;
 
@@ -333,6 +336,9 @@ void DataStore::populateDarkFiltersTreeView(QList<ImageInfo> imageInfos)
             _darkTreeModel->setData(_darkTreeModel->indexFromItem(currentIsoItem),
                                     QString(serial).append('|').append(QString::number(iso)),
                                     Qt::UserRole);
+            _darkTreeModel->setData(_darkTreeModel->indexFromItem(currentIsoItem),
+                                    tr("%1 Darks").arg(isoMap.values(iso).count()),
+                                    Qt::ToolTipRole);
 
             QMap<int, ImageInfo> expoMap;
 
@@ -352,6 +358,10 @@ void DataStore::populateDarkFiltersTreeView(QList<ImageInfo> imageInfos)
                             .append(QString::number(iso)).append('|')
                             .append(QString::number(expo)),
                             Qt::UserRole);
+                _darkTreeModel->setData(
+                            _darkTreeModel->indexFromItem(currentExpoItem),
+                            tr("%1 Darks").arg(expoMap.values(expo).count()),
+                            Qt::ToolTipRole);
             }
         }
     }
