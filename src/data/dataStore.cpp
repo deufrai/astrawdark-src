@@ -42,6 +42,7 @@ DataStore* DataStore::getInstance() {
 DataStore::DataStore()
     : _darkListModel(new QStandardItemModel()),
       _commandListModel(new QStandardItemModel()),
+      _darkTreeModel(new QStandardItemModel()),
       _rememberWindowGeometry(false),
       _scanDarksOnStartup(false)
 {
@@ -78,17 +79,17 @@ DataStore::DataStore()
                                                  << tr("Report"));
 
     _darkListModel->setColumnCount(7);
-    QStringList darkListModelHeaderLabels;
+    _darkListModel->setHorizontalHeaderLabels(QStringList()
+                                              << tr("Path")
+                                              << tr("Make")
+                                              << tr("Model")
+                                              << tr("Exposure\n(sec.)")
+                                              << tr("ISO")
+                                              << tr("Date")
+                                              << tr ("Temperature\n(°C)"));
 
-    darkListModelHeaderLabels << tr("Path")
-                              << tr("Make")
-                              << tr("Model")
-                              << tr("Exposure\n(sec.)")
-                              << tr("ISO")
-                              << tr("Date")
-                              << tr ("Temperature\n(°C)");
-
-    _darkListModel->setHorizontalHeaderLabels(darkListModelHeaderLabels);
+    _darkTreeModel->setColumnCount(1);
+    _darkTreeModel->setHorizontalHeaderLabels(QStringList() << tr("Dark families"));
 
     // signaling
     connect(SignalDispatcher::getInstance(),
@@ -120,13 +121,16 @@ DataStore::DataStore()
 
 void DataStore::on_newDarkScanResult(QList<ImageInfo> darks)
 {
+    _scannedDarks = darks;
+
+    populateDarkFiltersTreeView(_scannedDarks);
 
     _darkListModel->setRowCount(0);
-    _darkListModel->setRowCount(darks.count());
+    _darkListModel->setRowCount(_scannedDarks.count());
 
     int row = 0;
 
-    foreach (ImageInfo info, darks) {
+    foreach (ImageInfo info, _scannedDarks) {
 
         _darkListModel->setData(_darkListModel->index(row, 0, QModelIndex()),
                                 info.getPath());
@@ -235,9 +239,66 @@ void DataStore::updateCommandModelRow(int row, AbstractCommand *command)
 
 }
 
+void DataStore::populateDarkFiltersTreeView(QList<ImageInfo> imageInfos)
+{
+    /*
+     * browse all images and break them down according to this hierarchy
+     *
+     * - camera serial
+     *   - ISO
+     *     - Exposure
+     */
+
+    QMap< QString, ImageInfo > serialMap;
+
+    foreach (ImageInfo info, imageInfos) {
+
+        serialMap.insertMulti(info.getCameraSerial(), info);
+    }
+
+    foreach (QString serial , serialMap.uniqueKeys()) {
+
+        QStandardItem* currentSerialItem = new QStandardItem(tr("Camera #").append(serial));
+
+        _darkTreeModel->invisibleRootItem()->appendRow(currentSerialItem);
+        _darkTreeModel->setData(_darkTreeModel->indexFromItem(currentSerialItem), serial, Qt::UserRole);
+
+        QMap <int, ImageInfo > isoMap;
+
+        foreach (ImageInfo info, serialMap.values(serial)) {
+
+            isoMap.insertMulti(info.getIso(), info);
+        }
+
+        foreach (int iso, isoMap.uniqueKeys()) {
+
+            QStandardItem* currentIsoItem = new QStandardItem(QString::number(iso).append(" ISO"));
+
+            currentSerialItem->appendRow(currentIsoItem);
+            _darkTreeModel->setData(_darkTreeModel->indexFromItem(currentIsoItem), iso, Qt::UserRole);
+
+            QMap<int, ImageInfo> expoMap;
+
+            foreach (ImageInfo info, isoMap.values(iso)) {
+
+                expoMap.insertMulti(info.getExposure(), info);
+            }
+
+            foreach (int expo, expoMap.uniqueKeys()) {
+
+                QStandardItem* currentExpoItem = new QStandardItem(QString::number(expo).append("\""));
+
+                currentIsoItem->appendRow(currentExpoItem);
+                _darkTreeModel->setData(_darkTreeModel->indexFromItem(currentExpoItem), expo, Qt::UserRole);
+            }
+        }
+    }
+}
+
 void DataStore::on_newDarkScanStarted()
 {
     _darkListModel->setRowCount(0);
+    _darkTreeModel->setRowCount(0);
 }
 
 

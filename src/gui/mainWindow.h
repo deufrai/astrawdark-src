@@ -88,6 +88,12 @@ private slots:
      */
     void on_tblCommandView_doubleClicked(const QModelIndex & index);
 
+    /**
+     * User click a dark filter view item
+     * @param index the clicked view index
+     */
+    void on_treeDarkView_clicked(const QModelIndex & index);
+
 public slots:
     /**
      * Dark sources have changed

@@ -63,6 +63,11 @@ MainWindow::MainWindow(CommandManager *manager, QWidget *parent)
     commandVv->setSectionResizeMode(QHeaderView::ResizeToContents);
     commandVv->hide();
 
+    ui->treeDarkView->setModel(DataStore::getInstance()->getDarkTreeModel());
+    QHeaderView* darkTreeHv = ui->treeDarkView->header();
+    darkTreeHv->setSectionResizeMode(0, QHeaderView::Stretch);
+    darkTreeHv->hide();
+
     ui->btnRescanDarks->setEnabled( !DataStore::getInstance()->getDarkSources().empty() );
 
     connect(SignalDispatcher::getInstance(),
@@ -136,6 +141,20 @@ void MainWindow::on_tblCommandView_doubleClicked(const QModelIndex &index)
 
     CommandReportDisplay* d = new CommandReportDisplay(command);
     d->show();
+}
+
+void MainWindow::on_treeDarkView_clicked(const QModelIndex &index)
+{
+    QModelIndex targetNode;
+
+    if ( index.column() != 0 ) {
+
+        targetNode = index.sibling(index.row(), 0);
+
+    } else {
+
+        targetNode = index;
+    }
 }
 
 void MainWindow::on_darkSourcesChanged(const QStringList& sources)

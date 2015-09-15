@@ -53,21 +53,38 @@ bool ExifReader::retrieveExifMetadata(ImageInfo &imageInfo)
             // extract relevant EXIF values
             imageInfo.setMake(getValue(exifData, "Exif.Image.Make"));
             imageInfo.setModel(getValue(exifData, "Exif.Image.Model"));
+
             imageInfo.setExposure(formatExposure(getValue(exifData, "Exif.Photo.ExposureTime")));
             if ( imageInfo.getExposure() == 0.0 ) return false;
-            imageInfo.setIso(getValue(exifData, "Exif.Photo.ISOSpeedRatings"));
-            imageInfo.setDate(getValue(exifData, "Exif.Photo.DateTimeDigitized"));
 
-            QString temp = getValue(exifData, "Exif.CanonSi.0x000c");
 
-            if ( temp == ImageInfo::NOT_AVAILABLE ) {
+            QString tempIso = getValue(exifData, "Exif.Photo.ISOSpeedRatings");
 
-                imageInfo.setTemperature(ImageInfo::UNDEFINED);
+            if ( tempIso == ImageInfo::NOT_AVAILABLE ) {
+
+                imageInfo.setIso(ImageInfo::UNDEFINED);
+                return false;
 
             } else {
 
-                imageInfo.setTemperature(temp.toInt() -128);
+                imageInfo.setIso(tempIso.toInt());
             }
+
+            imageInfo.setDate(getValue(exifData, "Exif.Photo.DateTimeDigitized"));
+
+            QString tempTemp = getValue(exifData, "Exif.CanonSi.0x000c");
+
+            if ( tempTemp == ImageInfo::NOT_AVAILABLE ) {
+
+                imageInfo.setTemperature(ImageInfo::UNDEFINED);
+                return false;
+
+            } else {
+
+                imageInfo.setTemperature(tempTemp.toInt() -128);
+            }
+
+            imageInfo.setCameraSerial(getValue(exifData, "Exif.Photo.BodySerialNumber"));
 
         }
 
@@ -103,11 +120,11 @@ QString ExifReader::getValue(const Exiv2::ExifData &data, const QString tag)
     }
 }
 
-double ExifReader::formatExposure(QString expoString)
+int ExifReader::formatExposure(QString expoString)
 {
     if ( expoString.isEmpty() || ImageInfo::NOT_AVAILABLE == expoString ) {
 
-        return 0.0;
+        return 0;
     }
 
     double dRet = 0.0;
@@ -124,7 +141,9 @@ double ExifReader::formatExposure(QString expoString)
         dRet = expoString.toDouble();
     }
 
-    return dRet;
+
+
+    return qRound(dRet);
 
 }
 

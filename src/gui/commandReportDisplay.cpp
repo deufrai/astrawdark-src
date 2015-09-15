@@ -31,7 +31,7 @@ CommandReportDisplay::CommandReportDisplay(const AbstractCommand *command, QWidg
 {
     ui->setupUi(this);
 
-    ui->lblSerial->setText(QString::number(_command->getSerial()));
+    ui->lblSerial->setText(QString::number(_command->getSerial() +1));
     ui->lblDescription->setText(_command->getDescription());
     ui->grpReports->setLayout(new QVBoxLayout());
 
