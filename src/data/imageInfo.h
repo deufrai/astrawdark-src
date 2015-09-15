@@ -34,6 +34,17 @@ public:
      */
     ImageInfo(const QString path);
 
+    /**
+     * Default constructor;
+     */
+    ImageInfo();
+
+    /**
+     * Copy constructor
+     * @param info the reference ImageInfo
+     */
+    ImageInfo(const ImageInfo& info);
+
 protected:
     /** Image path */
     QString _path;

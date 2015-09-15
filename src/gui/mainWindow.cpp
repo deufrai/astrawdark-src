@@ -90,6 +90,11 @@ MainWindow::MainWindow(CommandManager *manager, QWidget *parent)
             SignalDispatcher::getInstance(),
             &SignalDispatcher::on_createDarkScanCommand);
 
+    connect(SignalDispatcher::getInstance(),
+            &SignalDispatcher::darkListModelChanged,
+            this,
+            &MainWindow::on_darkListModelChanged);
+
     ui->tabDarkDetailsWidget->setCurrentIndex(0);
     ui->tabMainWidget->setCurrentIndex(0);
 }
@@ -118,6 +123,7 @@ void MainWindow::on_actionQuit_triggered()
 
 void MainWindow::on_btnRescanDarks_clicked()
 {
+    ui->tabDarkDetailsWidget->setTabText(0, tr("Content"));
     emit scanDarkLibrary();
 }
 
@@ -146,8 +152,25 @@ void MainWindow::on_tblCommandView_doubleClicked(const QModelIndex &index)
     d->show();
 }
 
+void MainWindow::updateDarkContentCount()
+{
+
+    QString darkContentTabText = tr("Files");
+    int darkLibrarySize = DataStore::getInstance()->getDarkLibrarySize();
+    int darkModelSize = DataStore::getInstance()->getDarkModel()->rowCount();
+
+    if ( darkLibrarySize != darkModelSize ) {
+
+        darkContentTabText.append(" (Filtered)");
+    }
+
+    ui->tabDarkDetailsWidget->setTabText(0, darkContentTabText.append(tr(" : %1 darks").arg(darkModelSize)));
+}
+
 void MainWindow::on_treeDarkView_clicked(const QModelIndex &index)
 {
+    ui->btnDarkFilterClear->setEnabled(true);
+
     QModelIndex targetNode;
 
     if ( index.column() != 0 ) {
@@ -158,6 +181,21 @@ void MainWindow::on_treeDarkView_clicked(const QModelIndex &index)
 
         targetNode = index;
     }
+
+    DataStore::getInstance()->setDarkDisplayFilter(targetNode.data(Qt::UserRole).toString());
+}
+
+void MainWindow::on_btnDarkFilterClear_clicked()
+{
+    ui->treeDarkView->clearSelection();
+    ui->btnDarkFilterClear->setDisabled(true);
+    DataStore::getInstance()->setDarkDisplayFilter("");
+}
+
+void MainWindow::on_darkListModelChanged()
+{
+    updateDarkContentCount();
+    ui->tblDarkView->scrollToTop();
 }
 
 void MainWindow::on_darkSourcesChanged(const QStringList& sources)
@@ -167,13 +205,13 @@ void MainWindow::on_darkSourcesChanged(const QStringList& sources)
 
 void MainWindow::on_darkScanStart()
 {
-    ui->tabMainWidget->setTabText(0, tr("Dark Library (Scan in progress...)"));
+    ui->tabDarkDetailsWidget->setTabText(0, tr("Files : (Scan in progress...)"));
     ui->btnRescanDarks->setDisabled(true);
+    ui->btnDarkFilterClear->setDisabled(true);
 }
 
 void MainWindow::on_darkScanDone()
 {
-    ui->tabMainWidget->setTabText(0, tr("Dark Library (%1 darks)")
-                              .arg(DataStore::getInstance()->getDarkModel()->rowCount()));
+
     ui->btnRescanDarks->setEnabled(true);
 }

@@ -61,6 +61,8 @@ private:
     /** Our UI */
     Ui::MainWindow *ui;
 
+    void updateDarkContentCount();
+
 private slots:
     /** User wants to quit */
     void on_actionQuit_triggered();
@@ -93,6 +95,12 @@ private slots:
      * @param index the clicked view index
      */
     void on_treeDarkView_clicked(const QModelIndex & index);
+
+    /** user wants to clear the dark lib view filters */
+    void on_btnDarkFilterClear_clicked();
+
+    /** Dark list model changed */
+    void on_darkListModelChanged();
 
 public slots:
     /**

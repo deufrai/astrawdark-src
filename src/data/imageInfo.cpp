@@ -23,5 +23,37 @@ QString ImageInfo::NOT_AVAILABLE = "N/A";
 
 ImageInfo::ImageInfo(const QString path)
     : _path(path),
+      _make(NOT_AVAILABLE),
+      _model(NOT_AVAILABLE),
+      _cameraSerial(NOT_AVAILABLE),
+      _exposure(UNDEFINED),
+      _iso(UNDEFINED),
+      _date(NOT_AVAILABLE),
       _temperature(UNDEFINED)
 {}
+
+ImageInfo::ImageInfo()
+    : _path(NOT_AVAILABLE),
+      _make(NOT_AVAILABLE),
+      _model(NOT_AVAILABLE),
+      _cameraSerial(NOT_AVAILABLE),
+      _exposure(UNDEFINED),
+      _iso(UNDEFINED),
+      _date(NOT_AVAILABLE),
+      _temperature(UNDEFINED)
+{
+
+}
+
+ImageInfo::ImageInfo(const ImageInfo &info)
+    : _path(QString(info.getPath())),
+      _make(QString(info.getMake())),
+      _model(QString(info.getModel())),
+      _cameraSerial(QString(info.getCameraSerial())),
+      _exposure(info.getExposure()),
+      _iso(info.getIso()),
+      _date(QString(info.getDate())),
+      _temperature(info.getTemperature())
+{
+
+}
