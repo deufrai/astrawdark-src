@@ -81,9 +81,9 @@ void PlotManager::clearDarkTempEvoGraph()
 
 void PlotManager::clearDarkTempDistriGraph()
 {
-   if ( _darkTempDistriPlot->graphCount() > 0 ) {
+   if ( _darkTempDistriPlot->plottableCount() ) {
 
-       _darkTempDistriPlot->graph()->clearData();
+       _darkTempDistriPlot->plottable()->clearData();
        _darkTempDistriPlot->replot();
    }
 }
