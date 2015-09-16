@@ -244,12 +244,19 @@ void PrefDialog::accept()
         emit newDarkSources(_darkSources);
 
         hide();
-        if ( QMessageBox::Yes == QMessageBox::question(this,
-                                 tr("Dark library rescan needed"),
-                                 QString("<h3>")
-                                 .append(tr("Your dark frames sources have changed. "))
-                                 .append("</h3>")
-                                 .append(tr("Would you like to rescan your library now ?")))) {
+
+        QMessageBox messageBox(QMessageBox::Question,
+                               tr("Dark library rescan needed"),
+                               QString("<h3>")
+                               .append(tr("Your dark frames sources have changed. "))
+                               .append("</h3>")
+                               .append(tr("Would you like to rescan your library now ?")),
+                               QMessageBox::Yes | QMessageBox::No,
+                               this);
+        messageBox.setButtonText(QMessageBox::Yes, tr("Yes"));
+        messageBox.setButtonText(QMessageBox::No, tr("No"));
+
+        if ( QMessageBox::Yes == messageBox.exec() ) {
 
             emit createDarkScanCommand();
         }
