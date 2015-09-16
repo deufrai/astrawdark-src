@@ -93,7 +93,20 @@ void PlotManager::refreshDarkTempEvoGraph()
 {
     clearDarkTempEvoGraph();
 
-    QList<ImageInfo> data = DataStore::getInstance()->getFilteredDarks();
+    QList<ImageInfo> unsortedData = DataStore::getInstance()->getFilteredDarks();
+
+    // we sort darks by ascending file path
+    QMap<QString, ImageInfo> map;
+    foreach (ImageInfo info, unsortedData) {
+
+        map.insert(info.getPath(), info);
+    }
+
+    QList<ImageInfo> data;
+    foreach ( QString path, map.keys() ) {
+
+        data << map.value(path);
+    }
 
     QVector<double> x, y;
 
