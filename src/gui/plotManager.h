@@ -51,6 +51,8 @@ private:
     void clearDarkTempDistriGraph();
     void refreshDarkTempDistriGraph();
 
+    int roundUp(int numToRound, int multiple);
+
 signals:
 
 private slots:

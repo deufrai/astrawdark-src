@@ -34,6 +34,7 @@ PlotManager::PlotManager(QCustomPlot* darkTempPlot, QCustomPlot* darkTempDistriP
     _darkTempEvoPlot->xAxis->setAutoTickStep(false);
 
     _darkTempEvoPlot->yAxis->setLabel(tr("Sensor temperature in °C"));
+    _darkTempEvoPlot->yAxis->setAutoTickStep(false);
 
     _darkTempDistriPlot->addPlottable(new QCPBars(_darkTempDistriPlot->xAxis, _darkTempDistriPlot->yAxis));
     _darkTempDistriPlot->xAxis->setLabel(tr("Sensor temperature in C°"));
@@ -81,11 +82,11 @@ void PlotManager::clearDarkTempEvoGraph()
 
 void PlotManager::clearDarkTempDistriGraph()
 {
-   if ( _darkTempDistriPlot->plottableCount() ) {
+    if ( _darkTempDistriPlot->plottableCount() ) {
 
-       _darkTempDistriPlot->plottable()->clearData();
-       _darkTempDistriPlot->replot();
-   }
+        _darkTempDistriPlot->plottable()->clearData();
+        _darkTempDistriPlot->replot();
+    }
 }
 
 void PlotManager::refreshDarkTempEvoGraph()
@@ -115,6 +116,7 @@ void PlotManager::refreshDarkTempEvoGraph()
     // set X axis range's maximum to be the next even number after max X value
     _darkTempEvoPlot->xAxis->setRange(0, (data.count()/2)*2+2);
     _darkTempEvoPlot->yAxis->setRange(0, maxTemp + 1);
+    _darkTempEvoPlot->yAxis->setTickStep(roundUp(maxTemp / 10, 5));
 
     int xTickStep = data.count() / 20;
 
@@ -166,10 +168,24 @@ void PlotManager::refreshDarkTempDistriGraph()
     _darkTempDistriPlot->xAxis->setRange(minTemp - 1, maxTemp + 1);
     _darkTempDistriPlot->yAxis->setRange(0, maxCount + 1);
 
-    int yTickStep = maxCount / 20;
-    if ( yTickStep < 1 ) yTickStep = 1;
-
-    _darkTempDistriPlot->yAxis->setTickStep(yTickStep);
+    _darkTempDistriPlot->yAxis->setTickStep(roundUp(maxCount / 10, 5));
 
     _darkTempDistriPlot->replot();
+}
+
+int PlotManager::roundUp(int numToRound, int multiple)
+{
+
+    if(multiple == 0) return numToRound;
+
+    int remainder = numToRound % multiple;
+
+    if (numToRound != 0 && remainder == 0) return numToRound;
+
+    int nRet = numToRound + multiple - remainder;
+
+    if ( nRet < multiple ) nRet = 1;
+
+    return nRet;
+
 }
