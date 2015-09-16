@@ -130,7 +130,7 @@ void MainWindow::on_btnRescanDarks_clicked()
 
 void MainWindow::on_actionPrefs_triggered()
 {
-    PrefDialog().exec();
+    PrefDialog(this).exec();
 }
 
 void MainWindow::on_actionCommandLog_toggled(bool checked)

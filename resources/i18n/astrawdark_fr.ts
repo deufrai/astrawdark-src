@@ -358,12 +358,12 @@
         <translation>Température capteur en °C</translation>
     </message>
     <message>
-        <location filename="../../src/gui/plotManager.cpp" line="39"/>
+        <location filename="../../src/gui/plotManager.cpp" line="40"/>
         <source>Sensor temperature in C°</source>
         <translation>Température capteur en °C</translation>
     </message>
     <message>
-        <location filename="../../src/gui/plotManager.cpp" line="46"/>
+        <location filename="../../src/gui/plotManager.cpp" line="47"/>
         <source>Dark count</source>
         <translation>Nombre de darks</translation>
     </message>
@@ -447,7 +447,7 @@
         <location filename="../../src/gui/prefDialog.cpp" line="97"/>
         <location filename="../../src/gui/prefDialog.cpp" line="134"/>
         <source> of one of your existing sources.</source>
-        <translation>à l&apos;une des sources existantes.</translation>
+        <translation> à l&apos;une des sources existantes.</translation>
     </message>
     <message>
         <location filename="../../src/gui/prefDialog.cpp" line="100"/>
@@ -463,19 +463,29 @@
         <translation>Selectionnez un dossier de darks</translation>
     </message>
     <message>
-        <location filename="../../src/gui/prefDialog.cpp" line="248"/>
+        <location filename="../../src/gui/prefDialog.cpp" line="249"/>
         <source>Dark library rescan needed</source>
         <translation>Ré-analyse de la bibliothèque de darks requise</translation>
     </message>
     <message>
-        <location filename="../../src/gui/prefDialog.cpp" line="250"/>
+        <location filename="../../src/gui/prefDialog.cpp" line="251"/>
         <source>Your dark frames sources have changed. </source>
         <translation>Vos sources de darks ont changé.</translation>
     </message>
     <message>
-        <location filename="../../src/gui/prefDialog.cpp" line="252"/>
+        <location filename="../../src/gui/prefDialog.cpp" line="253"/>
         <source>Would you like to rescan your library now ?</source>
         <translation>Désirez-vous relancer une analyse de la bibliothèque de darks ?</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/prefDialog.cpp" line="256"/>
+        <source>Yes</source>
+        <translation>Oui</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/prefDialog.cpp" line="257"/>
+        <source>No</source>
+        <translation>Non</translation>
     </message>
 </context>
 <context>

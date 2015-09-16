@@ -35,6 +35,8 @@ class PlotManager : public QObject
 public:
     /**
      * Constructor
+     * @param darkTempPlot dark temperature evolution graph widget
+     * @param darkTempDistriPlot dark temperature distribution graph widget
      * @param parent Qt parent
      */
     explicit PlotManager(QCustomPlot* darkTempPlot, QCustomPlot* darkTempDistriPlot, QObject *parent = 0);
@@ -48,6 +50,8 @@ private:
 
     void clearDarkTempDistriGraph();
     void refreshDarkTempDistriGraph();
+
+    int roundUp(int numToRound, int multiple);
 
 signals:
 

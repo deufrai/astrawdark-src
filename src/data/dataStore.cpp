@@ -159,7 +159,7 @@ void DataStore::populateDarkListModel(QList<ImageInfo> darks)
 
     }
 
-    _darkListModel->sort(0);
+    _darkListModel->sort(4);
 
     emit darkListModelChanged();
 }
