@@ -22,13 +22,17 @@
 #include "data/imageInfo.h"
 #include "data/dataStore.h"
 #include "globals.h"
+#include "helpers/localeHelper.h"
 
 #include <QApplication>
 #include <QSettings>
+#include <QTranslator>
 
 #ifndef QT_NO_DEBUG
 #include <QDebug>
 #endif
+
+void installTranslator( QApplication& app, QString& filePrefix, QString& folderPath, QString locale );
 
 int main(int argc, char *argv[])
 {
@@ -40,6 +44,10 @@ int main(int argc, char *argv[])
     QSettings settings;
 
     qRegisterMetaType< QList<ImageInfo> >("QList<ImageInfo>");
+
+    QString appTransfilePrefix = "astrawdark_";
+    QString appTransFolderPath = ":/i18n";
+    installTranslator( a, appTransfilePrefix, appTransFolderPath, LocaleHelper::getLocale() );
 
     CommandManager* commandManager = new CommandManager();
     MainWindow w(commandManager);
@@ -68,4 +76,25 @@ int main(int argc, char *argv[])
     settings.sync();
 
     return nRet;
+}
+
+void installTranslator( QApplication& app, QString& filePrefix, QString& folderPath, QString locale ) {
+
+    QTranslator* pTranslator = new QTranslator();
+    bool isTransLoaded = pTranslator->load( filePrefix + locale, folderPath );
+
+    if( isTransLoaded ) {
+
+#ifndef QT_NO_DEBUG
+        qDebug() << "Translation file loaded successfully :" << filePrefix + locale;
+#endif
+
+        app.installTranslator( pTranslator );
+
+    } else {
+
+        qWarning( "Failed to load translation file : %s%s", filePrefix.toStdString().c_str(),
+                locale.toStdString().c_str() );
+    }
+
 }

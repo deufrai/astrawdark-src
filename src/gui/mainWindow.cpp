@@ -30,11 +30,10 @@
 #include <QDebug>
 #endif
 
-const QString MainWindow::LBL_DARKCOUNT_BASETEXT = tr("Displayed darks count");
-
 MainWindow::MainWindow(CommandManager *manager, QWidget *parent)
     : QMainWindow(parent),
       _commandManager(manager),
+      LBL_DARKCOUNT_BASETEXT(tr("Displayed darks count")),
       ui(new Ui::MainWindow)
 {
     ui->setupUi(this);

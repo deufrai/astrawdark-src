@@ -60,13 +60,15 @@ private:
     /** the command manager */
     CommandManager* _commandManager;
 
+    const QString LBL_DARKCOUNT_BASETEXT;
+
     /** Our UI */
     Ui::MainWindow *ui;
 
     /** update dark count indicator */
     void updateDarkContentCount();
 
-    static const QString LBL_DARKCOUNT_BASETEXT;
+
 
     PlotManager* _plotManager;
 
