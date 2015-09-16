@@ -11,6 +11,9 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = astrawdark
 TEMPLATE = app
 
+TRANSLATIONS = resources/i18n/astrawdark_fr.ts
+
+RESOURCES += resources/i18n.qrc
 
 SOURCES += src/main.cpp\
     src/globals.cpp \
@@ -30,7 +33,8 @@ SOURCES += src/main.cpp\
     src/commands/reports/commandReport.cpp \
     src/gui/commandReportDisplay.cpp \
     src/contrib/qCustomPlot/qcustomplot.cpp \
-    src/gui/plotManager.cpp
+    src/gui/plotManager.cpp \
+    src/helpers/localeHelper.cpp
 
 HEADERS  += \
     src/globals.h \
@@ -50,7 +54,8 @@ HEADERS  += \
     src/commands/reports/commandReport.h \
     src/gui/commandReportDisplay.h \
     src/contrib/qCustomPlot/qcustomplot.h \
-    src/gui/plotManager.h
+    src/gui/plotManager.h \
+    src/helpers/localeHelper.h
 
 FORMS    += \
     src/gui/forms/mainWindow.ui \
