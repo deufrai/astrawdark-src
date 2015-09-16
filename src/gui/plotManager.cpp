@@ -91,8 +91,6 @@ void PlotManager::clearDarkTempDistriGraph()
 
 void PlotManager::refreshDarkTempEvoGraph()
 {
-    clearDarkTempEvoGraph();
-
     QList<ImageInfo> unsortedData = DataStore::getInstance()->getFilteredDarks();
 
     // we sort darks by ascending file path
@@ -146,8 +144,6 @@ void PlotManager::refreshDarkTempEvoGraph()
 
 void PlotManager::refreshDarkTempDistriGraph()
 {
-    clearDarkTempDistriGraph();
-
     QList<ImageInfo> darks = DataStore::getInstance()->getFilteredDarks();
 
     QVector<double> x, y;
