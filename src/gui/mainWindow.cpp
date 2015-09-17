@@ -34,7 +34,9 @@ MainWindow::MainWindow(CommandManager *manager, QWidget *parent)
     : QMainWindow(parent),
       _commandManager(manager),
       LBL_DARKCOUNT_BASETEXT(tr("Displayed darks count")),
-      ui(new Ui::MainWindow)
+      ui(new Ui::MainWindow),
+      _dataStore(DataStore::getInstance())
+
 {
     ui->setupUi(this);
 
@@ -42,7 +44,7 @@ MainWindow::MainWindow(CommandManager *manager, QWidget *parent)
 
     setWindowTitle(Globals::APPLICATION_NAME);
 
-    ui->tblDarkView->setModel(DataStore::getInstance()->getDarkModel());
+    ui->tblDarkView->setModel(_dataStore->getDarkModel());
     QHeaderView* darkHv = ui->tblDarkView->horizontalHeader();
     darkHv->setSectionResizeMode(0, QHeaderView::Stretch);
     darkHv->setSectionResizeMode(1, QHeaderView::ResizeToContents);
@@ -53,7 +55,7 @@ MainWindow::MainWindow(CommandManager *manager, QWidget *parent)
     QHeaderView* darkVv = ui->tblDarkView->verticalHeader();
     darkVv->hide();
 
-    ui->tblCommandView->setModel(DataStore::getInstance()->getCommandListModel());
+    ui->tblCommandView->setModel(_dataStore->getCommandListModel());
     QHeaderView* commandHv = ui->tblCommandView->horizontalHeader();
     commandHv->setSectionResizeMode(0, QHeaderView::ResizeToContents);
     commandHv->setSectionResizeMode(1, QHeaderView::ResizeToContents);
@@ -65,12 +67,12 @@ MainWindow::MainWindow(CommandManager *manager, QWidget *parent)
     commandVv->setSectionResizeMode(QHeaderView::ResizeToContents);
     commandVv->hide();
 
-    ui->treeDarkView->setModel(DataStore::getInstance()->getDarkTreeModel());
+    ui->treeDarkView->setModel(_dataStore->getDarkTreeModel());
     QHeaderView* darkTreeHv = ui->treeDarkView->header();
     darkTreeHv->setSectionResizeMode(0, QHeaderView::Stretch);
     darkTreeHv->hide();
 
-    ui->btnRescanDarks->setEnabled( !DataStore::getInstance()->getDarkSources().empty() );
+    ui->btnRescanDarks->setEnabled( !_dataStore->getDarkSources().empty() );
 
     connect(SignalDispatcher::getInstance(),
             &SignalDispatcher::darkSourcesChanged,
@@ -100,7 +102,7 @@ MainWindow::MainWindow(CommandManager *manager, QWidget *parent)
     ui->tabDarkDetailsWidget->setCurrentIndex(0);
     ui->tabMainWidget->setCurrentIndex(0);
 
-    if ( 0 == DataStore::getInstance()->getDarkSources().count() ) {
+    if ( 0 == _dataStore->getDarkSources().count() ) {
 
 #ifndef QT_NO_DEBUG
         qDebug() << "No dark sources set yet";
@@ -182,8 +184,8 @@ void MainWindow::updateDarkContentCount()
 {
 
     QString darkContentTabText = LBL_DARKCOUNT_BASETEXT;
-    int darkLibrarySize = DataStore::getInstance()->getDarkLibrarySize();
-    int darkModelSize = DataStore::getInstance()->getDarkModel()->rowCount();
+    int darkLibrarySize = _dataStore->getDarkLibrarySize();
+    int darkModelSize = _dataStore->getDarkModel()->rowCount();
 
     if ( darkLibrarySize != darkModelSize ) {
 
@@ -210,14 +212,14 @@ void MainWindow::on_treeDarkView_clicked(const QModelIndex &index)
         targetNode = index;
     }
 
-    DataStore::getInstance()->setDarkDisplayFilter(targetNode.data(Qt::UserRole).toString());
+    _dataStore->setDarkDisplayFilter(targetNode.data(Qt::UserRole).toString());
 }
 
 void MainWindow::on_btnDarkFilterClear_clicked()
 {
     ui->treeDarkView->clearSelection();
     ui->btnDarkFilterClear->setDisabled(true);
-    DataStore::getInstance()->setDarkDisplayFilter("");
+    _dataStore->setDarkDisplayFilter("");
 }
 
 void MainWindow::on_darkListModelChanged()
@@ -229,6 +231,21 @@ void MainWindow::on_darkListModelChanged()
 void MainWindow::on_actionRescanDarksLibrary_triggered()
 {
     emit scanDarkLibrary();
+}
+
+void MainWindow::on_btnChooseLightsFolder_clicked()
+{
+    QString lightsFolder = QFileDialog::getExistingDirectory(this,
+                                                             tr("Please select lights folder"),
+                                                             QDir::homePath(),
+                                                             QFileDialog::ShowDirsOnly);
+
+    if ( ! lightsFolder.isEmpty() ) {
+
+        ui->lineCurrentLightsFolderPath->setText(lightsFolder);
+        _dataStore->setLightsFolder(lightsFolder);
+    }
+
 }
 
 void MainWindow::on_darkSourcesChanged(const QStringList& sources)

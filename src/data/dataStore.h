@@ -117,10 +117,22 @@ public:
     const QList<ImageInfo>& getScannedDarks() const {return _scannedDarks;}
 
     /**
-     * Get all scanned darks
+     * Get all filtered darks
      * @return a list of darks infos
      */
     const QList<ImageInfo>& getFilteredDarks() const {return _filteredDarks;}
+
+    /**
+     * Get lights folder
+     * @return lights folder
+     */
+    const QString& getLightsFolder() const {return _lightsFolder; }
+
+    /**
+     * Set lights folder
+     * @param lights lights folder
+     */
+    void setLightsFolder(const QString lights) { _lightsFolder = lights;}
 
 private:
     QStandardItemModel* _darkListModel;
@@ -132,6 +144,7 @@ private:
     bool                _rememberWindowGeometry;
     bool                _scanDarksOnStartup;
     static QString      _S_DarkDisplayFilter;
+    QString             _lightsFolder;
 
     /**
      * Update an already known command

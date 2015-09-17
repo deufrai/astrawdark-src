@@ -68,8 +68,10 @@ private:
     /** update dark count indicator */
     void updateDarkContentCount();
 
+    /** Our datastore */
+    DataStore* _dataStore;
 
-
+    /** Our plot manager */
     PlotManager* _plotManager;
 
 private slots:
@@ -113,6 +115,9 @@ private slots:
 
     /** user triggered darkRescan action */
     void on_actionRescanDarksLibrary_triggered();
+
+    /** User wants to change current lights folder */
+    void on_btnChooseLightsFolder_clicked();
 
 public slots:
     /**
