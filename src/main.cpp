@@ -28,6 +28,10 @@
 #include <QSettings>
 #include <QTranslator>
 
+#ifdef Q_WS_MAC
+#include <QLibraryInfo>
+#endif
+
 #ifndef QT_NO_DEBUG
 #include <QDebug>
 #endif
@@ -48,6 +52,26 @@ int main(int argc, char *argv[])
     QString appTransfilePrefix = "astrawdark_";
     QString appTransFolderPath = ":/i18n";
     installTranslator( a, appTransfilePrefix, appTransFolderPath, LocaleHelper::getLocale() );
+
+#ifdef Q_WS_MAC
+
+    /*
+     * on Mac :
+     *
+     * - some menu entries are merged into the "application menu" and their translations are
+     *   provided by a Qt specific translation file
+     *
+     * - no icons are shown next to menu items
+     */
+
+    // install translator for Qt itself
+    QString qtTransfilePrefix= "qt_";
+    QString qtTransFolderPath = QLibraryInfo::location(QLibraryInfo::TranslationsPath);
+    installTranslator(application, qtTransfilePrefix, qtTransFolderPath, locale);
+
+    // Don't show icons for menu items on Mac
+    application.setAttribute(Qt::AA_DontShowIconsInMenus);
+#endif
 
     CommandManager* commandManager = new CommandManager();
     MainWindow w(commandManager);
