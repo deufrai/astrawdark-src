@@ -111,6 +111,9 @@ private slots:
     /** Dark list model changed */
     void on_darkListModelChanged();
 
+    /** user triggered darkRescan action */
+    void on_actionRescanDarksLibrary_triggered();
+
 public slots:
     /**
      * Dark sources have changed

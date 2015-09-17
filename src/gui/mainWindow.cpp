@@ -201,6 +201,11 @@ void MainWindow::on_darkListModelChanged()
     ui->tblDarkView->scrollToTop();
 }
 
+void MainWindow::on_actionRescanDarksLibrary_triggered()
+{
+    emit scanDarkLibrary();
+}
+
 void MainWindow::on_darkSourcesChanged(const QStringList& sources)
 {
     ui->btnRescanDarks->setEnabled( !sources.empty() );
@@ -211,10 +216,12 @@ void MainWindow::on_darkScanStart()
     ui->lblDarkCount->setText(LBL_DARKCOUNT_BASETEXT + tr(" : Scan in progress..."));
     ui->btnRescanDarks->setDisabled(true);
     ui->btnDarkFilterClear->setDisabled(true);
+    ui->actionRescanDarksLibrary->setDisabled(true);
 }
 
 void MainWindow::on_darkScanDone()
 {
 
     ui->btnRescanDarks->setEnabled(true);
+    ui->actionRescanDarksLibrary->setEnabled(true);
 }
