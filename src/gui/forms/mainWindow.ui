@@ -201,6 +201,7 @@
     <property name="title">
      <string>&amp;File</string>
     </property>
+    <addaction name="actionRescanDarksLibrary"/>
     <addaction name="actionQuit"/>
    </widget>
    <widget class="QMenu" name="menu_Edit">
@@ -340,6 +341,11 @@
     <string>&amp;About AstRawDark...</string>
    </property>
   </action>
+  <action name="actionRescanDarksLibrary">
+   <property name="text">
+    <string>Rescan &amp;darks library</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
@@ -351,22 +357,5 @@
   </customwidget>
  </customwidgets>
  <resources/>
- <connections>
-  <connection>
-   <sender>dckCommands</sender>
-   <signal>visibilityChanged(bool)</signal>
-   <receiver>actionCommandLog</receiver>
-   <slot>setChecked(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>334</x>
-     <y>385</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>
