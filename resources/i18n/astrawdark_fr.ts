@@ -330,22 +330,52 @@
         <translation>Analyse librairie de &amp;darks</translation>
     </message>
     <message>
+        <location filename="../../src/gui/forms/mainWindow.ui" line="349"/>
+        <source>Ctrl+D</source>
+        <translation>Ctrl+D</translation>
+    </message>
+    <message>
         <location filename="../../src/gui/mainWindow.cpp" line="36"/>
         <source>Displayed darks count</source>
         <translation>Nombre de darks affichés</translation>
     </message>
     <message>
-        <location filename="../../src/gui/mainWindow.cpp" line="176"/>
+        <location filename="../../src/gui/mainWindow.cpp" line="109"/>
+        <source>AstRawDark : No dark sources set</source>
+        <translation>AstRawDark : Aucune source de darks connue</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/mainWindow.cpp" line="111"/>
+        <source>Your darks library sources are not configured</source>
+        <translation>Vos sources de darks ne sont pas configurées</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/mainWindow.cpp" line="113"/>
+        <source>Would you like to review your darks library settings ?</source>
+        <translation>Désirez-vous accéder à la configuration de votre librairie de darks ?</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/mainWindow.cpp" line="116"/>
+        <source>Yes</source>
+        <translation>Oui</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/mainWindow.cpp" line="117"/>
+        <source>No</source>
+        <translation>Non</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/mainWindow.cpp" line="190"/>
         <source> (Filtered)</source>
         <translation> (Filtré)</translation>
     </message>
     <message>
-        <location filename="../../src/gui/mainWindow.cpp" line="179"/>
+        <location filename="../../src/gui/mainWindow.cpp" line="193"/>
         <source> : %1 / %2</source>
         <translation> : %1 / %2</translation>
     </message>
     <message>
-        <location filename="../../src/gui/mainWindow.cpp" line="227"/>
+        <location filename="../../src/gui/mainWindow.cpp" line="241"/>
         <source> : Scan in progress...</source>
         <translation> : Analyse en cours...</translation>
     </message>
