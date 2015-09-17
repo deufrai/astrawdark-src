@@ -99,6 +99,31 @@ MainWindow::MainWindow(CommandManager *manager, QWidget *parent)
 
     ui->tabDarkDetailsWidget->setCurrentIndex(0);
     ui->tabMainWidget->setCurrentIndex(0);
+
+    if ( 0 == DataStore::getInstance()->getDarkSources().count() ) {
+
+#ifndef QT_NO_DEBUG
+        qDebug() << "No dark sources set yet";
+
+        QMessageBox messageBox(QMessageBox::Question,
+                               tr("AstRawDark : No dark sources set"),
+                               QString("<h3>")
+                               .append(tr("Your darks library sources are not configured"))
+                               .append("</h3>")
+                               .append(tr("Would you like to review your darks library settings ?")),
+                               QMessageBox::Yes | QMessageBox::No,
+                               this);
+        messageBox.setButtonText(QMessageBox::Yes, tr("Yes"));
+        messageBox.setButtonText(QMessageBox::No, tr("No"));
+
+        if ( QMessageBox::Yes == messageBox.exec() ) {
+
+            PrefDialog(this).exec();
+        }
+
+
+#endif
+    }
 }
 
 MainWindow::~MainWindow()
