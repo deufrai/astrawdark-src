@@ -235,9 +235,13 @@ void MainWindow::on_actionRescanDarksLibrary_triggered()
 
 void MainWindow::on_btnChooseLightsFolder_clicked()
 {
+    QString startFolder = ui->lineCurrentLightsFolderPath->text();
+
+    if ( startFolder.isEmpty() || ! QDir(startFolder).exists() ) startFolder = QDir::homePath();
+
     QString lightsFolder = QFileDialog::getExistingDirectory(this,
                                                              tr("Please select lights folder"),
-                                                             QDir::homePath(),
+                                                             startFolder,
                                                              QFileDialog::ShowDirsOnly);
 
     if ( ! lightsFolder.isEmpty() ) {

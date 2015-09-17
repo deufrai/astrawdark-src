@@ -192,9 +192,9 @@
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_3">
           <item>
-           <widget class="QLabel" name="label">
+           <widget class="QPushButton" name="btnChooseLightsFolder">
             <property name="text">
-             <string>Current lights folder :</string>
+             <string>Open lights folder</string>
             </property>
            </widget>
           </item>
@@ -202,13 +202,6 @@
            <widget class="QLineEdit" name="lineCurrentLightsFolderPath">
             <property name="readOnly">
              <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="btnChooseLightsFolder">
-            <property name="text">
-             <string>...</string>
             </property>
            </widget>
           </item>
