@@ -245,82 +245,82 @@
         <translation>Détails</translation>
     </message>
     <message>
-        <location filename="../../src/gui/forms/mainWindow.ui" line="104"/>
+        <location filename="../../src/gui/forms/mainWindow.ui" line="107"/>
         <source>T° Evolution</source>
         <translation>Evolution T°</translation>
     </message>
     <message>
-        <location filename="../../src/gui/forms/mainWindow.ui" line="114"/>
+        <location filename="../../src/gui/forms/mainWindow.ui" line="117"/>
         <source>T° Distribution</source>
         <translation>Distribution T°</translation>
     </message>
     <message>
-        <location filename="../../src/gui/forms/mainWindow.ui" line="127"/>
+        <location filename="../../src/gui/forms/mainWindow.ui" line="130"/>
         <source>Dark count : </source>
         <translation>Nombre de darks :</translation>
     </message>
     <message>
-        <location filename="../../src/gui/forms/mainWindow.ui" line="144"/>
+        <location filename="../../src/gui/forms/mainWindow.ui" line="147"/>
         <source>Rescan dark library</source>
         <translation>Ré-analyser la bibliothèque</translation>
     </message>
     <message>
-        <location filename="../../src/gui/forms/mainWindow.ui" line="180"/>
+        <location filename="../../src/gui/forms/mainWindow.ui" line="183"/>
         <source>&amp;File</source>
         <translation>&amp;Fichier</translation>
     </message>
     <message>
-        <location filename="../../src/gui/forms/mainWindow.ui" line="186"/>
+        <location filename="../../src/gui/forms/mainWindow.ui" line="189"/>
         <source>&amp;Edit</source>
         <translation>&amp;Edition</translation>
     </message>
     <message>
-        <location filename="../../src/gui/forms/mainWindow.ui" line="192"/>
+        <location filename="../../src/gui/forms/mainWindow.ui" line="195"/>
         <source>&amp;View</source>
         <translation>A&amp;ffichage</translation>
     </message>
     <message>
-        <location filename="../../src/gui/forms/mainWindow.ui" line="198"/>
+        <location filename="../../src/gui/forms/mainWindow.ui" line="201"/>
         <source>&amp;Help</source>
         <translation>&amp;Aide</translation>
     </message>
     <message>
-        <location filename="../../src/gui/forms/mainWindow.ui" line="228"/>
+        <location filename="../../src/gui/forms/mainWindow.ui" line="231"/>
         <source>Command log</source>
         <translation>Journal des commandes</translation>
     </message>
     <message>
-        <location filename="../../src/gui/forms/mainWindow.ui" line="288"/>
+        <location filename="../../src/gui/forms/mainWindow.ui" line="286"/>
         <source>&amp;Quit</source>
         <translation>&amp;Quitter</translation>
     </message>
     <message>
-        <location filename="../../src/gui/forms/mainWindow.ui" line="291"/>
+        <location filename="../../src/gui/forms/mainWindow.ui" line="289"/>
         <source>Ctrl+Q</source>
         <translation>Ctrl+Q</translation>
     </message>
     <message>
-        <location filename="../../src/gui/forms/mainWindow.ui" line="296"/>
+        <location filename="../../src/gui/forms/mainWindow.ui" line="297"/>
         <source>&amp;Preferences</source>
         <translation>&amp;Préférences</translation>
     </message>
     <message>
-        <location filename="../../src/gui/forms/mainWindow.ui" line="299"/>
+        <location filename="../../src/gui/forms/mainWindow.ui" line="300"/>
         <source>Ctrl+P</source>
         <translation>Ctrl+P</translation>
     </message>
     <message>
-        <location filename="../../src/gui/forms/mainWindow.ui" line="310"/>
+        <location filename="../../src/gui/forms/mainWindow.ui" line="314"/>
         <source>Command &amp;log</source>
         <translation>Journa&amp;l des commandes</translation>
     </message>
     <message>
-        <location filename="../../src/gui/forms/mainWindow.ui" line="313"/>
+        <location filename="../../src/gui/forms/mainWindow.ui" line="317"/>
         <source>Ctrl+L</source>
         <translation>Ctrl+L</translation>
     </message>
     <message>
-        <location filename="../../src/gui/forms/mainWindow.ui" line="318"/>
+        <location filename="../../src/gui/forms/mainWindow.ui" line="322"/>
         <source>&amp;About AstRawDark...</source>
         <translation>&amp;A propos d&apos;AstRawDark...</translation>
     </message>
@@ -532,11 +532,16 @@
     </message>
     <message>
         <location filename="../../src/commands/scanDarkSourceCommand.cpp" line="137"/>
-        <source>Found 0 raw file</source>
-        <translation>Aucun fichier RAW trouvé</translation>
+        <source>Looking for RAW files...</source>
+        <translation>Recherche de fichiers RAW...</translation>
     </message>
     <message>
-        <location filename="../../src/commands/scanDarkSourceCommand.cpp" line="169"/>
+        <location filename="../../src/commands/scanDarkSourceCommand.cpp" line="144"/>
+        <source>%1 RAW file(s) found</source>
+        <translation>%1 fichier(s) RAW trouvé(s)</translation>
+    </message>
+    <message>
+        <location filename="../../src/commands/scanDarkSourceCommand.cpp" line="172"/>
         <source>Scanned file %1 / %2</source>
         <translation>Fichier %1 / %2 analysé</translation>
     </message>
