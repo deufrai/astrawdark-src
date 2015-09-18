@@ -15,7 +15,7 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="1" column="0">
+    <item row="0" column="0">
      <widget class="QTabWidget" name="tabMainWidget">
       <property name="currentIndex">
        <number>0</number>
@@ -139,31 +139,9 @@
         <item row="2" column="0">
          <layout class="QHBoxLayout" name="horizontalLayout">
           <item>
-           <spacer name="horizontalSpacer">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
            <widget class="QPushButton" name="btnRescanDarks">
             <property name="enabled">
              <bool>true</bool>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>0</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">padding: .5em;</string>
             </property>
             <property name="text">
              <string>Rescan dark library</string>
@@ -171,7 +149,7 @@
            </widget>
           </item>
           <item>
-           <spacer name="horizontalSpacer_2">
+           <spacer name="horizontalSpacer">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
@@ -204,7 +182,6 @@
     <property name="title">
      <string>&amp;File</string>
     </property>
-    <addaction name="actionRescanDarksLibrary"/>
     <addaction name="actionQuit"/>
    </widget>
    <widget class="QMenu" name="menu_Edit">
@@ -233,14 +210,14 @@
   <widget class="QStatusBar" name="statusBar"/>
   <widget class="QDockWidget" name="dckCommands">
    <property name="sizePolicy">
-    <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+    <sizepolicy hsizetype="Preferred" vsizetype="Ignored">
      <horstretch>0</horstretch>
      <verstretch>0</verstretch>
     </sizepolicy>
    </property>
    <property name="minimumSize">
     <size>
-     <width>88</width>
+     <width>102</width>
      <height>120</height>
     </size>
    </property>
@@ -258,16 +235,22 @@
    </attribute>
    <widget class="QWidget" name="dckCommandWidgetContents">
     <property name="sizePolicy">
-     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+     <sizepolicy hsizetype="Preferred" vsizetype="Ignored">
       <horstretch>0</horstretch>
       <verstretch>0</verstretch>
      </sizepolicy>
     </property>
-    <layout class="QVBoxLayout" name="verticalLayout_2">
+    <property name="minimumSize">
+     <size>
+      <width>0</width>
+      <height>101</height>
+     </size>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout">
      <item>
       <widget class="QTableView" name="tblCommandView">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+        <sizepolicy hsizetype="Expanding" vsizetype="Ignored">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
@@ -275,7 +258,7 @@
        <property name="minimumSize">
         <size>
          <width>0</width>
-         <height>0</height>
+         <height>100</height>
         </size>
        </property>
        <property name="maximumSize">
@@ -346,14 +329,6 @@
    </property>
    <property name="menuRole">
     <enum>QAction::AboutRole</enum>
-   </property>
-  </action>
-  <action name="actionRescanDarksLibrary">
-   <property name="text">
-    <string>Rescan &amp;darks library</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+D</string>
    </property>
   </action>
  </widget>
