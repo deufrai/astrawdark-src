@@ -240,8 +240,8 @@
    </property>
    <property name="minimumSize">
     <size>
-     <width>102</width>
-     <height>124</height>
+     <width>88</width>
+     <height>120</height>
     </size>
    </property>
    <property name="baseSize">
@@ -375,8 +375,8 @@
    <slot>setChecked(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>443</x>
-     <y>583</y>
+     <x>334</x>
+     <y>385</y>
     </hint>
     <hint type="destinationlabel">
      <x>-1</x>
