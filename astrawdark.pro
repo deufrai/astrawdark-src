@@ -15,6 +15,8 @@ TEMPLATE = app
 
 TRANSLATIONS = resources/i18n/astrawdark_fr.ts
 
+RC_ICONS = resources/pix/appicon.ico
+
 RESOURCES += resources/i18n.qrc \
     resources/pixmaps.qrc
 
