@@ -182,6 +182,7 @@
     <property name="title">
      <string>&amp;File</string>
     </property>
+    <addaction name="actionRescanDarksLibrary"/>
     <addaction name="actionQuit"/>
    </widget>
    <widget class="QMenu" name="menu_Edit">
@@ -329,6 +330,14 @@
    </property>
    <property name="menuRole">
     <enum>QAction::AboutRole</enum>
+   </property>
+  </action>
+  <action name="actionRescanDarksLibrary">
+   <property name="text">
+    <string>Rescan &amp;darks library</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+D</string>
    </property>
   </action>
  </widget>
