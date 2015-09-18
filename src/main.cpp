@@ -76,10 +76,16 @@ int main(int argc, char *argv[])
     CommandManager* commandManager = new CommandManager();
     MainWindow w(commandManager);
 
-    if ( settings.contains(Globals::SETTINGKEY_WINDOW_GEOMETRY) &&
-         DataStore::getInstance()->getRememberWindowGeometry() ) {
+    if ( DataStore::getInstance()->getRememberWindowGeometry() &&
+         settings.contains(Globals::SETTINGKEY_WINDOW_GEOMETRY) ) {
 
         w.setGeometry(settings.value(Globals::SETTINGKEY_WINDOW_GEOMETRY).toRect());
+
+        if ( settings.value(Globals::SETTINGKEY_WINDOW_MAXIMIZED).toBool() ) {
+
+            w.setWindowState( w.windowState() | Qt::WindowMaximized );
+        }
+
     }
 
 
@@ -95,6 +101,7 @@ int main(int argc, char *argv[])
     if ( DataStore::getInstance()->getRememberWindowGeometry() ) {
 
         settings.setValue(Globals::SETTINGKEY_WINDOW_GEOMETRY, w.geometry());
+        settings.setValue(Globals::SETTINGKEY_WINDOW_MAXIMIZED, Qt::WindowMaximized == w.windowState());
     }
 
     settings.sync();
