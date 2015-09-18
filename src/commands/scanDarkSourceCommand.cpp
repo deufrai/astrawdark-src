@@ -137,10 +137,11 @@ void ScanDarkSourceCommand::do_processing()
             _progressMessage = tr("Looking for RAW files...");
             emit statusChanged(this);
 
+            int found=0;
             while (it.hasNext()) {
 
                 imagePaths << it.next();
-                _progressMessage = tr("%1 RAW file(s) found");
+                _progressMessage = tr("%1 RAW file(s) found").arg(++found);
                 emit statusChanged(this);
             }
         }
