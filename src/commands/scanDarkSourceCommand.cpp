@@ -134,12 +134,14 @@ void ScanDarkSourceCommand::do_processing()
                             QDir::NoDotAndDotDot | QDir::Files,
                             QDirIterator::Subdirectories);
 
-            _progressMessage = tr("Found 0 raw file");
+            _progressMessage = tr("Looking for RAW files...");
             emit statusChanged(this);
 
             while (it.hasNext()) {
 
                 imagePaths << it.next();
+                _progressMessage = tr("%1 RAW file(s) found");
+                emit statusChanged(this);
             }
         }
 
