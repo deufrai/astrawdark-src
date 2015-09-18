@@ -28,7 +28,7 @@
 #include <QSettings>
 #include <QTranslator>
 
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
 #include <QLibraryInfo>
 #endif
 
@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
     QString appTransFolderPath = ":/i18n";
     installTranslator( a, appTransfilePrefix, appTransFolderPath, LocaleHelper::getLocale() );
 
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
 
     /*
      * on Mac :
@@ -67,10 +67,10 @@ int main(int argc, char *argv[])
     // install translator for Qt itself
     QString qtTransfilePrefix= "qt_";
     QString qtTransFolderPath = QLibraryInfo::location(QLibraryInfo::TranslationsPath);
-    installTranslator(application, qtTransfilePrefix, qtTransFolderPath, locale);
+    installTranslator(a, qtTransfilePrefix, qtTransFolderPath, LocaleHelper::getLocale());
 
     // Don't show icons for menu items on Mac
-    application.setAttribute(Qt::AA_DontShowIconsInMenus);
+    a.setAttribute(Qt::AA_DontShowIconsInMenus);
 #endif
 
     CommandManager* commandManager = new CommandManager();
