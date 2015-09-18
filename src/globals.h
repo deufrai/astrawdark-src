@@ -40,6 +40,8 @@ public:
     static const QString SETTINGKEY_DARK_SOURCES;
     /** Key for window geometry */
     static const QString SETTINGKEY_WINDOW_GEOMETRY;
+    /** Key for window maximized status */
+    static const QString SETTINGKEY_WINDOW_MAXIMIZED;
     /** Key for 'remember window size & position' feature */
     static const QString SETTINGKEY_WINDOW_GEOMETRY_REMEMBER;
     /** Key for 'scan darks on starup' flag */
