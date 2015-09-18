@@ -95,6 +95,9 @@
                    <property name="selectionBehavior">
                     <enum>QAbstractItemView::SelectRows</enum>
                    </property>
+                   <property name="textElideMode">
+                    <enum>Qt::ElideMiddle</enum>
+                   </property>
                   </widget>
                  </item>
                 </layout>
@@ -319,11 +322,6 @@
          <height>16777215</height>
         </size>
        </property>
-       <property name="font">
-        <font>
-         <pointsize>8</pointsize>
-        </font>
-       </property>
        <property name="editTriggers">
         <set>QAbstractItemView::NoEditTriggers</set>
        </property>
@@ -351,6 +349,9 @@
    <property name="shortcut">
     <string>Ctrl+Q</string>
    </property>
+   <property name="menuRole">
+    <enum>QAction::QuitRole</enum>
+   </property>
   </action>
   <action name="actionPrefs">
    <property name="text">
@@ -358,6 +359,9 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+P</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::PreferencesRole</enum>
    </property>
   </action>
   <action name="actionCommandLog">
@@ -377,6 +381,9 @@
   <action name="actionAbout">
    <property name="text">
     <string>&amp;About AstRawDark...</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::AboutRole</enum>
    </property>
   </action>
   <action name="actionRescanDarksLibrary">
@@ -406,8 +413,8 @@
    <slot>setChecked(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>443</x>
-     <y>583</y>
+     <x>334</x>
+     <y>385</y>
     </hint>
     <hint type="destinationlabel">
      <x>-1</x>

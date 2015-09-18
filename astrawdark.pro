@@ -8,6 +8,8 @@ QT       += core gui concurrent printsupport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
+macx:INCLUDEPATH += /usr/local/include
+
 TARGET = astrawdark
 TEMPLATE = app
 
