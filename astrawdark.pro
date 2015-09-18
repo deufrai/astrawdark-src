@@ -15,7 +15,8 @@ TEMPLATE = app
 
 TRANSLATIONS = resources/i18n/astrawdark_fr.ts
 
-RESOURCES += resources/i18n.qrc
+RESOURCES += resources/i18n.qrc \
+    resources/pixmaps.qrc
 
 SOURCES += src/main.cpp\
     src/globals.cpp \
