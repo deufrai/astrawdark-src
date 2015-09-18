@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="../../../resources/pixmaps.qrc">
+    <normaloff>:/icons/pix/appicon.png</normaloff>:/icons/pix/appicon.png</iconset>
+  </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
@@ -350,7 +354,9 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="../../../resources/pixmaps.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>dckCommands</sender>
