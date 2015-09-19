@@ -85,8 +85,7 @@ RCC_DIR = tmp
 linux-* {
 
     BINSRC = ./$$TARGET
-#    BINDEST = /usr/bin/
 
-    binary.path = /usr/bin
-    INSTALLS += binary
+    target.path = /usr/bin
+    INSTALLS += target
 }
