@@ -571,7 +571,13 @@
         <translation>Aucun fichier RAW trouvé</translation>
     </message>
     <message>
-        <location filename="../../src/commands/scanDarkSourceCommand.cpp" line="169"/>
+        <location filename="../../src/commands/scanDarkSourceCommand.cpp" line="87"/>
+        <location filename="../../src/commands/scanDarkSourceCommand.cpp" line="93"/>
+        <source>%1 RAW file(s) found</source>
+        <translation>%1 fichier(s) RAW trouvé(s)</translation>
+    </message>
+    <message>
+        <location filename="../../src/commands/scanDarkSourceCommand.cpp" line="119"/>
         <source>Scanned file %1 / %2</source>
         <translation>Fichier %1 / %2 analysé</translation>
     </message>
