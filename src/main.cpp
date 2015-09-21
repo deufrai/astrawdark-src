@@ -28,6 +28,10 @@
 #include <QSettings>
 #include <QTranslator>
 
+#ifdef Q_OS_MAC
+#include <QLibraryInfo>
+#endif
+
 #ifndef QT_NO_DEBUG
 #include <QDebug>
 #endif
@@ -49,13 +53,39 @@ int main(int argc, char *argv[])
     QString appTransFolderPath = ":/i18n";
     installTranslator( a, appTransfilePrefix, appTransFolderPath, LocaleHelper::getLocale() );
 
+#ifdef Q_OS_MAC
+
+    /*
+     * on Mac :
+     *
+     * - some menu entries are merged into the "application menu" and their translations are
+     *   provided by a Qt specific translation file
+     *
+     * - no icons are shown next to menu items
+     */
+
+    // install translator for Qt itself
+    QString qtTransfilePrefix= "qt_";
+    QString qtTransFolderPath = QLibraryInfo::location(QLibraryInfo::TranslationsPath);
+    installTranslator(a, qtTransfilePrefix, qtTransFolderPath, LocaleHelper::getLocale());
+
+    // Don't show icons for menu items on Mac
+    a.setAttribute(Qt::AA_DontShowIconsInMenus);
+#endif
+
     CommandManager* commandManager = new CommandManager();
     MainWindow w(commandManager);
 
-    if ( settings.contains(Globals::SETTINGKEY_WINDOW_GEOMETRY) &&
-         DataStore::getInstance()->getRememberWindowGeometry() ) {
+    if ( DataStore::getInstance()->getRememberWindowGeometry() &&
+         settings.contains(Globals::SETTINGKEY_WINDOW_GEOMETRY) ) {
 
         w.setGeometry(settings.value(Globals::SETTINGKEY_WINDOW_GEOMETRY).toRect());
+
+        if ( settings.value(Globals::SETTINGKEY_WINDOW_MAXIMIZED).toBool() ) {
+
+            w.setWindowState( w.windowState() | Qt::WindowMaximized );
+        }
+
     }
 
 
@@ -71,6 +101,7 @@ int main(int argc, char *argv[])
     if ( DataStore::getInstance()->getRememberWindowGeometry() ) {
 
         settings.setValue(Globals::SETTINGKEY_WINDOW_GEOMETRY, w.geometry());
+        settings.setValue(Globals::SETTINGKEY_WINDOW_MAXIMIZED, Qt::WindowMaximized == w.windowState());
     }
 
     settings.sync();

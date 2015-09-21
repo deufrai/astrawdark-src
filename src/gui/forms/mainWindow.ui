@@ -13,9 +13,13 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="../../../resources/pixmaps.qrc">
+    <normaloff>:/icons/pix/appicon.png</normaloff>:/icons/pix/appicon.png</iconset>
+  </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="1" column="0">
+    <item row="0" column="0">
      <widget class="QTabWidget" name="tabMainWidget">
       <property name="currentIndex">
        <number>0</number>
@@ -94,6 +98,9 @@
                    </property>
                    <property name="selectionBehavior">
                     <enum>QAbstractItemView::SelectRows</enum>
+                   </property>
+                   <property name="textElideMode">
+                    <enum>Qt::ElideMiddle</enum>
                    </property>
                   </widget>
                  </item>
@@ -207,14 +214,14 @@
   <widget class="QStatusBar" name="statusBar"/>
   <widget class="QDockWidget" name="dckCommands">
    <property name="sizePolicy">
-    <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+    <sizepolicy hsizetype="Preferred" vsizetype="Ignored">
      <horstretch>0</horstretch>
      <verstretch>0</verstretch>
     </sizepolicy>
    </property>
    <property name="minimumSize">
     <size>
-     <width>88</width>
+     <width>102</width>
      <height>120</height>
     </size>
    </property>
@@ -232,16 +239,22 @@
    </attribute>
    <widget class="QWidget" name="dckCommandWidgetContents">
     <property name="sizePolicy">
-     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+     <sizepolicy hsizetype="Preferred" vsizetype="Ignored">
       <horstretch>0</horstretch>
       <verstretch>0</verstretch>
      </sizepolicy>
     </property>
-    <layout class="QVBoxLayout" name="verticalLayout_2">
+    <property name="minimumSize">
+     <size>
+      <width>0</width>
+      <height>101</height>
+     </size>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout">
      <item>
       <widget class="QTableView" name="tblCommandView">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+        <sizepolicy hsizetype="Expanding" vsizetype="Ignored">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
@@ -249,7 +262,7 @@
        <property name="minimumSize">
         <size>
          <width>0</width>
-         <height>0</height>
+         <height>100</height>
         </size>
        </property>
        <property name="maximumSize">
@@ -257,11 +270,6 @@
          <width>16777215</width>
          <height>16777215</height>
         </size>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>8</pointsize>
-        </font>
        </property>
        <property name="editTriggers">
         <set>QAbstractItemView::NoEditTriggers</set>
@@ -290,6 +298,9 @@
    <property name="shortcut">
     <string>Ctrl+Q</string>
    </property>
+   <property name="menuRole">
+    <enum>QAction::QuitRole</enum>
+   </property>
   </action>
   <action name="actionPrefs">
    <property name="text">
@@ -297,6 +308,9 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+P</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::PreferencesRole</enum>
    </property>
   </action>
   <action name="actionCommandLog">
@@ -317,6 +331,9 @@
    <property name="text">
     <string>&amp;About AstRawDark...</string>
    </property>
+   <property name="menuRole">
+    <enum>QAction::AboutRole</enum>
+   </property>
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
@@ -328,7 +345,9 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="../../../resources/pixmaps.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>dckCommands</sender>

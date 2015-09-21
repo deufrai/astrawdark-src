@@ -8,12 +8,18 @@ QT       += core gui concurrent printsupport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
+macx:INCLUDEPATH += /usr/local/include
+
 TARGET = astrawdark
 TEMPLATE = app
 
 TRANSLATIONS = resources/i18n/astrawdark_fr.ts
 
-RESOURCES += resources/i18n.qrc
+RC_ICONS = resources/pix/appicon.ico
+ICON = resources/pix/appicon.icns
+
+RESOURCES += resources/i18n.qrc \
+    resources/pixmaps.qrc
 
 SOURCES += src/main.cpp\
     src/globals.cpp \
@@ -69,3 +75,8 @@ DISTFILES += \
     doc/README \
     Doxyfile \
     README
+
+UI_DIR = tmp
+MOC_DIR = tmp
+OBJECTS_DIR = tmp
+RCC_DIR = tmp
