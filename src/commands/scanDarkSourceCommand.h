@@ -20,13 +20,12 @@
 #ifndef SCANDARKSOURCE_H
 #define SCANDARKSOURCE_H
 
-#include "abstractCommand.h"
-#include "../data/imageInfo.h"
+#include "abstractScanCommand.h"
 
 /**
  * @brief Command that fetches all dark frames metadata
  */
-class ScanDarkSourceCommand : public AbstractCommand
+class ScanDarkSourceCommand : public AbstractScanCommand
 {
     Q_OBJECT
 public:
@@ -46,24 +45,18 @@ protected:
     virtual void do_processing();
 
 private:
-    /** Dark source folder paths */
-    const QStringList& _sources;
-
     /** Paths of missing dark source folders */
     QStringList      _missingDirsPaths;
-    /** Paths of invalid files */
-    QStringList      _badFilesPaths;
-    /** Paths of short exposure files */
-    QStringList      _shortFilesPaths;
 
+    /** check for scan errors */
     void checkForErrors();
 
 signals:
     /** tell everyone we completed the scan */
-    void done(QList<ImageInfo> result);
+    void scanDone(QList<ImageInfo> result);
 
     /** tell everyone we just started scanning */
-    void started();
+    void scanStarted();
 
 public slots:
 

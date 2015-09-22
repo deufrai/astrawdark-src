@@ -18,48 +18,34 @@
  */
 
 #include "scanDarkSourceCommand.h"
-#include "../data/access/exifReader.h"
 #include "signalDispatcher.h"
 
 #include <QStringList>
 #include <QFileInfoList>
-#include <QDirIterator>
+#include <QDir>
 
 #ifndef QT_NO_DEBUG
 #include <QDebug>
 #endif
 
 ScanDarkSourceCommand::ScanDarkSourceCommand(const QStringList &sources)
-    : AbstractCommand::AbstractCommand(),
-      _sources(sources)
+    : AbstractScanCommand::AbstractScanCommand(sources)
 {
     _description = QString(tr("Dark library scan"));
 
     connect(this,
-            &ScanDarkSourceCommand::started,
+            &ScanDarkSourceCommand::scanStarted,
             SignalDispatcher::getInstance(),
             &SignalDispatcher::on_darkScanStarted);
 
     connect(this,
-            &ScanDarkSourceCommand::done,
+            &ScanDarkSourceCommand::scanDone,
             SignalDispatcher::getInstance(),
             &SignalDispatcher::on_darkScanDone);
 }
 
 void ScanDarkSourceCommand::checkForErrors()
 {
-    if ( ! _shortFilesPaths.isEmpty() ) {
-
-        _warning = true;
-
-        QString msg = tr("WARNING - Ignored %1 short exposure image(s)")
-                .arg(_shortFilesPaths.count());
-
-        _reportMessages << msg;
-
-        _commandReport.addSection(msg, _shortFilesPaths);
-    }
-
     /*
      * If dark sources were missing, update error message
      */
@@ -75,40 +61,14 @@ void ScanDarkSourceCommand::checkForErrors()
         _commandReport.addSection(msg, _missingDirsPaths);
     }
 
-    /*
-     * If we saw bad files, update error message
-     */
-    if ( ! _badFilesPaths.isEmpty() ) {
-
-        _warning = true;
-
-        QString msg = tr("WARNING - Ignored %1 invalid RAW file(s)")
-                .arg(_badFilesPaths.count());
-
-        _reportMessages << msg;
-
-        _commandReport.addSection(msg, _badFilesPaths);
-    }
-
-    if ( ! _warning && ! _error ) {
-
-        _reportMessages << tr("OK");
-        _commandReport.addSection(tr("Completed successfully"),QStringList());
-
-    } else {
-
-        _reportMessages.insert(0, tr("Some items need your attention :"));
-    }
+    AbstractScanCommand::checkForErrors();
 }
 
 void ScanDarkSourceCommand::do_processing()
 {
-    emit started();
+    emit scanStarted();
 
     if ( ! _sources.isEmpty() ) {
-
-        QList<QString>      imagePaths;
-        QList<ImageInfo>    imageInfos;
 
         foreach (QString path, _sources) {
 
@@ -122,56 +82,10 @@ void ScanDarkSourceCommand::do_processing()
                 continue;
             }
 
-            /*
-             * retrieve paths of all RAW files located in current dark source folder,
-             * including subdirectories
-             */
-            _progressMessage = tr("Locating raw files...");
-            emit statusChanged(this);
-
-            QDirIterator it(path,
-                            QStringList() << "*.CR2" << "*.CRW",
-                            QDir::NoDotAndDotDot | QDir::Files,
-                            QDirIterator::Subdirectories);
-
-            _progressMessage = tr("Looking for RAW files...");
-            emit statusChanged(this);
-
-            int found=0;
-            while (it.hasNext()) {
-
-                imagePaths << it.next();
-                _progressMessage = tr("%1 RAW file(s) found").arg(++found);
-                emit statusChanged(this);
-            }
+            getRawPathsInDirectory(path);
         }
 
-        long fileCount = 0;
-
-        /*
-         * Retrieve EXIF metadata for each RAW file
-         */
-        foreach (QString filePath, imagePaths) {
-
-            ImageInfo imageInfo(filePath);
-
-            if ( ! ExifReader::retrieveExifMetadata(imageInfo) ) {
-
-                _badFilesPaths << imageInfo.getPath();
-
-            }
-            else if ( imageInfo.getExposure() < 1 ) {
-
-                _shortFilesPaths << imageInfo.getPath();
-
-            } else {
-
-                imageInfos << imageInfo;
-            }
-
-            _progressMessage = tr("Scanned file %1 / %2").arg(++fileCount).arg(imagePaths.count());
-            emit statusChanged(this);
-        }
+        retrieveExifMetadata();
 
         /*
          * If we saw short frames, update warnings & errors
@@ -179,7 +93,7 @@ void ScanDarkSourceCommand::do_processing()
         checkForErrors();
 
         // tell the world we're done
-        emit done(imageInfos);
+        emit scanDone(_imageInfos);
     }
 }
 
