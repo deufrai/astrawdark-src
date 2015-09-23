@@ -48,8 +48,6 @@ protected:
 
     /**
      * Retrieve EXIF metadata for a list of file path
-     *
-     * @param paths list of file paths
      */
     void retrieveExifMetadata();
 
