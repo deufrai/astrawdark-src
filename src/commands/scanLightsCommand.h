@@ -17,36 +17,44 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef COMMANDFACTORY_H
-#define COMMANDFACTORY_H
+#ifndef SCANLIGHTSCOMMAND_H
+#define SCANLIGHTSCOMMAND_H
 
-#include "abstractCommand.h"
+#include <QObject>
+
+#include "abstractScanCommand.h"
 
 /**
- * @brief Command factory in charge of instanciating all command types in a static
- * function for each type.
+ * @brief Command that scans a unique lights directory
  */
-class CommandFactory
+class ScanLightsCommand : public AbstractScanCommand
 {
-private:
-    /** Constructor */
-    CommandFactory();
-
+    Q_OBJECT
 public:
     /**
-     * Create a ScanDarkSourceCommand.
-     * @param sources a list of dark frame source folder paths
-     * @return a pointer to the newly created command
+     * Constructor
+     * @param dir the directory to scan for lights
      */
-    static AbstractCommand* createScanDarkSourceCommand(const QStringList& sources);
+    ScanLightsCommand(const QString dir);
 
     /**
-     * Create a ScanLightsCommand
-     * @param dir the directory to scan
-     * @return a pointer to the newly created command
+     * Destructor
      */
-    static AbstractCommand* createScanLightsCommand(const QString dir);
+    virtual ~ScanLightsCommand() {}
 
+    /**
+     * The actual processing payload of this command.
+     */
+    virtual void do_processing();
+
+signals:
+    /** tell everyone we completed the scan */
+    void scanDone(QList<ImageInfo> result);
+
+    /** tell everyone we just started scanning */
+    void scanStarted();
+
+public slots:
 };
 
-#endif // COMMANDFACTORY_H
+#endif // SCANLIGHTSCOMMAND_H

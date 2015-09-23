@@ -135,6 +135,9 @@ public slots:
 signals:
     /** Tell the CommandManager to create a ScanDark command */
     void scanDarkLibrary();
+
+    /** Tell the CommandManager to create a ScanLights command */
+    void scanLightsFolder();
 };
 
 #endif // MAINWINDOW_H

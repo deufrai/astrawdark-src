@@ -35,10 +35,16 @@ CommandManager::CommandManager(QObject *parent)
       _queue(new CommandQueue()),
       _executor(_queue)
 {
-    QObject::connect(SignalDispatcher::getInstance(),
-                     &SignalDispatcher::createDarkScanCommand,
-                     this,
-                     &CommandManager::on_createDarkScanCommand);
+    connect(SignalDispatcher::getInstance(),
+            &SignalDispatcher::createDarkScanCommand,
+            this,
+            &CommandManager::on_createDarkScanCommand);
+
+    connect(SignalDispatcher::getInstance(),
+            &SignalDispatcher::createLightsScanCommand,
+            this,
+            &CommandManager::on_createLightsScanCommand);
+
 
     _executor.start();
 
@@ -61,8 +67,10 @@ const AbstractCommand *CommandManager::getCommand(int serial)
 
 void CommandManager::on_createDarkScanCommand()
 {
-    AbstractCommand* command =
-            CommandFactory::createScanDarkSourceCommand(DataStore::getInstance()->getDarkSources());
+    _queue->enqueueCommand(CommandFactory::createScanDarkSourceCommand(DataStore::getInstance()->getDarkSources()));
+}
 
-    _queue->enqueueCommand(command);
+void CommandManager::on_createLightsScanCommand()
+{
+    _queue->enqueueCommand(CommandFactory::createScanLightsCommand(DataStore::getInstance()->getLightsFolder()));
 }

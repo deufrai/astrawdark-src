@@ -94,6 +94,11 @@ MainWindow::MainWindow(CommandManager *manager, QWidget *parent)
             SignalDispatcher::getInstance(),
             &SignalDispatcher::on_createDarkScanCommand);
 
+    connect(this,
+            &MainWindow::scanLightsFolder,
+            SignalDispatcher::getInstance(),
+            &SignalDispatcher::on_createLightsScanCommand);
+
     connect(SignalDispatcher::getInstance(),
             &SignalDispatcher::darkListModelChanged,
             this,
@@ -248,6 +253,8 @@ void MainWindow::on_btnChooseLightsFolder_clicked()
 
         ui->lineCurrentLightsFolderPath->setText(lightsFolder);
         _dataStore->setLightsFolder(lightsFolder);
+
+        emit scanLightsFolder();
     }
 
 }

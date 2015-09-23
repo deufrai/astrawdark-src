@@ -37,7 +37,7 @@ protected:
      * Constructor
      * @param sources dark source folder paths
      */
-    AbstractScanCommand(const QStringList& sources);
+    AbstractScanCommand(const QStringList sources);
 
     /**
      * Get a list of Canon RAW file paths located inside a directory
@@ -65,7 +65,7 @@ protected:
     void checkForErrors();
 
     /** Dark source folder paths */
-    const QStringList&  _sources;
+    const QStringList   _sources;
     /** Paths of invalid files */
     QStringList         _badFilesPaths;
     /** Paths of short exposure files */

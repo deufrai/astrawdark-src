@@ -41,7 +41,8 @@ SOURCES += src/main.cpp\
     src/contrib/qCustomPlot/qcustomplot.cpp \
     src/gui/plotManager.cpp \
     src/helpers/localeHelper.cpp \
-    src/commands/abstractScanCommand.cpp
+    src/commands/abstractScanCommand.cpp \
+    src/commands/scanLightsCommand.cpp
 
 HEADERS  += \
     src/globals.h \
@@ -63,7 +64,8 @@ HEADERS  += \
     src/contrib/qCustomPlot/qcustomplot.h \
     src/gui/plotManager.h \
     src/helpers/localeHelper.h \
-    src/commands/abstractScanCommand.h
+    src/commands/abstractScanCommand.h \
+    src/commands/scanLightsCommand.h
 
 FORMS    += \
     src/gui/forms/mainWindow.ui \

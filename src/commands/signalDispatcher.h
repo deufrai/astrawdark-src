@@ -83,6 +83,9 @@ signals:
     /** the dark list model has been updated */
     void darkListModelChanged();
 
+    /** let's create a ligts scan command */
+    void createLightsScanCommand();
+
 public slots:
     /** A new dark scan has just started */
     void on_darkScanStarted() {emit darkScanStarted();}
@@ -116,6 +119,9 @@ public slots:
 
     /** dark list model changed */
     void on_darkListModelChanged() {emit darkListModelChanged();}
+
+    /** let's create a lights scan command */
+    void on_createLightsScanCommand() {emit createLightsScanCommand();}
 
 };
 

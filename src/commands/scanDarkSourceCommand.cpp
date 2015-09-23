@@ -28,7 +28,7 @@
 #include <QDebug>
 #endif
 
-ScanDarkSourceCommand::ScanDarkSourceCommand(const QStringList &sources)
+ScanDarkSourceCommand::ScanDarkSourceCommand(const QStringList sources)
     : AbstractScanCommand::AbstractScanCommand(sources)
 {
     _description = QString(tr("Dark library scan"));

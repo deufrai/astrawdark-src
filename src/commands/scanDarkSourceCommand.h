@@ -33,7 +33,7 @@ public:
      * Constructor
      * @param sources dark source folder paths
      */
-    explicit ScanDarkSourceCommand(const QStringList& sources);
+    explicit ScanDarkSourceCommand(const QStringList sources);
 
     /**
      * Destructor

@@ -63,6 +63,9 @@ public slots:
     /** Slot triggered by dark library scan requests */
     void on_createDarkScanCommand();
 
+    /** Slot triggered by lights folder scan requests */
+    void on_createLightsScanCommand();
+
 };
 
 #endif // COMMANDMANAGER_H

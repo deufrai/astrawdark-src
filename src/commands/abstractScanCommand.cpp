@@ -22,7 +22,7 @@
 
 #include <QDirIterator>
 
-AbstractScanCommand::AbstractScanCommand(const QStringList &sources)
+AbstractScanCommand::AbstractScanCommand(const QStringList sources)
     : _sources(sources)
 {
 
@@ -34,8 +34,6 @@ void AbstractScanCommand::getRawPathsInDirectory(const QString directory)
      * retrieve paths of all RAW files located in current dark source folder,
      * including subdirectories
      */
-    QList<QString>      imagePaths;
-
     _progressMessage = tr("Locating raw files...");
     emit statusChanged(this);
 
@@ -54,6 +52,9 @@ void AbstractScanCommand::getRawPathsInDirectory(const QString directory)
         _progressMessage = tr("%1 RAW file(s) found").arg(++found);
         emit statusChanged(this);
     }
+
+    _progressMessage = tr("%1 RAW file(s) found").arg(found);
+    emit statusChanged(this);
 }
 
 void AbstractScanCommand::retrieveExifMetadata()

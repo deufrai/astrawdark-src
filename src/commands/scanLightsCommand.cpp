@@ -17,24 +17,31 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "commandFactory.h"
-#include "scanDarkSourceCommand.h"
 #include "scanLightsCommand.h"
 
-#include "../data/dataStore.h"
+#include <QDir>
 
-CommandFactory::CommandFactory()
+ScanLightsCommand::ScanLightsCommand(const QString dir)
+    : AbstractScanCommand(QStringList() << dir)
 {
-
+    _description = QString(tr("Lights folder scan"));
 }
 
-AbstractCommand *CommandFactory::createScanDarkSourceCommand(const QStringList &sources)
+void ScanLightsCommand::do_processing()
 {
-    return new ScanDarkSourceCommand(sources);
-}
+    emit scanStarted();
 
-AbstractCommand *CommandFactory::createScanLightsCommand(const QString dir)
-{
-    return new ScanLightsCommand(dir);
+    QString dir = _sources.at(0);
+
+    if ( QDir(dir).exists() ) {
+
+        getRawPathsInDirectory(dir);
+
+        retrieveExifMetadata();
+
+        checkForErrors();
+
+        emit scanDone(_imageInfos);
+    }
 }
 
