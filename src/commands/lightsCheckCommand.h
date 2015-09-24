@@ -17,30 +17,36 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "commandFactory.h"
-#include "scanDarkSourceCommand.h"
-#include "scanLightsCommand.h"
-#include "lightsCheckCommand.h"
+#ifndef LIGHTSCHECKCOMMAND_H
+#define LIGHTSCHECKCOMMAND_H
 
-#include "../data/dataStore.h"
+#include <QObject>
 
-CommandFactory::CommandFactory()
+#include "abstractCommand.h"
+
+/**
+ * @brief checks if all scanned lights are
+ *
+ *  - from the same camera
+ *  - shot with the same ISO & exposure time
+ */
+class LightsCheckCommand : public AbstractCommand
 {
+    Q_OBJECT
 
-}
+public:
+    /**
+     * Constructor
+     */
+    LightsCheckCommand();
 
-AbstractCommand *CommandFactory::createScanDarkSourceCommand(const QStringList &sources)
-{
-    return new ScanDarkSourceCommand(sources);
-}
+protected:
+    /** processing payload */
+    virtual void do_processing();
 
-AbstractCommand *CommandFactory::createScanLightsCommand(const QString dir)
-{
-    return new ScanLightsCommand(dir);
-}
+signals:
 
-AbstractCommand *CommandFactory::createLightsCheckCommand()
-{
-    return new LightsCheckCommand();
-}
+public slots:
+};
 
+#endif // LIGHTSCHECKCOMMAND_H

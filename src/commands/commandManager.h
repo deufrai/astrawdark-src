@@ -66,6 +66,9 @@ public slots:
     /** Slot triggered by lights folder scan requests */
     void on_createLightsScanCommand();
 
+    /** Slot triggered by lights check requests */
+    void on_createLightsCheckCommand();
+
 };
 
 #endif // COMMANDMANAGER_H

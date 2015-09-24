@@ -42,7 +42,8 @@ SOURCES += src/main.cpp\
     src/gui/plotManager.cpp \
     src/helpers/localeHelper.cpp \
     src/commands/abstractScanCommand.cpp \
-    src/commands/scanLightsCommand.cpp
+    src/commands/scanLightsCommand.cpp \
+    src/commands/lightsCheckCommand.cpp
 
 HEADERS  += \
     src/globals.h \
@@ -65,7 +66,8 @@ HEADERS  += \
     src/gui/plotManager.h \
     src/helpers/localeHelper.h \
     src/commands/abstractScanCommand.h \
-    src/commands/scanLightsCommand.h
+    src/commands/scanLightsCommand.h \
+    src/commands/lightsCheckCommand.h
 
 FORMS    += \
     src/gui/forms/mainWindow.ui \

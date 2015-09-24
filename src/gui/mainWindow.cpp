@@ -130,6 +130,11 @@ MainWindow::MainWindow(CommandManager *manager, QWidget *parent)
             this,
             &MainWindow::on_lightsScanDone);
 
+    connect(this,
+            &MainWindow::checkLights,
+            SignalDispatcher::getInstance(),
+            &SignalDispatcher::on_createLightsCheckCommand);
+
 
 
     ui->tabDarkDetailsWidget->setCurrentIndex(0);
@@ -281,7 +286,7 @@ void MainWindow::on_btnChooseLightsFolder_clicked()
                                                              startFolder,
                                                              QFileDialog::ShowDirsOnly);
 
-    if ( ! lightsFolder.isEmpty() ) {
+    if ( ! lightsFolder.isEmpty() && lightsFolder != startFolder ) {
 
         ui->lineCurrentLightsFolderPath->setText(lightsFolder);
         _dataStore->setLightsFolder(lightsFolder);
@@ -322,4 +327,10 @@ void MainWindow::on_lightsScanDone()
     ui->btnChooseLightsFolder->setEnabled(true);
     updateLightsContentCount();
     ui->tblLightsList->scrollToTop();
+
+    if ( _dataStore->getLightsCount() > 0 ) {
+
+        emit checkLights();
+    }
+
 }

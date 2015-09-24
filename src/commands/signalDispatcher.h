@@ -95,6 +95,9 @@ signals:
     /** let's create a ligts scan command */
     void createLightsScanCommand();
 
+    /** let's create a lights check command */
+    void createLightsCheckCommand();
+
 public slots:
     /** A new dark scan has just started */
     void on_darkScanStarted() {emit darkScanStarted();}
@@ -137,6 +140,9 @@ public slots:
 
     /** let's create a lights scan command */
     void on_createLightsScanCommand() {emit createLightsScanCommand();}
+
+    /** let's create a lights check command */
+    void on_createLightsCheckCommand() {emit createLightsCheckCommand();}
 
     /** A new lights scan just started */
     void on_lightsScanStarted() {emit lightsScanStarted();}

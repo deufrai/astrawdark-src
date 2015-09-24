@@ -45,6 +45,11 @@ CommandManager::CommandManager(QObject *parent)
             this,
             &CommandManager::on_createLightsScanCommand);
 
+    connect(SignalDispatcher::getInstance(),
+            &SignalDispatcher::createLightsCheckCommand,
+            this,
+            &CommandManager::on_createLightsCheckCommand);
+
 
     _executor.start();
 
@@ -73,4 +78,9 @@ void CommandManager::on_createDarkScanCommand()
 void CommandManager::on_createLightsScanCommand()
 {
     _queue->enqueueCommand(CommandFactory::createScanLightsCommand(DataStore::getInstance()->getLightsFolder()));
+}
+
+void CommandManager::on_createLightsCheckCommand()
+{
+    _queue->enqueueCommand(CommandFactory::createLightsCheckCommand());
 }

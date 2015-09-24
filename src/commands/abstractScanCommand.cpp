@@ -126,9 +126,6 @@ void AbstractScanCommand::checkForErrors()
         _reportMessages << tr("OK");
         _commandReport.addSection(tr("Completed successfully"),QStringList());
 
-    } else {
-
-        _reportMessages.insert(0, tr("Some items need your attention :"));
     }
 }
 

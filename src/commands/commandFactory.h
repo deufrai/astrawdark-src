@@ -47,6 +47,12 @@ public:
      */
     static AbstractCommand* createScanLightsCommand(const QString dir);
 
+    /**
+     * Create a LightsCheckCommand
+     * @return a pointer to the newly created command
+     */
+    static AbstractCommand* createLightsCheckCommand();
+
 };
 
 #endif // COMMANDFACTORY_H

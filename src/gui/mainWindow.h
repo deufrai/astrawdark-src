@@ -147,6 +147,9 @@ signals:
 
     /** Tell the CommandManager to create a ScanLights command */
     void scanLightsFolder();
+
+    /** Tell the CommandManager to create a ScanLights command */
+    void checkLights();
 };
 
 #endif // MAINWINDOW_H
