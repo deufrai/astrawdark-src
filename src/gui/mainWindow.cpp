@@ -44,6 +44,7 @@ MainWindow::MainWindow(CommandManager *manager, QWidget *parent)
     _plotManager = new PlotManager(ui->pltDarkTempPlot,
                                    ui->pltDarkTempDistriPlot,
                                    ui->pltLightsTempPlot,
+                                   ui->pltLightsTempDistriPlot,
                                    this);
 
     setWindowTitle(Globals::APPLICATION_NAME);
@@ -133,6 +134,7 @@ MainWindow::MainWindow(CommandManager *manager, QWidget *parent)
 
     ui->tabDarkDetailsWidget->setCurrentIndex(0);
     ui->tabMainWidget->setCurrentIndex(0);
+    ui->tabLightsDetailsWidget->setCurrentIndex(0);
 
     if ( 0 == _dataStore->getDarkSources().count() ) {
 

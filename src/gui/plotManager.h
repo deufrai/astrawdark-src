@@ -40,20 +40,27 @@ public:
      * @param lightsTempPlot lights temperature evolution graph widget
      * @param parent Qt parent
      */
-    explicit PlotManager(QCustomPlot* darkTempPlot, QCustomPlot* darkTempDistriPlot, QCustomPlot *lightsTempPlot, QObject *parent = 0);
+    explicit PlotManager(QCustomPlot* darkTempPlot,
+                         QCustomPlot* darkTempDistriPlot,
+                         QCustomPlot* lightsTempPlot,
+                         QCustomPlot* lightsTempDistriPlot,
+                         QObject *parent = 0);
 
 private:
     QCustomPlot* _darkTempEvoPlot;
     QCustomPlot* _darkTempDistriPlot;
     QCustomPlot* _lightsTempEvoPlot;
+    QCustomPlot* _lightsTempDistriPlot;
 
     void clearDarkTempEvoGraph();
     void clearDarkTempDistriGraph();
     void clearLightsTempEvoGraph();
+    void clearLightsTempDistriGraph();
 
     void refreshDarkTempEvoGraph();
     void refreshDarkTempDistriGraph();
     void refreshLightsTempEvoGraph();
+    void refreshLightsTempDistriGraph();
 
     int roundUp(int numToRound, int multiple);
 

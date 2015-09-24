@@ -26,11 +26,13 @@
 PlotManager::PlotManager(QCustomPlot* darkTempPlot,
                          QCustomPlot* darkTempDistriPlot,
                          QCustomPlot* lightsTempPlot,
+                         QCustomPlot* lightsTempDistriPlot,
                          QObject *parent)
     : QObject(parent),
       _darkTempEvoPlot(darkTempPlot),
       _darkTempDistriPlot(darkTempDistriPlot),
-      _lightsTempEvoPlot(lightsTempPlot)
+      _lightsTempEvoPlot(lightsTempPlot),
+      _lightsTempDistriPlot(lightsTempDistriPlot)
 
 {
     _darkTempEvoPlot->addGraph();
@@ -54,6 +56,16 @@ PlotManager::PlotManager(QCustomPlot* darkTempPlot,
     _darkTempDistriPlot->xAxis->setSubTickCount(0);
     _darkTempDistriPlot->yAxis->setLabel(tr("Dark count"));
     _darkTempDistriPlot->yAxis->setAutoTickStep(false);
+
+    _lightsTempDistriPlot->addPlottable(new QCPBars(_lightsTempDistriPlot->xAxis, _lightsTempDistriPlot->yAxis));
+    _lightsTempDistriPlot->xAxis->setLabel(tr("Sensor temperature in C°"));
+    _lightsTempDistriPlot->xAxis->setAutoTickStep(false);
+    _lightsTempDistriPlot->xAxis->setAutoSubTicks(false);
+    _lightsTempDistriPlot->xAxis->setTickStep(1);
+    _lightsTempDistriPlot->xAxis->setTickLength(0);
+    _lightsTempDistriPlot->xAxis->setSubTickCount(0);
+    _lightsTempDistriPlot->yAxis->setLabel(tr("Light count"));
+    _lightsTempDistriPlot->yAxis->setAutoTickStep(false);
 
 
     connect(SignalDispatcher::getInstance(),
@@ -92,6 +104,7 @@ void PlotManager::on_darkScanStarted()
 void PlotManager::on_lightsScanDone()
 {
     refreshLightsTempEvoGraph();
+    refreshLightsTempDistriGraph();
 }
 
 void PlotManager::on_lightsScanStarted()
@@ -123,6 +136,15 @@ void PlotManager::clearLightsTempEvoGraph()
 
         _lightsTempEvoPlot->graph()->clearData();
         _lightsTempEvoPlot->replot();
+    }
+}
+
+void PlotManager::clearLightsTempDistriGraph()
+{
+    if ( _lightsTempDistriPlot->plottableCount() ) {
+
+        _lightsTempDistriPlot->plottable()->clearData();
+        _lightsTempDistriPlot->replot();
     }
 }
 
@@ -269,6 +291,46 @@ void PlotManager::refreshLightsTempEvoGraph()
     _lightsTempEvoPlot->xAxis->setTickStep(xTickStep);
 
     _lightsTempEvoPlot->replot();
+}
+
+void PlotManager::refreshLightsTempDistriGraph()
+{
+    QList<ImageInfo> lights = DataStore::getInstance()->getScannedLights();
+
+    QVector<double> x, y;
+
+    QMap<int, ImageInfo> data;
+    foreach ( ImageInfo info, lights ) {
+
+        data.insertMulti(info.getTemperature(), info);
+    }
+
+    int maxTemp = 0;
+    int minTemp = 200;
+
+    int maxCount = 0;
+
+    foreach (int temperature, data.uniqueKeys()) {
+
+        int count = data.values(temperature).count();
+
+        x << temperature;
+        y << count;
+
+        if ( maxTemp < temperature ) maxTemp = temperature;
+        if ( minTemp > temperature ) minTemp = temperature;
+
+        if ( maxCount < count ) maxCount = count;
+    }
+
+    ((QCPBars*)(_lightsTempDistriPlot->plottable(0)))->setData(x,y);
+
+    _lightsTempDistriPlot->xAxis->setRange(minTemp - 1, maxTemp + 1);
+    _lightsTempDistriPlot->yAxis->setRange(0, maxCount + 1);
+
+    _lightsTempDistriPlot->yAxis->setTickStep(roundUp(maxCount / 10, 5));
+
+    _lightsTempDistriPlot->replot();
 }
 
 int PlotManager::roundUp(int numToRound, int multiple)
