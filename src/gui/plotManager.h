@@ -38,6 +38,7 @@ public:
      * @param darkTempPlot dark temperature evolution graph widget
      * @param darkTempDistriPlot dark temperature distribution graph widget
      * @param lightsTempPlot lights temperature evolution graph widget
+     * @param lightsTempDistriPlot lights temperature distribution graph widget
      * @param parent Qt parent
      */
     explicit PlotManager(QCustomPlot* darkTempPlot,
