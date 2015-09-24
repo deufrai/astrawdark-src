@@ -23,18 +23,27 @@
 #include <QDebug>
 #endif
 
-PlotManager::PlotManager(QCustomPlot* darkTempPlot, QCustomPlot* darkTempDistriPlot, QObject *parent)
+PlotManager::PlotManager(QCustomPlot* darkTempPlot,
+                         QCustomPlot* darkTempDistriPlot,
+                         QCustomPlot* lightsTempPlot,
+                         QObject *parent)
     : QObject(parent),
       _darkTempEvoPlot(darkTempPlot),
-      _darkTempDistriPlot(darkTempDistriPlot)
+      _darkTempDistriPlot(darkTempDistriPlot),
+      _lightsTempEvoPlot(lightsTempPlot)
 
 {
     _darkTempEvoPlot->addGraph();
     _darkTempEvoPlot->xAxis->setLabel(tr("Dark N°"));
     _darkTempEvoPlot->xAxis->setAutoTickStep(false);
-
     _darkTempEvoPlot->yAxis->setLabel(tr("Sensor temperature in °C"));
     _darkTempEvoPlot->yAxis->setAutoTickStep(false);
+
+    _lightsTempEvoPlot->addGraph();
+    _lightsTempEvoPlot->xAxis->setLabel(tr("Light N°"));
+    _lightsTempEvoPlot->xAxis->setAutoTickStep(false);
+    _lightsTempEvoPlot->yAxis->setLabel(tr("Sensor temperature in °C"));
+    _lightsTempEvoPlot->yAxis->setAutoTickStep(false);
 
     _darkTempDistriPlot->addPlottable(new QCPBars(_darkTempDistriPlot->xAxis, _darkTempDistriPlot->yAxis));
     _darkTempDistriPlot->xAxis->setLabel(tr("Sensor temperature in C°"));
@@ -43,7 +52,6 @@ PlotManager::PlotManager(QCustomPlot* darkTempPlot, QCustomPlot* darkTempDistriP
     _darkTempDistriPlot->xAxis->setTickStep(1);
     _darkTempDistriPlot->xAxis->setTickLength(0);
     _darkTempDistriPlot->xAxis->setSubTickCount(0);
-
     _darkTempDistriPlot->yAxis->setLabel(tr("Dark count"));
     _darkTempDistriPlot->yAxis->setAutoTickStep(false);
 
@@ -57,6 +65,16 @@ PlotManager::PlotManager(QCustomPlot* darkTempPlot, QCustomPlot* darkTempDistriP
             &SignalDispatcher::darkScanStarted,
             this,
             &PlotManager::on_darkScanStarted);
+
+    connect(SignalDispatcher::getInstance(),
+            &SignalDispatcher::lightsScanStarted,
+            this,
+            &PlotManager::on_lightsScanStarted);
+
+    connect(SignalDispatcher::getInstance(),
+            &SignalDispatcher::lightsScanDone,
+            this,
+            &PlotManager::on_lightsScanDone);
 }
 
 void PlotManager::on_darkModelChanged()
@@ -69,6 +87,16 @@ void PlotManager::on_darkScanStarted()
 {
     clearDarkTempEvoGraph();
     clearDarkTempDistriGraph();
+}
+
+void PlotManager::on_lightsScanDone()
+{
+    refreshLightsTempEvoGraph();
+}
+
+void PlotManager::on_lightsScanStarted()
+{
+    clearLightsTempEvoGraph();
 }
 
 void PlotManager::clearDarkTempEvoGraph()
@@ -86,6 +114,15 @@ void PlotManager::clearDarkTempDistriGraph()
 
         _darkTempDistriPlot->plottable()->clearData();
         _darkTempDistriPlot->replot();
+    }
+}
+
+void PlotManager::clearLightsTempEvoGraph()
+{
+    if ( _lightsTempEvoPlot->graphCount()  > 0 ) {
+
+        _lightsTempEvoPlot->graph()->clearData();
+        _lightsTempEvoPlot->replot();
     }
 }
 
@@ -180,6 +217,58 @@ void PlotManager::refreshDarkTempDistriGraph()
     _darkTempDistriPlot->yAxis->setTickStep(roundUp(maxCount / 10, 5));
 
     _darkTempDistriPlot->replot();
+}
+
+void PlotManager::refreshLightsTempEvoGraph()
+{
+    QList<ImageInfo> unsortedData = DataStore::getInstance()->getScannedLights();
+
+    // we sort frames by ascending date
+    QMap<QString, ImageInfo> map;
+    foreach (ImageInfo info, unsortedData) {
+
+        map.insert(info.getDate(), info);
+    }
+
+    QList<ImageInfo> data;
+    foreach ( QString date, map.keys() ) {
+
+        data << map.value(date);
+    }
+
+    QVector<double> x, y;
+
+    int counter = 0;
+    int maxTemp = 0;
+
+    foreach (ImageInfo info, data) {
+
+        x << counter++;
+        y << info.getTemperature();
+
+        if ( info.getTemperature() > maxTemp ) {
+
+            maxTemp = info.getTemperature();
+        }
+    }
+
+    _lightsTempEvoPlot->graph()->setData(x,y);
+
+    // set X axis range's maximum to be the next even number after max X value
+    _lightsTempEvoPlot->xAxis->setRange(0, (data.count()/2)*2+2);
+    _lightsTempEvoPlot->yAxis->setRange(0, maxTemp + 1);
+    _lightsTempEvoPlot->yAxis->setTickStep(roundUp(maxTemp / 10, 5));
+
+    int xTickStep = data.count() / 20;
+
+    if ( xTickStep < 1 ) {
+
+        xTickStep = 1;
+    }
+
+    _lightsTempEvoPlot->xAxis->setTickStep(xTickStep);
+
+    _lightsTempEvoPlot->replot();
 }
 
 int PlotManager::roundUp(int numToRound, int multiple)

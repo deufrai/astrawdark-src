@@ -37,19 +37,23 @@ public:
      * Constructor
      * @param darkTempPlot dark temperature evolution graph widget
      * @param darkTempDistriPlot dark temperature distribution graph widget
+     * @param lightsTempPlot lights temperature evolution graph widget
      * @param parent Qt parent
      */
-    explicit PlotManager(QCustomPlot* darkTempPlot, QCustomPlot* darkTempDistriPlot, QObject *parent = 0);
+    explicit PlotManager(QCustomPlot* darkTempPlot, QCustomPlot* darkTempDistriPlot, QCustomPlot *lightsTempPlot, QObject *parent = 0);
 
 private:
     QCustomPlot* _darkTempEvoPlot;
     QCustomPlot* _darkTempDistriPlot;
+    QCustomPlot* _lightsTempEvoPlot;
 
     void clearDarkTempEvoGraph();
-    void refreshDarkTempEvoGraph();
-
     void clearDarkTempDistriGraph();
+    void clearLightsTempEvoGraph();
+
+    void refreshDarkTempEvoGraph();
     void refreshDarkTempDistriGraph();
+    void refreshLightsTempEvoGraph();
 
     int roundUp(int numToRound, int multiple);
 
@@ -61,6 +65,12 @@ private slots:
 
     /** dark scan just started */
     void on_darkScanStarted();
+
+    /** lights scan done */
+    void on_lightsScanDone();
+
+    /** lights scan just started */
+    void on_lightsScanStarted();
 };
 
 #endif // PLOTMANAGER_H

@@ -115,6 +115,11 @@ DataStore::DataStore()
             &DataStore::on_newDarkScanResult);
 
     connect(SignalDispatcher::getInstance(),
+            &SignalDispatcher::lightsScanStarted,
+            this,
+            &DataStore::on_newLightsScanStarted);
+
+    connect(SignalDispatcher::getInstance(),
             &SignalDispatcher::lightsScanDone,
             this,
             &DataStore::on_newLightsScanResult);

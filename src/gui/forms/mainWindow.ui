@@ -22,7 +22,7 @@
     <item row="1" column="0">
      <widget class="QTabWidget" name="tabMainWidget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tabDarkLibIndex">
        <attribute name="title">
@@ -242,10 +242,15 @@
                </item>
               </layout>
              </widget>
-             <widget class="QWidget" name="tab_2">
+             <widget class="QWidget" name="tabLightsEvoTempIndex">
               <attribute name="title">
-               <string>Tab 2</string>
+               <string>T° Evolution</string>
               </attribute>
+              <layout class="QGridLayout" name="gridLayout_9">
+               <item row="0" column="0">
+                <widget class="QCustomPlot" name="pltLightsTempPlot" native="true"/>
+               </item>
+              </layout>
              </widget>
             </widget>
            </item>

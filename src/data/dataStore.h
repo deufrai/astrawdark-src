@@ -130,6 +130,12 @@ public:
     const QList<ImageInfo>& getScannedDarks() const {return _scannedDarks;}
 
     /**
+     * Get all scanned lights
+     * @return a list of lights infos
+     */
+    const QList<ImageInfo>& getScannedLights() const {return _scannedLights;}
+
+    /**
      * Get all filtered darks
      * @return a list of darks infos
      */
