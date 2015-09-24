@@ -56,6 +56,13 @@ public:
      */
     QStandardItemModel* getDarkModel() const {return _darkListModel;}
 
+
+    /**
+     * Get lights list model
+     * @return the model
+     */
+    QStandardItemModel* getLightsModel() const {return _lightsListModel;}
+
     /**
      * Get dark tree model
      * @return the model
@@ -109,6 +116,12 @@ public:
      * @return dark libray size
      */
     int getDarkLibrarySize() const {return _scannedDarks.count();}
+
+    /**
+     * Get the size of lights model
+     * @return lights model row count
+     */
+    int getLightsCount() const {return _scannedLights.count();}
 
     /**
      * Get all scanned darks
@@ -165,7 +178,7 @@ private:
     /**
      * Populate a frame model
      * @param model the model to populate
-     * @param darks the frames to populate with
+     * @param frames the frames to populate with
      */
     void populateFrameListModel(QStandardItemModel* model, QList<ImageInfo> frames);
 
@@ -192,6 +205,9 @@ public slots:
 
     /** empty dark list model upon any new scan starts */
     void on_newDarkScanStarted();
+
+    /** empty lights list model upon any new scan starts */
+    void on_newLightsScanStarted();
 
     /**
      * Registers a new dark frame scan result

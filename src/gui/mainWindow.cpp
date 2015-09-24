@@ -34,6 +34,7 @@ MainWindow::MainWindow(CommandManager *manager, QWidget *parent)
     : QMainWindow(parent),
       _commandManager(manager),
       LBL_DARKCOUNT_BASETEXT(tr("Displayed darks count")),
+      LBL_LIGHTSCOUNT_BASETEXT(tr("Displayed lights count : %1")),
       ui(new Ui::MainWindow),
       _dataStore(DataStore::getInstance())
 
@@ -54,6 +55,17 @@ MainWindow::MainWindow(CommandManager *manager, QWidget *parent)
     darkHv->setSectionResizeMode(5, QHeaderView::ResizeToContents);
     QHeaderView* darkVv = ui->tblDarkView->verticalHeader();
     darkVv->hide();
+
+    ui->tblLightsList->setModel(_dataStore->getLightsModel());
+    QHeaderView* lightHv = ui->tblLightsList->horizontalHeader();
+    lightHv->setSectionResizeMode(0, QHeaderView::Stretch);
+    lightHv->setSectionResizeMode(1, QHeaderView::ResizeToContents);
+    lightHv->setSectionResizeMode(2, QHeaderView::ResizeToContents);
+    lightHv->setSectionResizeMode(3, QHeaderView::ResizeToContents);
+    lightHv->setSectionResizeMode(4, QHeaderView::ResizeToContents);
+    lightHv->setSectionResizeMode(5, QHeaderView::ResizeToContents);
+    QHeaderView* lightVv = ui->tblLightsList->verticalHeader();
+    lightVv->hide();
 
     ui->tblCommandView->setModel(_dataStore->getCommandListModel());
     QHeaderView* commandHv = ui->tblCommandView->horizontalHeader();
@@ -123,7 +135,7 @@ MainWindow::MainWindow(CommandManager *manager, QWidget *parent)
 
 #ifndef QT_NO_DEBUG
         qDebug() << "No dark sources set yet";
-
+#endif
         QMessageBox messageBox(QMessageBox::Question,
                                tr("AstRawDark : No dark sources set"),
                                QString("<h3>")
@@ -139,10 +151,9 @@ MainWindow::MainWindow(CommandManager *manager, QWidget *parent)
 
             PrefDialog(this).exec();
         }
-
-
-#endif
     }
+
+    updateLightsContentCount();
 }
 
 MainWindow::~MainWindow()
@@ -199,7 +210,6 @@ void MainWindow::on_tblCommandView_doubleClicked(const QModelIndex &index)
 
 void MainWindow::updateDarkContentCount()
 {
-
     QString darkContentTabText = LBL_DARKCOUNT_BASETEXT;
     int darkLibrarySize = _dataStore->getDarkLibrarySize();
     int darkModelSize = _dataStore->getDarkModel()->rowCount();
@@ -212,6 +222,11 @@ void MainWindow::updateDarkContentCount()
     darkContentTabText.append(tr(" : %1 / %2").arg(darkModelSize).arg(darkLibrarySize));
 
     ui->lblDarkCount->setText(darkContentTabText);
+}
+
+void MainWindow::updateLightsContentCount()
+{
+    ui->lblLightsCount->setText(LBL_LIGHTSCOUNT_BASETEXT.arg(_dataStore->getLightsCount()));
 }
 
 void MainWindow::on_treeDarkView_clicked(const QModelIndex &index)
@@ -293,10 +308,13 @@ void MainWindow::on_darkScanDone()
 
 void MainWindow::on_lightsScanStart()
 {
+    ui->lblLightsCount->setText(LBL_LIGHTSCOUNT_BASETEXT.arg("Scan in progress..."));
     ui->btnChooseLightsFolder->setDisabled(true);
 }
 
 void MainWindow::on_lightsScanDone()
 {
     ui->btnChooseLightsFolder->setEnabled(true);
+    updateLightsContentCount();
+    ui->tblLightsList->scrollToTop();
 }

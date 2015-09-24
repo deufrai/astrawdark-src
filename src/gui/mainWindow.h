@@ -61,12 +61,16 @@ private:
     CommandManager* _commandManager;
 
     const QString LBL_DARKCOUNT_BASETEXT;
+    const QString LBL_LIGHTSCOUNT_BASETEXT;
 
     /** Our UI */
     Ui::MainWindow *ui;
 
     /** update dark count indicator */
     void updateDarkContentCount();
+
+    /** update lights count indicator */
+    void updateLightsContentCount();
 
     /** Our datastore */
     DataStore* _dataStore;

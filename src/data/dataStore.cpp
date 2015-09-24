@@ -115,6 +115,11 @@ DataStore::DataStore()
             &DataStore::on_newDarkScanResult);
 
     connect(SignalDispatcher::getInstance(),
+            &SignalDispatcher::lightsScanDone,
+            this,
+            &DataStore::on_newLightsScanResult);
+
+    connect(SignalDispatcher::getInstance(),
             &SignalDispatcher::commandCreated,
             this,
             &DataStore::on_CommandCreated);
@@ -230,6 +235,7 @@ void DataStore::on_newDarkScanResult(QList<ImageInfo> darks)
 void DataStore::on_newLightsScanResult(QList<ImageInfo> lights)
 {
     _scannedLights = lights;
+    populateFrameListModel(_lightsListModel, lights);
 }
 
 void DataStore::on_CommandStatusChange(AbstractCommand* command)
@@ -387,6 +393,11 @@ void DataStore::on_newDarkScanStarted()
     _darkListModel->setRowCount(0);
     _darkTreeModel->setRowCount(0);
     _S_DarkDisplayFilter = "";
+}
+
+void DataStore::on_newLightsScanStarted()
+{
+    _lightsListModel->setRowCount(0);
 }
 
 
