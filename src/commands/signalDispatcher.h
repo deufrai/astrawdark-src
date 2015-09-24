@@ -53,11 +53,20 @@ signals:
     /** A new dark scan has just started */
     void darkScanStarted();
 
+    /** A lights scan has just started */
+    void lightsScanStarted();
+
     /**
      * A dark scan has just finished
      * @param result a list of ImageInfo
      */
     void darkScanDone(QList<ImageInfo> result);
+
+    /**
+     * A lights scan has just finished
+     * @param result a list of ImageInfo
+     */
+    void lightsScanDone(QList<ImageInfo> result);
 
     /**
      * a command has just been created
@@ -97,6 +106,12 @@ public slots:
     void on_darkScanDone(QList<ImageInfo> result) {emit darkScanDone(result);}
 
     /**
+     * A lights scan has just finished
+     * @param result a list of ImageInfo
+     */
+    void on_lightsScanDone(QList<ImageInfo> result) {emit lightsScanDone(result);}
+
+    /**
      * a command has just been created
      * @param command the command
      */
@@ -122,6 +137,11 @@ public slots:
 
     /** let's create a lights scan command */
     void on_createLightsScanCommand() {emit createLightsScanCommand();}
+
+    /** A new lights scan just started */
+    void on_lightsScanStarted() {emit lightsScanStarted();}
+
+
 
 };
 

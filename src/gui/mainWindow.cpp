@@ -104,6 +104,18 @@ MainWindow::MainWindow(CommandManager *manager, QWidget *parent)
             this,
             &MainWindow::on_darkListModelChanged);
 
+    connect(SignalDispatcher::getInstance(),
+            &SignalDispatcher::lightsScanStarted,
+            this,
+            &MainWindow::on_lightsScanStart);
+
+    connect(SignalDispatcher::getInstance(),
+            &SignalDispatcher::lightsScanDone,
+            this,
+            &MainWindow::on_lightsScanDone);
+
+
+
     ui->tabDarkDetailsWidget->setCurrentIndex(0);
     ui->tabMainWidget->setCurrentIndex(0);
 
@@ -277,4 +289,14 @@ void MainWindow::on_darkScanDone()
 
     ui->btnRescanDarks->setEnabled(true);
     ui->actionRescanDarksLibrary->setEnabled(true);
+}
+
+void MainWindow::on_lightsScanStart()
+{
+    ui->btnChooseLightsFolder->setDisabled(true);
+}
+
+void MainWindow::on_lightsScanDone()
+{
+    ui->btnChooseLightsFolder->setEnabled(true);
 }

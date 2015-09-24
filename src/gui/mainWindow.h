@@ -119,7 +119,6 @@ private slots:
     /** User wants to change current lights folder */
     void on_btnChooseLightsFolder_clicked();
 
-public slots:
     /**
      * Dark sources have changed
      * @param sources a list of dark source folder paths
@@ -131,6 +130,12 @@ public slots:
 
     /** A dark scan just finished */
     void on_darkScanDone();
+
+    /** A lights scan just started */
+    void on_lightsScanStart();
+
+    /** A lights scan just finished */
+    void on_lightsScanDone();
 
 signals:
     /** Tell the CommandManager to create a ScanDark command */

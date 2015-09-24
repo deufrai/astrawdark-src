@@ -44,6 +44,7 @@ DataStore* DataStore::getInstance() {
 
 DataStore::DataStore()
     : _darkListModel(new QStandardItemModel()),
+      _lightsListModel(new QStandardItemModel()),
       _commandListModel(new QStandardItemModel()),
       _darkTreeModel(new QStandardItemModel()),
       _rememberWindowGeometry(false),
@@ -90,6 +91,15 @@ DataStore::DataStore()
                                               << tr("Date")
                                               << tr ("Temperature\n(°C)"));
 
+    _lightsListModel->setColumnCount(6);
+    _lightsListModel->setHorizontalHeaderLabels(QStringList()
+                                              << tr("Path")
+                                              << tr("Model")
+                                              << tr("Exposure\n(sec.)")
+                                              << tr("ISO")
+                                              << tr("Date")
+                                              << tr ("Temperature\n(°C)"));
+
     _darkTreeModel->setColumnCount(1);
     _darkTreeModel->setHorizontalHeaderLabels(QStringList() << tr("Dark families"));
 
@@ -126,31 +136,31 @@ DataStore::DataStore()
 
 }
 
-void DataStore::populateDarkListModel(QList<ImageInfo> darks)
+void DataStore::populateFrameListModel(QStandardItemModel *model, QList<ImageInfo> frames)
 {
-    _darkListModel->setRowCount(0);
-    _darkListModel->setRowCount(darks.count());
+    model->setRowCount(0);
+    model->setRowCount(frames.count());
 
     int row = 0;
 
-    foreach (ImageInfo info, darks) {
+    foreach (ImageInfo info, frames) {
 
-        _darkListModel->setData(_darkListModel->index(row, 0, QModelIndex()),
+        model->setData(model->index(row, 0, QModelIndex()),
                                 info.getPath());
 
-        _darkListModel->setData(_darkListModel->index(row, 1, QModelIndex()),
+        model->setData(model->index(row, 1, QModelIndex()),
                                 info.getModel());
 
-        _darkListModel->setData(_darkListModel->index(row, 2, QModelIndex()),
+        model->setData(model->index(row, 2, QModelIndex()),
                                 info.getExposure());
 
-        _darkListModel->setData(_darkListModel->index(row, 3, QModelIndex()),
+        model->setData(model->index(row, 3, QModelIndex()),
                                 info.getIso());
 
-        _darkListModel->setData(_darkListModel->index(row, 4, QModelIndex()),
+        model->setData(model->index(row, 4, QModelIndex()),
                                 info.getDate());
 
-        _darkListModel->setData(_darkListModel->index(row, 5, QModelIndex()),
+        model->setData(model->index(row, 5, QModelIndex()),
                                 info.getTemperature() == ImageInfo::UNDEFINED?
                                     "":
                                     QString::number(info.getTemperature()));
@@ -215,6 +225,11 @@ void DataStore::on_newDarkScanResult(QList<ImageInfo> darks)
     populateDarkFiltersTreeView(_scannedDarks);
 
     filterDarks();
+}
+
+void DataStore::on_newLightsScanResult(QList<ImageInfo> lights)
+{
+    _scannedLights = lights;
 }
 
 void DataStore::on_CommandStatusChange(AbstractCommand* command)
@@ -391,7 +406,7 @@ void DataStore::filterDarks()
 {
     _filteredDarks = QtConcurrent::blockingFiltered(_scannedDarks,
                                                     &DataStore::filterDark);
-    populateDarkListModel(_filteredDarks);
+    populateFrameListModel(_darkListModel, _filteredDarks);
 }
 
 void DataStore::setDarkDisplayFilter(const QString filter)

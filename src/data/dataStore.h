@@ -136,11 +136,13 @@ public:
 
 private:
     QStandardItemModel* _darkListModel;
+    QStandardItemModel* _lightsListModel;
     QStandardItemModel* _commandListModel;
     QStandardItemModel* _darkTreeModel;
     QStringList         _darkSources;
     QList<ImageInfo>    _scannedDarks;
     QList<ImageInfo>    _filteredDarks;
+    QList<ImageInfo>    _scannedLights;
     bool                _rememberWindowGeometry;
     bool                _scanDarksOnStartup;
     static QString      _S_DarkDisplayFilter;
@@ -161,10 +163,11 @@ private:
     void populateDarkFiltersTreeView(QList<ImageInfo> imageInfos);
 
     /**
-     * Populate the darklist model
-     * @ param darks the darks to populate with
+     * Populate a frame model
+     * @param model the model to populate
+     * @param darks the frames to populate with
      */
-    void populateDarkListModel(QList<ImageInfo> darks);
+    void populateFrameListModel(QStandardItemModel* model, QList<ImageInfo> frames);
 
     /**
      * Filter a dark
@@ -195,6 +198,12 @@ public slots:
      * @param darks scan result
      */
     void on_newDarkScanResult(QList<ImageInfo> darks);
+
+    /**
+     * Registers a new lights scan result
+     * @param lights scan result
+     */
+    void on_newLightsScanResult(QList<ImageInfo> lights);
 
     /**
      * Update model with changed command

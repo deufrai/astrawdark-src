@@ -18,6 +18,7 @@
  */
 
 #include "scanLightsCommand.h"
+#include "signalDispatcher.h"
 
 #include <QDir>
 
@@ -25,6 +26,16 @@ ScanLightsCommand::ScanLightsCommand(const QString dir)
     : AbstractScanCommand(QStringList() << dir)
 {
     _description = QString(tr("Lights folder scan"));
+
+    connect(this,
+            &ScanLightsCommand::scanStarted,
+            SignalDispatcher::getInstance(),
+            &SignalDispatcher::on_lightsScanStarted);
+
+    connect(this,
+            &ScanLightsCommand::scanDone,
+            SignalDispatcher::getInstance(),
+            &SignalDispatcher::on_lightsScanDone);
 }
 
 void ScanLightsCommand::do_processing()
