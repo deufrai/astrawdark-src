@@ -174,9 +174,7 @@ void DataStore::populateFrameListModel(QStandardItemModel *model, QList<ImageInf
 
     }
 
-    _darkListModel->sort(4);
-
-    emit darkListModelChanged();
+    model->sort(4);
 }
 
 bool DataStore::filterDark(ImageInfo dark)
@@ -235,7 +233,7 @@ void DataStore::on_newDarkScanResult(QList<ImageInfo> darks)
 void DataStore::on_newLightsScanResult(QList<ImageInfo> lights)
 {
     _scannedLights = lights;
-    populateFrameListModel(_lightsListModel, lights);
+    populateFrameListModel(_lightsListModel, _scannedLights);
 }
 
 void DataStore::on_CommandStatusChange(AbstractCommand* command)
@@ -418,6 +416,7 @@ void DataStore::filterDarks()
     _filteredDarks = QtConcurrent::blockingFiltered(_scannedDarks,
                                                     &DataStore::filterDark);
     populateFrameListModel(_darkListModel, _filteredDarks);
+    emit darkListModelChanged();
 }
 
 void DataStore::setDarkDisplayFilter(const QString filter)
