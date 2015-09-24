@@ -110,6 +110,7 @@ void PlotManager::on_lightsScanDone()
 void PlotManager::on_lightsScanStarted()
 {
     clearLightsTempEvoGraph();
+    clearLightsTempDistriGraph();
 }
 
 void PlotManager::clearDarkTempEvoGraph()
