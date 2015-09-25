@@ -73,6 +73,45 @@
     </message>
 </context>
 <context>
+    <name>AbstractScanCommand</name>
+    <message>
+        <location filename="../../src/commands/abstractScanCommand.cpp" line="37"/>
+        <source>Locating raw files...</source>
+        <translation>Recherche de fichiers RAW...</translation>
+    </message>
+    <message>
+        <location filename="../../src/commands/abstractScanCommand.cpp" line="49"/>
+        <location filename="../../src/commands/abstractScanCommand.cpp" line="53"/>
+        <source>%1 RAW file(s) found</source>
+        <translation>%1 fichier(s) RAW trouvé(s)</translation>
+    </message>
+    <message>
+        <location filename="../../src/commands/abstractScanCommand.cpp" line="82"/>
+        <source>Scanned file %1 / %2</source>
+        <translation>Fichier %1 / %2 analysé</translation>
+    </message>
+    <message>
+        <location filename="../../src/commands/abstractScanCommand.cpp" line="98"/>
+        <source>WARNING - Ignored %1 short exposure image(s)</source>
+        <translation>ATTENTION - %1 image(s) courte(s) ignorée(s)</translation>
+    </message>
+    <message>
+        <location filename="../../src/commands/abstractScanCommand.cpp" line="113"/>
+        <source>WARNING - Ignored %1 invalid RAW file(s)</source>
+        <translation>ATTENTION - %1 fichier(s) RAW invalide(s) ignoré(s)</translation>
+    </message>
+    <message>
+        <location filename="../../src/commands/abstractScanCommand.cpp" line="123"/>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <location filename="../../src/commands/abstractScanCommand.cpp" line="124"/>
+        <source>Completed successfully</source>
+        <translation>Terminée avec succès</translation>
+    </message>
+</context>
+<context>
     <name>CommandReportDisplay</name>
     <message>
         <location filename="../../src/gui/forms/commandReportDisplay.ui" line="14"/>
@@ -131,85 +170,140 @@
 <context>
     <name>DataStore</name>
     <message>
-        <location filename="../../src/data/dataStore.cpp" line="77"/>
+        <location filename="../../src/data/dataStore.cpp" line="78"/>
         <source>N°</source>
         <translation>N°</translation>
     </message>
     <message>
-        <location filename="../../src/data/dataStore.cpp" line="78"/>
+        <location filename="../../src/data/dataStore.cpp" line="79"/>
         <source>Time</source>
         <translation>Heure</translation>
     </message>
     <message>
-        <location filename="../../src/data/dataStore.cpp" line="79"/>
+        <location filename="../../src/data/dataStore.cpp" line="80"/>
         <source>Status</source>
         <translation>Statut</translation>
     </message>
     <message>
-        <location filename="../../src/data/dataStore.cpp" line="80"/>
+        <location filename="../../src/data/dataStore.cpp" line="81"/>
         <source>Command</source>
         <translation>Commande</translation>
     </message>
     <message>
-        <location filename="../../src/data/dataStore.cpp" line="81"/>
+        <location filename="../../src/data/dataStore.cpp" line="82"/>
         <source>Progress</source>
         <translation>Progression</translation>
     </message>
     <message>
-        <location filename="../../src/data/dataStore.cpp" line="82"/>
+        <location filename="../../src/data/dataStore.cpp" line="83"/>
         <source>Report</source>
         <translation>Rapport</translation>
     </message>
     <message>
-        <location filename="../../src/data/dataStore.cpp" line="86"/>
+        <location filename="../../src/data/dataStore.cpp" line="87"/>
+        <location filename="../../src/data/dataStore.cpp" line="96"/>
         <source>Path</source>
         <translation>Chemin</translation>
     </message>
     <message>
-        <location filename="../../src/data/dataStore.cpp" line="87"/>
+        <location filename="../../src/data/dataStore.cpp" line="88"/>
+        <location filename="../../src/data/dataStore.cpp" line="97"/>
         <source>Model</source>
         <translation>Modèle</translation>
     </message>
     <message>
-        <location filename="../../src/data/dataStore.cpp" line="88"/>
+        <location filename="../../src/data/dataStore.cpp" line="89"/>
+        <location filename="../../src/data/dataStore.cpp" line="98"/>
         <source>Exposure
 (sec.)</source>
         <translation>Exposition
 (sec.)</translation>
     </message>
     <message>
-        <location filename="../../src/data/dataStore.cpp" line="89"/>
+        <location filename="../../src/data/dataStore.cpp" line="90"/>
+        <location filename="../../src/data/dataStore.cpp" line="99"/>
         <source>ISO</source>
         <translation>ISO</translation>
     </message>
     <message>
-        <location filename="../../src/data/dataStore.cpp" line="90"/>
+        <location filename="../../src/data/dataStore.cpp" line="91"/>
+        <location filename="../../src/data/dataStore.cpp" line="100"/>
         <source>Date</source>
         <translation>Date</translation>
     </message>
     <message>
-        <location filename="../../src/data/dataStore.cpp" line="91"/>
+        <location filename="../../src/data/dataStore.cpp" line="92"/>
+        <location filename="../../src/data/dataStore.cpp" line="101"/>
         <source>Temperature
 (°C)</source>
         <translation>Température
 (°C)</translation>
     </message>
     <message>
-        <location filename="../../src/data/dataStore.cpp" line="94"/>
+        <location filename="../../src/data/dataStore.cpp" line="104"/>
         <source>Dark families</source>
         <translation>Familles de darks</translation>
     </message>
     <message>
-        <location filename="../../src/data/dataStore.cpp" line="316"/>
+        <location filename="../../src/data/dataStore.cpp" line="340"/>
         <source>Camera N°</source>
         <translation>Appareil N°</translation>
     </message>
     <message>
-        <location filename="../../src/data/dataStore.cpp" line="321"/>
-        <location filename="../../src/data/dataStore.cpp" line="340"/>
-        <location filename="../../src/data/dataStore.cpp" line="363"/>
+        <location filename="../../src/data/dataStore.cpp" line="345"/>
+        <location filename="../../src/data/dataStore.cpp" line="364"/>
+        <location filename="../../src/data/dataStore.cpp" line="387"/>
         <source>%1 Darks</source>
         <translation>%1 darks</translation>
+    </message>
+</context>
+<context>
+    <name>LightsCheckCommand</name>
+    <message>
+        <location filename="../../src/commands/lightsCheckCommand.cpp" line="29"/>
+        <source>Lights consistency check</source>
+        <translation>Test de cohérence des bruts</translation>
+    </message>
+    <message>
+        <location filename="../../src/commands/lightsCheckCommand.cpp" line="43"/>
+        <source>Checking lights...</source>
+        <translation>Vérification des bruts...</translation>
+    </message>
+    <message>
+        <location filename="../../src/commands/lightsCheckCommand.cpp" line="67"/>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <location filename="../../src/commands/lightsCheckCommand.cpp" line="68"/>
+        <source>Completed successfully</source>
+        <translation>Terminée avec succès</translation>
+    </message>
+    <message>
+        <location filename="../../src/commands/lightsCheckCommand.cpp" line="74"/>
+        <source>WARNING - you have mismatched lights in this folder</source>
+        <translation>ATTENTION - vos bruts ne sont pas cohérents</translation>
+    </message>
+    <message>
+        <location filename="../../src/commands/lightsCheckCommand.cpp" line="78"/>
+        <source>%1
+and
+%2
+</source>
+        <translation>%1
+et
+%2
+</translation>
+    </message>
+    <message>
+        <location filename="../../src/commands/lightsCheckCommand.cpp" line="80"/>
+        <source>don&apos;t have the same serial# + ISO + exposure time</source>
+        <translation>n&apos;ont pas le même numéro de série + ISO + temps d&apos;exposition</translation>
+    </message>
+    <message>
+        <location filename="../../src/commands/lightsCheckCommand.cpp" line="83"/>
+        <source>Done</source>
+        <translation>Terminé</translation>
     </message>
 </context>
 <context>
@@ -220,117 +314,140 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/gui/forms/mainWindow.ui" line="25"/>
+        <location filename="../../src/gui/forms/mainWindow.ui" line="29"/>
         <source>Dark Library</source>
         <translation>Bibliothèque de darks</translation>
     </message>
     <message>
-        <location filename="../../src/gui/forms/mainWindow.ui" line="45"/>
+        <location filename="../../src/gui/forms/mainWindow.ui" line="49"/>
         <source>Display filter</source>
         <translation>Filtre d&apos;affichage</translation>
     </message>
     <message>
-        <location filename="../../src/gui/forms/mainWindow.ui" line="61"/>
+        <location filename="../../src/gui/forms/mainWindow.ui" line="65"/>
         <source>Clear filter</source>
         <translation>Effacer filtre</translation>
     </message>
     <message>
-        <location filename="../../src/gui/forms/mainWindow.ui" line="71"/>
+        <location filename="../../src/gui/forms/mainWindow.ui" line="75"/>
         <source>Library content</source>
         <translation>Contenu de la bibliothèque</translation>
     </message>
     <message>
-        <location filename="../../src/gui/forms/mainWindow.ui" line="84"/>
+        <location filename="../../src/gui/forms/mainWindow.ui" line="88"/>
+        <location filename="../../src/gui/forms/mainWindow.ui" line="237"/>
         <source>Details</source>
         <translation>Détails</translation>
     </message>
     <message>
-        <location filename="../../src/gui/forms/mainWindow.ui" line="104"/>
+        <location filename="../../src/gui/forms/mainWindow.ui" line="111"/>
+        <location filename="../../src/gui/forms/mainWindow.ui" line="257"/>
         <source>T° Evolution</source>
         <translation>Evolution T°</translation>
     </message>
     <message>
-        <location filename="../../src/gui/forms/mainWindow.ui" line="114"/>
+        <location filename="../../src/gui/forms/mainWindow.ui" line="121"/>
+        <location filename="../../src/gui/forms/mainWindow.ui" line="267"/>
         <source>T° Distribution</source>
         <translation>Distribution T°</translation>
     </message>
     <message>
-        <location filename="../../src/gui/forms/mainWindow.ui" line="127"/>
+        <location filename="../../src/gui/forms/mainWindow.ui" line="134"/>
         <source>Dark count : </source>
         <translation>Nombre de darks :</translation>
     </message>
     <message>
-        <location filename="../../src/gui/forms/mainWindow.ui" line="144"/>
+        <location filename="../../src/gui/forms/mainWindow.ui" line="173"/>
         <source>Rescan dark library</source>
         <translation>Ré-analyser la bibliothèque</translation>
     </message>
     <message>
-        <location filename="../../src/gui/forms/mainWindow.ui" line="180"/>
+        <location filename="../../src/gui/forms/mainWindow.ui" line="196"/>
+        <source>Lights matching</source>
+        <translation>Correspondance des bruts</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/forms/mainWindow.ui" line="204"/>
+        <source>Open lights folder</source>
+        <translation>Ouvrir dossier de bruts</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/forms/mainWindow.ui" line="220"/>
+        <source>Lights details</source>
+        <translation>Détails des bruts</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/forms/mainWindow.ui" line="226"/>
+        <source>Lights count :</source>
+        <translation>Nombre de bruts :</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/forms/mainWindow.ui" line="297"/>
         <source>&amp;File</source>
         <translation>&amp;Fichier</translation>
     </message>
     <message>
-        <location filename="../../src/gui/forms/mainWindow.ui" line="186"/>
+        <location filename="../../src/gui/forms/mainWindow.ui" line="304"/>
         <source>&amp;Edit</source>
         <translation>&amp;Edition</translation>
     </message>
     <message>
-        <location filename="../../src/gui/forms/mainWindow.ui" line="192"/>
+        <location filename="../../src/gui/forms/mainWindow.ui" line="310"/>
         <source>&amp;View</source>
         <translation>A&amp;ffichage</translation>
     </message>
     <message>
-        <location filename="../../src/gui/forms/mainWindow.ui" line="198"/>
+        <location filename="../../src/gui/forms/mainWindow.ui" line="316"/>
         <source>&amp;Help</source>
         <translation>&amp;Aide</translation>
     </message>
     <message>
-        <location filename="../../src/gui/forms/mainWindow.ui" line="228"/>
+        <location filename="../../src/gui/forms/mainWindow.ui" line="346"/>
         <source>Command log</source>
         <translation>Journal des commandes</translation>
     </message>
     <message>
-        <location filename="../../src/gui/forms/mainWindow.ui" line="288"/>
+        <location filename="../../src/gui/forms/mainWindow.ui" line="407"/>
         <source>&amp;Quit</source>
         <translation>&amp;Quitter</translation>
     </message>
     <message>
-        <location filename="../../src/gui/forms/mainWindow.ui" line="291"/>
+        <location filename="../../src/gui/forms/mainWindow.ui" line="410"/>
         <source>Ctrl+Q</source>
         <translation>Ctrl+Q</translation>
     </message>
     <message>
-        <location filename="../../src/gui/forms/mainWindow.ui" line="296"/>
+        <location filename="../../src/gui/forms/mainWindow.ui" line="418"/>
         <source>&amp;Preferences</source>
         <translation>&amp;Préférences</translation>
     </message>
     <message>
-        <location filename="../../src/gui/forms/mainWindow.ui" line="299"/>
+        <location filename="../../src/gui/forms/mainWindow.ui" line="421"/>
         <source>Ctrl+P</source>
         <translation>Ctrl+P</translation>
     </message>
     <message>
-        <location filename="../../src/gui/forms/mainWindow.ui" line="310"/>
+        <location filename="../../src/gui/forms/mainWindow.ui" line="435"/>
         <source>Command &amp;log</source>
         <translation>Journa&amp;l des commandes</translation>
     </message>
     <message>
-        <location filename="../../src/gui/forms/mainWindow.ui" line="313"/>
+        <location filename="../../src/gui/forms/mainWindow.ui" line="438"/>
         <source>Ctrl+L</source>
         <translation>Ctrl+L</translation>
     </message>
     <message>
-        <location filename="../../src/gui/forms/mainWindow.ui" line="318"/>
+        <location filename="../../src/gui/forms/mainWindow.ui" line="443"/>
         <source>&amp;About AstRawDark...</source>
         <translation>&amp;A propos d&apos;AstRawDark...</translation>
     </message>
     <message>
-        <location filename="../../src/gui/forms/mainWindow.ui" line="353"/>
+        <location filename="../../src/gui/forms/mainWindow.ui" line="451"/>
         <source>Rescan &amp;darks library</source>
         <translation>Ré-analyser bibliothèque de &amp;darks</translation>
     </message>
     <message>
-        <location filename="../../src/gui/forms/mainWindow.ui" line="356"/>
+        <location filename="../../src/gui/forms/mainWindow.ui" line="454"/>
         <source>Ctrl+D</source>
         <translation>Ctrl+D</translation>
     </message>
@@ -340,67 +457,104 @@
         <translation>Nombre de darks affichés</translation>
     </message>
     <message>
-        <location filename="../../src/gui/mainWindow.cpp" line="109"/>
+        <location filename="../../src/gui/mainWindow.cpp" line="37"/>
+        <source>Displayed lights count : %1</source>
+        <translation>Nombre de bruts affichés : %1</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/mainWindow.cpp" line="155"/>
         <source>AstRawDark : No dark sources set</source>
         <translation>AstRawDark : Aucune source de darks connue</translation>
     </message>
     <message>
-        <location filename="../../src/gui/mainWindow.cpp" line="111"/>
+        <location filename="../../src/gui/mainWindow.cpp" line="157"/>
         <source>Your darks library sources are not configured</source>
         <translation>Vos sources de darks ne sont pas configurées</translation>
     </message>
     <message>
-        <location filename="../../src/gui/mainWindow.cpp" line="113"/>
+        <location filename="../../src/gui/mainWindow.cpp" line="159"/>
         <source>Would you like to review your darks library settings ?</source>
         <translation>Désirez-vous accéder à la configuration de votre librairie de darks ?</translation>
     </message>
     <message>
-        <location filename="../../src/gui/mainWindow.cpp" line="116"/>
+        <location filename="../../src/gui/mainWindow.cpp" line="162"/>
         <source>Yes</source>
         <translation>Oui</translation>
     </message>
     <message>
-        <location filename="../../src/gui/mainWindow.cpp" line="117"/>
+        <location filename="../../src/gui/mainWindow.cpp" line="163"/>
         <source>No</source>
         <translation>Non</translation>
     </message>
     <message>
-        <location filename="../../src/gui/mainWindow.cpp" line="190"/>
+        <location filename="../../src/gui/mainWindow.cpp" line="234"/>
         <source> (Filtered)</source>
         <translation> (Filtré)</translation>
     </message>
     <message>
-        <location filename="../../src/gui/mainWindow.cpp" line="168"/>
+        <location filename="../../src/gui/mainWindow.cpp" line="237"/>
         <source> : %1 / %2</source>
         <translation> : %1 / %2</translation>
     </message>
     <message>
-        <location filename="../../src/gui/mainWindow.cpp" line="211"/>
+        <location filename="../../src/gui/mainWindow.cpp" line="290"/>
+        <source>Please select lights folder</source>
+        <translation>Sélectionnez dossier de bruts</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/mainWindow.cpp" line="311"/>
         <source> : Scan in progress...</source>
         <translation> : Analyse en cours...</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/mainWindow.cpp" line="348"/>
+        <source>Lights are not consistent</source>
+        <translation>Ces bruts ne sont pas cohérents</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/mainWindow.cpp" line="349"/>
+        <source>These lights have not been shot with the same camera or have different ISO settings and exposure times.</source>
+        <translation>Ces bruts n&apos;ont pas été pris avec le même boîtier, ou ont des réglages ISO and temps d&apos;exposition différents.</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/mainWindow.cpp" line="352"/>
+        <source>Temperature matching cannot be performed</source>
+        <translation>L&apos;adaptation de température ne peut pas être faite</translation>
     </message>
 </context>
 <context>
     <name>PlotManager</name>
     <message>
-        <location filename="../../src/gui/plotManager.cpp" line="33"/>
+        <location filename="../../src/gui/plotManager.cpp" line="39"/>
         <source>Dark N°</source>
         <translation>Dark N°</translation>
     </message>
     <message>
-        <location filename="../../src/gui/plotManager.cpp" line="36"/>
+        <location filename="../../src/gui/plotManager.cpp" line="41"/>
+        <location filename="../../src/gui/plotManager.cpp" line="47"/>
         <source>Sensor temperature in °C</source>
         <translation>Température capteur en °C</translation>
     </message>
     <message>
-        <location filename="../../src/gui/plotManager.cpp" line="40"/>
+        <location filename="../../src/gui/plotManager.cpp" line="45"/>
+        <source>Light N°</source>
+        <translation>Brut N°</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/plotManager.cpp" line="51"/>
+        <location filename="../../src/gui/plotManager.cpp" line="61"/>
         <source>Sensor temperature in C°</source>
         <translation>Température capteur en °C</translation>
     </message>
     <message>
-        <location filename="../../src/gui/plotManager.cpp" line="47"/>
+        <location filename="../../src/gui/plotManager.cpp" line="57"/>
         <source>Dark count</source>
         <translation>Nombre de darks</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/plotManager.cpp" line="67"/>
+        <source>Light count</source>
+        <translation>Nombre de bruts</translation>
     </message>
 </context>
 <context>
@@ -526,60 +680,22 @@
 <context>
     <name>ScanDarkSourceCommand</name>
     <message>
-        <location filename="../../src/commands/scanDarkSourceCommand.cpp" line="36"/>
+        <location filename="../../src/commands/scanDarkSourceCommand.cpp" line="34"/>
         <source>Dark library scan</source>
         <translation>Analyse bibliothèque darks</translation>
     </message>
     <message>
-        <location filename="../../src/commands/scanDarkSourceCommand.cpp" line="55"/>
-        <source>WARNING - Ignored %1 short exposure image(s)</source>
-        <translation>ATTENTION - %1 image(s) courte(s) ignorée(s)</translation>
-    </message>
-    <message>
-        <location filename="../../src/commands/scanDarkSourceCommand.cpp" line="70"/>
+        <location filename="../../src/commands/scanDarkSourceCommand.cpp" line="56"/>
         <source>WARNING - Ignored %1 missing dark source folder</source>
         <translation>ATTENTION - %1 dossier(s) de darks manquant(s) ignoré(s)</translation>
     </message>
+</context>
+<context>
+    <name>ScanLightsCommand</name>
     <message>
-        <location filename="../../src/commands/scanDarkSourceCommand.cpp" line="85"/>
-        <source>WARNING - Ignored %1 invalid RAW file(s)</source>
-        <translation>ATTENTION - %1 fichier(s) RAW invalide(s) ignoré(s)</translation>
-    </message>
-    <message>
-        <location filename="../../src/commands/scanDarkSourceCommand.cpp" line="95"/>
-        <source>OK</source>
-        <translation>OK</translation>
-    </message>
-    <message>
-        <location filename="../../src/commands/scanDarkSourceCommand.cpp" line="96"/>
-        <source>Completed successfully</source>
-        <translation>Terminée avec succès</translation>
-    </message>
-    <message>
-        <location filename="../../src/commands/scanDarkSourceCommand.cpp" line="100"/>
-        <source>Some items need your attention :</source>
-        <translation>Des éléments requièrent votre attention :</translation>
-    </message>
-    <message>
-        <location filename="../../src/commands/scanDarkSourceCommand.cpp" line="129"/>
-        <source>Locating raw files...</source>
-        <translation>Recherche de fichiers RAW...</translation>
-    </message>
-    <message>
-        <location filename="../../src/commands/scanDarkSourceCommand.cpp" line="137"/>
-        <source>Found 0 raw file</source>
-        <translation>Aucun fichier RAW trouvé</translation>
-    </message>
-    <message>
-        <location filename="../../src/commands/scanDarkSourceCommand.cpp" line="87"/>
-        <location filename="../../src/commands/scanDarkSourceCommand.cpp" line="93"/>
-        <source>%1 RAW file(s) found</source>
-        <translation>%1 fichier(s) RAW trouvé(s)</translation>
-    </message>
-    <message>
-        <location filename="../../src/commands/scanDarkSourceCommand.cpp" line="119"/>
-        <source>Scanned file %1 / %2</source>
-        <translation>Fichier %1 / %2 analysé</translation>
+        <location filename="../../src/commands/scanLightsCommand.cpp" line="28"/>
+        <source>Lights folder scan</source>
+        <translation>Analyse dossier de brut</translation>
     </message>
 </context>
 </TS>

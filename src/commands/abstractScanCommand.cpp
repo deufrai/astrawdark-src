@@ -42,9 +42,6 @@ void AbstractScanCommand::getRawPathsInDirectory(const QString directory)
                     QDir::NoDotAndDotDot | QDir::Files,
                     QDirIterator::Subdirectories);
 
-    _progressMessage = tr("Looking for RAW files...");
-    emit statusChanged(this);
-
     int found=0;
     while (it.hasNext()) {
 
