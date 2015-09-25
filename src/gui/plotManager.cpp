@@ -244,6 +244,13 @@ void PlotManager::refreshDarkTempDistriGraph()
 
     ((QCPBars*)(_darkTempDistriPlot->plottable(0)))->setData(x,y);
 
+    // ARD-100: fix X axis when dataset is empty
+    if ( darks.count() == 0 ) {
+
+        minTemp = 1;
+        maxTemp = 0;
+    }
+
     _darkTempDistriPlot->xAxis->setRange(minTemp - 1, maxTemp + 1);
     _darkTempDistriPlot->yAxis->setRange(0, maxCount + 1);
 
@@ -335,6 +342,13 @@ void PlotManager::refreshLightsTempDistriGraph()
     }
 
     ((QCPBars*)(_lightsTempDistriPlot->plottable(0)))->setData(x,y);
+
+    // ARD-100: fix X axis when dataset is empty
+    if ( lights.count() == 0 ) {
+
+        minTemp = 1;
+        maxTemp = 0;
+    }
 
     _lightsTempDistriPlot->xAxis->setRange(minTemp - 1, maxTemp + 1);
     _lightsTempDistriPlot->yAxis->setRange(0, maxCount + 1);
