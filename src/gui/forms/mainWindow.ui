@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>887</width>
-    <height>720</height>
+    <height>560</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -333,7 +333,7 @@
    <property name="minimumSize">
     <size>
      <width>102</width>
-     <height>120</height>
+     <height>129</height>
     </size>
    </property>
    <property name="baseSize">
@@ -358,7 +358,7 @@
     <property name="minimumSize">
      <size>
       <width>0</width>
-      <height>101</height>
+      <height>110</height>
      </size>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout2">
@@ -373,7 +373,7 @@
        <property name="minimumSize">
         <size>
          <width>0</width>
-         <height>100</height>
+         <height>90</height>
         </size>
        </property>
        <property name="maximumSize">
