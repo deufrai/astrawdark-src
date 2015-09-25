@@ -514,7 +514,7 @@ et
     <message>
         <location filename="../../src/gui/mainWindow.cpp" line="349"/>
         <source>These lights have not been shot with the same camera or have different ISO settings and exposure times.</source>
-        <translation>Ces bruts n&apos;ont pas été pris avec le même boîtier, ou ont des réglages ISO and temps d&apos;exposition différents.</translation>
+        <translation>Ces bruts n&apos;ont pas été pris avec le même boîtier, ou ont des réglages ISO et temps d&apos;exposition différents.</translation>
     </message>
     <message>
         <location filename="../../src/gui/mainWindow.cpp" line="352"/>
