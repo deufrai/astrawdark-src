@@ -1,5 +1,15 @@
 astrawdark : a tool to manage astrophotography dark frames - (c) Frédéric CORNU - 2015
 
+For now, only Canon RAW files are supported. 
+
+AstRawDark is known to fully support these camera :
+
+ - Canon EOS 400D
+ - Canon EOS 500D
+ - Canon EOS 70D
+
+Just test it with your Canon DSLR and report your experience
+
 Building astrawdark :
 =====================
 

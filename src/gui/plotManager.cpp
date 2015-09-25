@@ -198,6 +198,16 @@ void PlotManager::refreshDarkTempEvoGraph()
 
     _darkTempEvoPlot->xAxis->setTickStep(xTickStep);
 
+    // ensure data visibility on small datasets
+    if ( data.count() < 5 ) {
+
+        _darkTempEvoPlot->graph()->setScatterStyle(QCPScatterStyle::ssCross);
+
+    } else {
+
+        _darkTempEvoPlot->graph()->setScatterStyle(QCPScatterStyle::ssNone);
+    }
+
     _darkTempEvoPlot->replot();
 }
 
