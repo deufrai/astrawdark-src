@@ -17,39 +17,35 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SCANDARKSOURCE_H
-#define SCANDARKSOURCE_H
+#ifndef SCANLIGHTSCOMMAND_H
+#define SCANLIGHTSCOMMAND_H
+
+#include <QObject>
 
 #include "abstractScanCommand.h"
 
 /**
- * @brief Command that fetches all dark frames metadata
+ * @brief Command that scans a unique lights directory
  */
-class ScanDarkSourceCommand : public AbstractScanCommand
+class ScanLightsCommand : public AbstractScanCommand
 {
     Q_OBJECT
 public:
     /**
      * Constructor
-     * @param sources dark source folder paths
+     * @param dir the directory to scan for lights
      */
-    explicit ScanDarkSourceCommand(const QStringList sources);
+    ScanLightsCommand(const QString dir);
 
     /**
      * Destructor
      */
-    virtual ~ScanDarkSourceCommand() {}
+    virtual ~ScanLightsCommand() {}
 
-protected:
-    /** processing payload */
+    /**
+     * The actual processing payload of this command.
+     */
     virtual void do_processing();
-
-private:
-    /** Paths of missing dark source folders */
-    QStringList      _missingDirsPaths;
-
-    /** check for scan errors */
-    void checkForErrors();
 
 signals:
     /** tell everyone we completed the scan */
@@ -59,7 +55,6 @@ signals:
     void scanStarted();
 
 public slots:
-
 };
 
-#endif // SCANDARKSOURCE_H
+#endif // SCANLIGHTSCOMMAND_H

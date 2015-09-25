@@ -61,6 +61,7 @@ private:
     CommandManager* _commandManager;
 
     const QString LBL_DARKCOUNT_BASETEXT;
+    const QString LBL_LIGHTSCOUNT_BASETEXT;
 
     /** Our UI */
     Ui::MainWindow *ui;
@@ -68,8 +69,13 @@ private:
     /** update dark count indicator */
     void updateDarkContentCount();
 
+    /** update lights count indicator */
+    void updateLightsContentCount();
 
+    /** Our datastore */
+    DataStore* _dataStore;
 
+    /** Our plot manager */
     PlotManager* _plotManager;
 
 private slots:
@@ -114,7 +120,9 @@ private slots:
     /** user triggered darkRescan action */
     void on_actionRescanDarksLibrary_triggered();
 
-public slots:
+    /** User wants to change current lights folder */
+    void on_btnChooseLightsFolder_clicked();
+
     /**
      * Dark sources have changed
      * @param sources a list of dark source folder paths
@@ -127,9 +135,24 @@ public slots:
     /** A dark scan just finished */
     void on_darkScanDone();
 
+    /** A lights scan just started */
+    void on_lightsScanStart();
+
+    /** A lights scan just finished */
+    void on_lightsScanDone();
+
+    /** A lights consistency check result arrived */
+    void on_consistencyResult(bool consistent);
+
 signals:
     /** Tell the CommandManager to create a ScanDark command */
     void scanDarkLibrary();
+
+    /** Tell the CommandManager to create a ScanLights command */
+    void scanLightsFolder();
+
+    /** Tell the CommandManager to create a ScanLights command */
+    void checkLights();
 };
 
 #endif // MAINWINDOW_H

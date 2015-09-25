@@ -38,7 +38,20 @@ public:
      * @param sources a list of dark frame source folder paths
      * @return a pointer to the newly created command
      */
-    static AbstractCommand* createScanDarkSourceCommand(const QStringList &sources);
+    static AbstractCommand* createScanDarkSourceCommand(const QStringList& sources);
+
+    /**
+     * Create a ScanLightsCommand
+     * @param dir the directory to scan
+     * @return a pointer to the newly created command
+     */
+    static AbstractCommand* createScanLightsCommand(const QString dir);
+
+    /**
+     * Create a LightsCheckCommand
+     * @return a pointer to the newly created command
+     */
+    static AbstractCommand* createLightsCheckCommand();
 
 };
 

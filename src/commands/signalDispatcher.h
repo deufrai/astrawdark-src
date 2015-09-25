@@ -53,11 +53,20 @@ signals:
     /** A new dark scan has just started */
     void darkScanStarted();
 
+    /** A lights scan has just started */
+    void lightsScanStarted();
+
     /**
      * A dark scan has just finished
      * @param result a list of ImageInfo
      */
     void darkScanDone(QList<ImageInfo> result);
+
+    /**
+     * A lights scan has just finished
+     * @param result a list of ImageInfo
+     */
+    void lightsScanDone(QList<ImageInfo> result);
 
     /**
      * a command has just been created
@@ -83,6 +92,15 @@ signals:
     /** the dark list model has been updated */
     void darkListModelChanged();
 
+    /** let's create a ligts scan command */
+    void createLightsScanCommand();
+
+    /** let's create a lights check command */
+    void createLightsCheckCommand();
+
+    /** advertize consistency check result */
+    void consistencyResult(bool);
+
 public slots:
     /** A new dark scan has just started */
     void on_darkScanStarted() {emit darkScanStarted();}
@@ -92,6 +110,12 @@ public slots:
      * @param result a list of ImageInfo
      */
     void on_darkScanDone(QList<ImageInfo> result) {emit darkScanDone(result);}
+
+    /**
+     * A lights scan has just finished
+     * @param result a list of ImageInfo
+     */
+    void on_lightsScanDone(QList<ImageInfo> result) {emit lightsScanDone(result);}
 
     /**
      * a command has just been created
@@ -116,6 +140,20 @@ public slots:
 
     /** dark list model changed */
     void on_darkListModelChanged() {emit darkListModelChanged();}
+
+    /** let's create a lights scan command */
+    void on_createLightsScanCommand() {emit createLightsScanCommand();}
+
+    /** let's create a lights check command */
+    void on_createLightsCheckCommand() {emit createLightsCheckCommand();}
+
+    /** A new lights scan just started */
+    void on_lightsScanStarted() {emit lightsScanStarted();}
+
+    /** lights consistency result arrived */
+    void on_consistencyResult(bool consistent) {emit consistencyResult(consistent);}
+
+
 
 };
 

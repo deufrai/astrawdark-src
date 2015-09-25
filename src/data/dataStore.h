@@ -56,6 +56,13 @@ public:
      */
     QStandardItemModel* getDarkModel() const {return _darkListModel;}
 
+
+    /**
+     * Get lights list model
+     * @return the model
+     */
+    QStandardItemModel* getLightsModel() const {return _lightsListModel;}
+
     /**
      * Get dark tree model
      * @return the model
@@ -111,27 +118,54 @@ public:
     int getDarkLibrarySize() const {return _scannedDarks.count();}
 
     /**
+     * Get the size of lights model
+     * @return lights model row count
+     */
+    int getLightsCount() const {return _scannedLights.count();}
+
+    /**
      * Get all scanned darks
      * @return a list of darks infos
      */
     const QList<ImageInfo>& getScannedDarks() const {return _scannedDarks;}
 
     /**
-     * Get all scanned darks
+     * Get all scanned lights
+     * @return a list of lights infos
+     */
+    const QList<ImageInfo>& getScannedLights() const {return _scannedLights;}
+
+    /**
+     * Get all filtered darks
      * @return a list of darks infos
      */
     const QList<ImageInfo>& getFilteredDarks() const {return _filteredDarks;}
 
+    /**
+     * Get lights folder
+     * @return lights folder
+     */
+    const QString& getLightsFolder() const {return _lightsFolder; }
+
+    /**
+     * Set lights folder
+     * @param lights lights folder
+     */
+    void setLightsFolder(const QString lights) { _lightsFolder = lights;}
+
 private:
     QStandardItemModel* _darkListModel;
+    QStandardItemModel* _lightsListModel;
     QStandardItemModel* _commandListModel;
     QStandardItemModel* _darkTreeModel;
     QStringList         _darkSources;
     QList<ImageInfo>    _scannedDarks;
     QList<ImageInfo>    _filteredDarks;
+    QList<ImageInfo>    _scannedLights;
     bool                _rememberWindowGeometry;
     bool                _scanDarksOnStartup;
     static QString      _S_DarkDisplayFilter;
+    QString             _lightsFolder;
 
     /**
      * Update an already known command
@@ -148,10 +182,11 @@ private:
     void populateDarkFiltersTreeView(QList<ImageInfo> imageInfos);
 
     /**
-     * Populate the darklist model
-     * @ param darks the darks to populate with
+     * Populate a frame model
+     * @param model the model to populate
+     * @param frames the frames to populate with
      */
-    void populateDarkListModel(QList<ImageInfo> darks);
+    void populateFrameListModel(QStandardItemModel* model, QList<ImageInfo> frames);
 
     /**
      * Filter a dark
@@ -177,11 +212,20 @@ public slots:
     /** empty dark list model upon any new scan starts */
     void on_newDarkScanStarted();
 
+    /** empty lights list model upon any new scan starts */
+    void on_newLightsScanStarted();
+
     /**
      * Registers a new dark frame scan result
      * @param darks scan result
      */
     void on_newDarkScanResult(QList<ImageInfo> darks);
+
+    /**
+     * Registers a new lights scan result
+     * @param lights scan result
+     */
+    void on_newLightsScanResult(QList<ImageInfo> lights);
 
     /**
      * Update model with changed command
