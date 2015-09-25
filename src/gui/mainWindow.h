@@ -141,6 +141,9 @@ private slots:
     /** A lights scan just finished */
     void on_lightsScanDone();
 
+    /** A lights consistency check result arrived */
+    void on_consistencyResult(bool consistent);
+
 signals:
     /** Tell the CommandManager to create a ScanDark command */
     void scanDarkLibrary();

@@ -135,6 +135,11 @@ MainWindow::MainWindow(CommandManager *manager, QWidget *parent)
             SignalDispatcher::getInstance(),
             &SignalDispatcher::on_createLightsCheckCommand);
 
+    connect(SignalDispatcher::getInstance(),
+            &SignalDispatcher::consistencyResult,
+            this,
+            &MainWindow::on_consistencyResult);
+
 
 
     ui->tabDarkDetailsWidget->setCurrentIndex(0);
@@ -333,4 +338,17 @@ void MainWindow::on_lightsScanDone()
         emit checkLights();
     }
 
+}
+
+void MainWindow::on_consistencyResult(bool consistent)
+{
+    if ( ! consistent ) {
+
+        QMessageBox::warning(this,
+                             tr("Lights are not consistent"),
+                             tr("These lights have not been shot with the same camera"
+                                " or have different ISO settings and exposure times.")
+                             .append("\n\n")
+                             .append(tr("Temperature matching cannot be performed")));
+    }
 }

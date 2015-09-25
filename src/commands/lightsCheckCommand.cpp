@@ -20,31 +20,36 @@
 #include "lightsCheckCommand.h"
 #include "../data/imageInfo.h"
 #include "../data/dataStore.h"
-
+#include "signalDispatcher.h"
 #include <QList>
 
 
 LightsCheckCommand::LightsCheckCommand()
 {
-    _description = QString(tr("Lights consistancy check"));
+    _description = QString(tr("Lights consistency check"));
+
+    connect(this,
+            &LightsCheckCommand::consistencyResult,
+            SignalDispatcher::getInstance(),
+            &SignalDispatcher::on_consistencyResult);
 }
 
 void LightsCheckCommand::do_processing()
 {
     QList<ImageInfo> lights = DataStore::getInstance()->getScannedLights();
 
-    bool consistant = true;
+    bool consistent = true;
 
     _progressMessage = tr("Checking lights...");
     emit statusChanged(this);
 
     ImageInfo reference, test;
 
-    for ( int referenceIndex = 0; referenceIndex < lights.count() && consistant; ++referenceIndex) {
+    for ( int referenceIndex = 0; referenceIndex < lights.count() && consistent; ++referenceIndex) {
 
         reference = lights[referenceIndex];
 
-        for ( int testIndex = referenceIndex +1; testIndex < lights.count() && consistant; ++testIndex ) {
+        for ( int testIndex = referenceIndex +1; testIndex < lights.count() && consistent; ++testIndex ) {
 
             test = lights[testIndex];
 
@@ -52,12 +57,12 @@ void LightsCheckCommand::do_processing()
                      reference.getIso()             == test.getIso()            &&
                      reference.getExposure()        == test.getExposure()           ) ) {
 
-                consistant = false;
+                consistent = false;
             }
         }
     }
 
-    if ( consistant ) {
+    if ( consistent ) {
 
         _reportMessages << tr("OK");
         _commandReport.addSection(tr("Completed successfully"),QStringList());
@@ -77,5 +82,7 @@ void LightsCheckCommand::do_processing()
 
     _progressMessage = tr("Done");
     emit statusChanged(this);
+
+    emit consistencyResult(consistent);
 }
 

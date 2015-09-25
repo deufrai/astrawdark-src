@@ -98,6 +98,9 @@ signals:
     /** let's create a lights check command */
     void createLightsCheckCommand();
 
+    /** advertize consistency check result */
+    void consistencyResult(bool);
+
 public slots:
     /** A new dark scan has just started */
     void on_darkScanStarted() {emit darkScanStarted();}
@@ -146,6 +149,9 @@ public slots:
 
     /** A new lights scan just started */
     void on_lightsScanStarted() {emit lightsScanStarted();}
+
+    /** lights consistency result arrived */
+    void on_consistencyResult(bool consistent) {emit consistencyResult(consistent);}
 
 
 

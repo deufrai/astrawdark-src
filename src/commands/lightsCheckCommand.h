@@ -45,6 +45,8 @@ protected:
     virtual void do_processing();
 
 signals:
+    /** advertize consistency check result */
+    void consistencyResult(bool);
 
 public slots:
 };
