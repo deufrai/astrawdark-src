@@ -115,47 +115,50 @@ void PlotManager::on_lightsScanStarted()
 
 void PlotManager::clearDarkTempEvoGraph()
 {
-    if ( _darkTempEvoPlot->graphCount() > 0 ) {
-
-        _darkTempEvoPlot->graph()->clearData();
-        _darkTempEvoPlot->replot();
-    }
+    clearPlot(_darkTempEvoPlot);
 }
 
 void PlotManager::clearDarkTempDistriGraph()
 {
-    if ( _darkTempDistriPlot->plottableCount() ) {
-
-        _darkTempDistriPlot->plottable()->clearData();
-        _darkTempDistriPlot->replot();
-    }
+    clearPlot(_darkTempDistriPlot);
 }
 
 void PlotManager::clearLightsTempEvoGraph()
 {
-    if ( _lightsTempEvoPlot->graphCount()  > 0 ) {
-
-        _lightsTempEvoPlot->graph()->clearData();
-        _lightsTempEvoPlot->replot();
-    }
+    clearPlot(_lightsTempEvoPlot);
 }
 
 void PlotManager::clearLightsTempDistriGraph()
 {
-    if ( _lightsTempDistriPlot->plottableCount() ) {
-
-        _lightsTempDistriPlot->plottable()->clearData();
-        _lightsTempDistriPlot->replot();
-    }
+    clearPlot(_lightsTempDistriPlot);
 }
 
 void PlotManager::refreshDarkTempEvoGraph()
 {
-    QList<ImageInfo> unsortedData = DataStore::getInstance()->getFilteredDarks();
+   refreshTempEvoPlot(_darkTempEvoPlot, DataStore::getInstance()->getFilteredDarks());
+}
 
-    // we sort darks by ascending date
+
+void PlotManager::refreshDarkTempDistriGraph()
+{
+    refreshTempDistriPlot(_darkTempDistriPlot, DataStore::getInstance()->getFilteredDarks());
+}
+
+void PlotManager::refreshLightsTempEvoGraph()
+{
+    refreshTempEvoPlot(_lightsTempEvoPlot, DataStore::getInstance()->getScannedLights());
+}
+
+void PlotManager::refreshLightsTempDistriGraph()
+{
+    refreshTempDistriPlot(_lightsTempDistriPlot, DataStore::getInstance()->getScannedLights());
+}
+
+void PlotManager::refreshTempEvoPlot(QCustomPlot *plot, QList<ImageInfo> infos)
+{
+    // we sort frames by ascending date
     QMap<QString, ImageInfo> map;
-    foreach (ImageInfo info, unsortedData) {
+    foreach (ImageInfo info, infos) {
 
         map.insert(info.getDate(), info);
     }
@@ -182,12 +185,12 @@ void PlotManager::refreshDarkTempEvoGraph()
         }
     }
 
-    _darkTempEvoPlot->graph()->setData(x,y);
+    plot->graph()->setData(x,y);
 
     // set X axis range's maximum to be the next even number after max X value
-    _darkTempEvoPlot->xAxis->setRange(0, (data.count()/2)*2+2);
-    _darkTempEvoPlot->yAxis->setRange(0, maxTemp + 1);
-    _darkTempEvoPlot->yAxis->setTickStep(roundUp(maxTemp / 10, 5));
+    plot->xAxis->setRange(0, (data.count()/2)*2+2);
+    plot->yAxis->setRange(0, maxTemp + 1);
+    plot->yAxis->setTickStep(roundUp(maxTemp / 10, 5));
 
     int xTickStep = data.count() / 20;
 
@@ -196,7 +199,7 @@ void PlotManager::refreshDarkTempEvoGraph()
         xTickStep = 1;
     }
 
-    _darkTempEvoPlot->xAxis->setTickStep(xTickStep);
+    plot->xAxis->setTickStep(xTickStep);
 
     // ensure data visibility on small datasets
     if ( data.count() < 5 ) {
@@ -208,18 +211,15 @@ void PlotManager::refreshDarkTempEvoGraph()
         _darkTempEvoPlot->graph()->setScatterStyle(QCPScatterStyle::ssNone);
     }
 
-    _darkTempEvoPlot->replot();
+    plot->replot();
 }
 
-
-void PlotManager::refreshDarkTempDistriGraph()
+void PlotManager::refreshTempDistriPlot(QCustomPlot *plot, QList<ImageInfo> infos)
 {
-    QList<ImageInfo> darks = DataStore::getInstance()->getFilteredDarks();
-
     QVector<double> x, y;
 
     QMap<int, ImageInfo> data;
-    foreach ( ImageInfo info, darks ) {
+    foreach ( ImageInfo info, infos ) {
 
         data.insertMulti(info.getTemperature(), info);
     }
@@ -242,120 +242,30 @@ void PlotManager::refreshDarkTempDistriGraph()
         if ( maxCount < count ) maxCount = count;
     }
 
-    ((QCPBars*)(_darkTempDistriPlot->plottable(0)))->setData(x,y);
+    ((QCPBars*)(plot->plottable(0)))->setData(x,y);
 
     // ARD-100: fix X axis when dataset is empty
-    if ( darks.count() == 0 ) {
+    if ( infos.count() == 0 ) {
 
         minTemp = 1;
         maxTemp = 0;
     }
 
-    _darkTempDistriPlot->xAxis->setRange(minTemp - 1, maxTemp + 1);
-    _darkTempDistriPlot->yAxis->setRange(0, maxCount + 1);
+    plot->xAxis->setRange(minTemp - 1, maxTemp + 1);
+    plot->yAxis->setRange(0, maxCount + 1);
 
-    _darkTempDistriPlot->yAxis->setTickStep(roundUp(maxCount / 10, 5));
+    plot->yAxis->setTickStep(roundUp(maxCount / 10, 5));
 
-    _darkTempDistriPlot->replot();
+    plot->replot();
 }
 
-void PlotManager::refreshLightsTempEvoGraph()
+void PlotManager::clearPlot(QCustomPlot *plot)
 {
-    QList<ImageInfo> unsortedData = DataStore::getInstance()->getScannedLights();
+    if ( plot->plottableCount() ) {
 
-    // we sort frames by ascending date
-    QMap<QString, ImageInfo> map;
-    foreach (ImageInfo info, unsortedData) {
-
-        map.insert(info.getDate(), info);
+        plot->plottable()->clearData();
+        plot->replot();
     }
-
-    QList<ImageInfo> data;
-    foreach ( QString date, map.keys() ) {
-
-        data << map.value(date);
-    }
-
-    QVector<double> x, y;
-
-    int counter = 0;
-    int maxTemp = 0;
-
-    foreach (ImageInfo info, data) {
-
-        x << counter++;
-        y << info.getTemperature();
-
-        if ( info.getTemperature() > maxTemp ) {
-
-            maxTemp = info.getTemperature();
-        }
-    }
-
-    _lightsTempEvoPlot->graph()->setData(x,y);
-
-    // set X axis range's maximum to be the next even number after max X value
-    _lightsTempEvoPlot->xAxis->setRange(0, (data.count()/2)*2+2);
-    _lightsTempEvoPlot->yAxis->setRange(0, maxTemp + 1);
-    _lightsTempEvoPlot->yAxis->setTickStep(roundUp(maxTemp / 10, 5));
-
-    int xTickStep = data.count() / 20;
-
-    if ( xTickStep < 1 ) {
-
-        xTickStep = 1;
-    }
-
-    _lightsTempEvoPlot->xAxis->setTickStep(xTickStep);
-
-    _lightsTempEvoPlot->replot();
-}
-
-void PlotManager::refreshLightsTempDistriGraph()
-{
-    QList<ImageInfo> lights = DataStore::getInstance()->getScannedLights();
-
-    QVector<double> x, y;
-
-    QMap<int, ImageInfo> data;
-    foreach ( ImageInfo info, lights ) {
-
-        data.insertMulti(info.getTemperature(), info);
-    }
-
-    int maxTemp = 0;
-    int minTemp = 200;
-
-    int maxCount = 0;
-
-    foreach (int temperature, data.uniqueKeys()) {
-
-        int count = data.values(temperature).count();
-
-        x << temperature;
-        y << count;
-
-        if ( maxTemp < temperature ) maxTemp = temperature;
-        if ( minTemp > temperature ) minTemp = temperature;
-
-        if ( maxCount < count ) maxCount = count;
-    }
-
-    ((QCPBars*)(_lightsTempDistriPlot->plottable(0)))->setData(x,y);
-
-    // ARD-100: fix X axis when dataset is empty
-    if ( lights.count() == 0 ) {
-
-        minTemp = 1;
-        maxTemp = 0;
-    }
-
-    _lightsTempDistriPlot->xAxis->setRange(minTemp - 1, maxTemp + 1);
-    _lightsTempDistriPlot->yAxis->setRange(0, maxCount + 1);
-
-    _lightsTempDistriPlot->yAxis->setTickStep(roundUp(maxCount / 10, 5));
-
-    _lightsTempDistriPlot->replot();
 }
 
 int PlotManager::roundUp(int numToRound, int multiple)

@@ -63,6 +63,11 @@ private:
     void refreshLightsTempEvoGraph();
     void refreshLightsTempDistriGraph();
 
+    void refreshTempEvoPlot(QCustomPlot* plot, QList<ImageInfo> infos);
+    void refreshTempDistriPlot(QCustomPlot* plot, QList<ImageInfo> infos);
+
+    void clearPlot(QCustomPlot* plot);
+
     int roundUp(int numToRound, int multiple);
 
 signals:
