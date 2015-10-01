@@ -35,38 +35,11 @@ PlotManager::PlotManager(QCustomPlot* darkTempPlot,
       _lightsTempDistriPlot(lightsTempDistriPlot)
 
 {
-    _darkTempEvoPlot->addGraph();
-    _darkTempEvoPlot->xAxis->setLabel(tr("Dark N°"));
-    _darkTempEvoPlot->xAxis->setAutoTickStep(false);
-    _darkTempEvoPlot->yAxis->setLabel(tr("Sensor temperature in °C"));
-    _darkTempEvoPlot->yAxis->setAutoTickStep(false);
+    setupTempEvoPlot(_darkTempEvoPlot, tr("Dark N°"), tr("Sensor temperature in °C"));
+    setupTempEvoPlot(_lightsTempEvoPlot, tr("Light N°"), tr("Sensor temperature in °C"));
 
-    _lightsTempEvoPlot->addGraph();
-    _lightsTempEvoPlot->xAxis->setLabel(tr("Light N°"));
-    _lightsTempEvoPlot->xAxis->setAutoTickStep(false);
-    _lightsTempEvoPlot->yAxis->setLabel(tr("Sensor temperature in °C"));
-    _lightsTempEvoPlot->yAxis->setAutoTickStep(false);
-
-    _darkTempDistriPlot->addPlottable(new QCPBars(_darkTempDistriPlot->xAxis, _darkTempDistriPlot->yAxis));
-    _darkTempDistriPlot->xAxis->setLabel(tr("Sensor temperature in C°"));
-    _darkTempDistriPlot->xAxis->setAutoTickStep(false);
-    _darkTempDistriPlot->xAxis->setAutoSubTicks(false);
-    _darkTempDistriPlot->xAxis->setTickStep(1);
-    _darkTempDistriPlot->xAxis->setTickLength(0);
-    _darkTempDistriPlot->xAxis->setSubTickCount(0);
-    _darkTempDistriPlot->yAxis->setLabel(tr("Dark count"));
-    _darkTempDistriPlot->yAxis->setAutoTickStep(false);
-
-    _lightsTempDistriPlot->addPlottable(new QCPBars(_lightsTempDistriPlot->xAxis, _lightsTempDistriPlot->yAxis));
-    _lightsTempDistriPlot->xAxis->setLabel(tr("Sensor temperature in C°"));
-    _lightsTempDistriPlot->xAxis->setAutoTickStep(false);
-    _lightsTempDistriPlot->xAxis->setAutoSubTicks(false);
-    _lightsTempDistriPlot->xAxis->setTickStep(1);
-    _lightsTempDistriPlot->xAxis->setTickLength(0);
-    _lightsTempDistriPlot->xAxis->setSubTickCount(0);
-    _lightsTempDistriPlot->yAxis->setLabel(tr("Light count"));
-    _lightsTempDistriPlot->yAxis->setAutoTickStep(false);
-
+    setupTempDisrtiPlot(_darkTempDistriPlot, tr("Sensor temperature in C°"), tr("Dark count"));
+    setupTempDisrtiPlot(_lightsTempDistriPlot, tr("Sensor temperature in C°"), tr("Light count"));
 
     connect(SignalDispatcher::getInstance(),
             &SignalDispatcher::darkListModelChanged,
@@ -152,6 +125,30 @@ void PlotManager::refreshLightsTempEvoGraph()
 void PlotManager::refreshLightsTempDistriGraph()
 {
     refreshTempDistriPlot(_lightsTempDistriPlot, DataStore::getInstance()->getScannedLights());
+}
+
+void PlotManager::setupTempEvoPlot(QCustomPlot *plot, QString xLabel, QString yLabel)
+{
+    plot->addGraph();
+
+    plot->xAxis->setLabel(xLabel);
+    plot->xAxis->setAutoTickStep(false);
+
+    plot->yAxis->setLabel(yLabel);
+}
+
+void PlotManager::setupTempDisrtiPlot(QCustomPlot *plot, QString xLabel, QString yLabel)
+{
+    plot->addPlottable(new QCPBars(plot->xAxis, plot->yAxis));
+
+    plot->xAxis->setLabel(xLabel);
+    plot->xAxis->setAutoTickStep(false);
+    plot->xAxis->setAutoSubTicks(false);
+    plot->xAxis->setTickStep(1);
+    plot->xAxis->setTickLength(0);
+    plot->xAxis->setSubTickCount(0);
+
+    plot->yAxis->setLabel(yLabel);
 }
 
 void PlotManager::refreshTempEvoPlot(QCustomPlot *plot, QList<ImageInfo> infos)

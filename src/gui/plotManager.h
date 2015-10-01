@@ -63,6 +63,9 @@ private:
     void refreshLightsTempEvoGraph();
     void refreshLightsTempDistriGraph();
 
+    void setupTempEvoPlot(QCustomPlot* plot, QString xLabel, QString yLabel);
+    void setupTempDisrtiPlot(QCustomPlot* plot, QString xLabel, QString yLabel);
+
     void refreshTempEvoPlot(QCustomPlot* plot, QList<ImageInfo> infos);
     void refreshTempDistriPlot(QCustomPlot* plot, QList<ImageInfo> infos);
 
