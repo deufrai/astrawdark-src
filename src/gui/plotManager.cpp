@@ -233,10 +233,20 @@ void PlotManager::refreshTempDistriPlot(QCustomPlot *plot, QList<ImageInfo> info
         x << temperature;
         y << count;
 
-        if ( maxTemp < temperature ) maxTemp = temperature;
-        if ( minTemp > temperature ) minTemp = temperature;
+        if ( maxTemp < temperature ) {
 
-        if ( maxCount < count ) maxCount = count;
+            maxTemp = temperature;
+        }
+
+        if ( minTemp > temperature ) {
+
+            minTemp = temperature;
+        }
+
+        if ( maxCount < count ) {
+
+            maxCount = count;
+        }
     }
 
     ((QCPBars*)(plot->plottable(0)))->setData(x,y);
@@ -268,15 +278,24 @@ void PlotManager::clearPlot(QCustomPlot *plot)
 int PlotManager::roundUp(int numToRound, int multiple)
 {
 
-    if(multiple == 0) return numToRound;
+    if(multiple == 0) {
+
+        return numToRound;
+    }
 
     int remainder = numToRound % multiple;
 
-    if (numToRound != 0 && remainder == 0) return numToRound;
+    if (numToRound != 0 && remainder == 0) {
+
+        return numToRound;
+    }
 
     int nRet = numToRound + multiple - remainder;
 
-    if ( nRet < multiple ) nRet = 1;
+    if ( nRet < multiple ) {
+
+        nRet = 1;
+    }
 
     return nRet;
 

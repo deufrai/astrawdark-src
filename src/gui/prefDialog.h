@@ -23,7 +23,8 @@
 #include <QDialog>
 
 namespace Ui {
-class PrefDialog;
+
+    class PrefDialog;
 }
 
 class QListWidgetItem;

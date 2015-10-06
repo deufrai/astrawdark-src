@@ -37,7 +37,10 @@ QString DataStore::_S_DarkDisplayFilter = "";
 
 DataStore* DataStore::getInstance() {
 
-    if ( 0 == _instance ) _instance = new DataStore();
+    if ( 0 == _instance ) {
+
+        _instance = new DataStore();
+    }
 
     return _instance;
 }
@@ -93,12 +96,12 @@ DataStore::DataStore()
 
     _lightsListModel->setColumnCount(6);
     _lightsListModel->setHorizontalHeaderLabels(QStringList()
-                                              << tr("Path")
-                                              << tr("Model")
-                                              << tr("Exposure\n(sec.)")
-                                              << tr("ISO")
-                                              << tr("Date")
-                                              << tr ("Temperature\n(°C)"));
+                                                << tr("Path")
+                                                << tr("Model")
+                                                << tr("Exposure\n(sec.)")
+                                                << tr("ISO")
+                                                << tr("Date")
+                                                << tr ("Temperature\n(°C)"));
 
     _darkTreeModel->setColumnCount(1);
     _darkTreeModel->setHorizontalHeaderLabels(QStringList() << tr("Dark families"));
@@ -156,24 +159,24 @@ void DataStore::populateFrameListModel(QStandardItemModel *model, QList<ImageInf
     foreach (ImageInfo info, frames) {
 
         model->setData(model->index(row, 0, QModelIndex()),
-                                info.getPath());
+                       info.getPath());
 
         model->setData(model->index(row, 1, QModelIndex()),
-                                info.getModel());
+                       info.getModel());
 
         model->setData(model->index(row, 2, QModelIndex()),
-                                info.getExposure());
+                       info.getExposure());
 
         model->setData(model->index(row, 3, QModelIndex()),
-                                info.getIso());
+                       info.getIso());
 
         model->setData(model->index(row, 4, QModelIndex()),
-                                info.getDate());
+                       info.getDate());
 
         model->setData(model->index(row, 5, QModelIndex()),
-                                info.getTemperature() == ImageInfo::UNDEFINED?
-                                    "":
-                                    QString::number(info.getTemperature()));
+                       info.getTemperature() == ImageInfo::UNDEFINED?
+                           "":
+                           QString::number(info.getTemperature()));
 
         ++row;
 
@@ -184,7 +187,10 @@ void DataStore::populateFrameListModel(QStandardItemModel *model, QList<ImageInf
 
 bool DataStore::filterDark(ImageInfo dark)
 {
-    if ( _S_DarkDisplayFilter.isEmpty() ) return true;
+    if ( _S_DarkDisplayFilter.isEmpty() ) {
+
+        return true;
+    }
 
     QStringList filters = _S_DarkDisplayFilter.split('|');
 

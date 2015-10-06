@@ -52,8 +52,13 @@ public:
      */
     enum Status {
 
+        /** Command is waiting to run */
         SCHEDULED,
+
+        /** Command is running */
         RUNNING,
+
+        /** Command finished execution */
         COMPLETE
     };
 
