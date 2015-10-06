@@ -19,8 +19,8 @@
 
 #include "commandManager.h"
 #include "commandFactory.h"
-#include "../data/dataStore.h"
-#include "../globals.h"
+#include "data/dataStore.h"
+#include "globals.h"
 #include "signalDispatcher.h"
 #include "abstractCommand.h"
 

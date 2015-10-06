@@ -18,9 +18,9 @@
  */
 
 #include "commandReportDisplay.h"
-#include "../commands/abstractCommand.h"
+#include "commands/abstractCommand.h"
 #include "ui_commandReportDisplay.h"
-#include "../commands/signalDispatcher.h"
+#include "commands/signalDispatcher.h"
 
 #include <QListWidget>
 

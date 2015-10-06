@@ -20,10 +20,10 @@
 #include "mainWindow.h"
 #include "prefDialog.h"
 #include "ui_mainWindow.h"
-#include "../globals.h"
-#include "../data/dataStore.h"
+#include "globals.h"
+#include "data/dataStore.h"
 #include "aboutDialog.h"
-#include "../commands/signalDispatcher.h"
+#include "commands/signalDispatcher.h"
 #include "commandReportDisplay.h"
 
 #ifndef QT_NO_DEBUG

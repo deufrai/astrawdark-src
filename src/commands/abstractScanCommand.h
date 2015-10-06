@@ -23,7 +23,7 @@
 #include <QObject>
 
 #include "abstractCommand.h"
-#include "../data/imageInfo.h"
+#include "data/imageInfo.h"
 
 /**
  * @brief Base of all folder scanning commands

@@ -23,7 +23,7 @@
 #include <QObject>
 #include <QStringList>
 
-#include "../data/imageInfo.h"
+#include "data/imageInfo.h"
 #include "abstractCommand.h"
 
 /**

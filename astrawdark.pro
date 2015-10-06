@@ -45,6 +45,8 @@ SOURCES += src/main.cpp\
     src/commands/scanLightsCommand.cpp \
     src/commands/lightsCheckCommand.cpp
 
+INCLUDEPATH += src
+
 HEADERS  += \
     src/globals.h \
     src/commands/abstractCommand.h \

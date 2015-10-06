@@ -19,9 +19,9 @@
 
 #include "prefDialog.h"
 #include "ui_prefDialog.h"
-#include "../data/dataStore.h"
-#include "../commands/signalDispatcher.h"
-#include "../globals.h"
+#include "data/dataStore.h"
+#include "commands/signalDispatcher.h"
+#include "globals.h"
 
 #include <QFileDialog>
 #include <QDir>
@@ -72,43 +72,7 @@ void PrefDialog::changeEvent(QEvent *e)
     }
 }
 
-bool PrefDialog::canPathBeAddedAsDarkSource(const QString &path)
-{
-    // check if folder is a child, parent or duplicate of any other source folder
-    QDir candidate(path);
-
-    for (int i=0; i<ui->lstDarkFolders->count(); i++) {
-
-        QDir test(ui->lstDarkFolders->item(i)->text());
-
-        if ( test.exists() ) {
-
-            if ( test.canonicalPath().startsWith(candidate.canonicalPath()) ||
-                 candidate.canonicalPath().startsWith(test.canonicalPath()) ||
-                 test.absolutePath().startsWith(candidate.absolutePath())   ||
-                 candidate.absolutePath().startsWith(test.absolutePath()) ) {
-
-                QString warningMsg = QString("<h3>").append(tr("Folder '"))
-                        .append(path)
-                        .append(tr("' cannot be used as a dark source."))
-                        .append("</h3>")
-                        .append(tr("It is either a child, a parent or a duplicate"))
-                        .append(tr(" of one of your existing sources."));
-
-                QMessageBox::critical(this,
-                                      tr("Cannot add this folder as dark source"),
-                                      warningMsg);
-
-                return false;
-
-            }
-        }
-    }
-
-    return true;
-}
-
-bool PrefDialog::isDarkSourceListItemValidAsDarkSource(const QString &path, const int row)
+bool PrefDialog::isDarkSourceValid(const QString &path, const int row)
 {
     {
         // check if folder is a child, parent or duplicate of any other source folder
@@ -155,7 +119,7 @@ void PrefDialog::on_btnAddDarkFolder_clicked()
                                                            QDir::homePath(),
                                                            QFileDialog::ShowDirsOnly);
 
-    if ( ! basefolder.isEmpty() && canPathBeAddedAsDarkSource(basefolder)) {
+    if ( ! basefolder.isEmpty() && isDarkSourceValid(basefolder)) {
 
         ui->lstDarkFolders->addItem(basefolder);
     }
@@ -194,7 +158,7 @@ void PrefDialog::on_btnEditDarkFolder_clicked()
                                                                QFileDialog::ShowDirsOnly);
 
         if (  ! basefolder.isEmpty() &&
-              isDarkSourceListItemValidAsDarkSource(basefolder, ui->lstDarkFolders->currentRow()) ) {
+              isDarkSourceValid(basefolder, ui->lstDarkFolders->currentRow()) ) {
 
             ui->lstDarkFolders->item(ui->lstDarkFolders->currentRow())->setText(basefolder);
         }
@@ -213,7 +177,7 @@ void PrefDialog::on_lstDarkFolders_itemDoubleClicked(QListWidgetItem *item)
                                                                QFileDialog::ShowDirsOnly);
 
         if (  ! basefolder.isEmpty() &&
-              isDarkSourceListItemValidAsDarkSource(basefolder, ui->lstDarkFolders->currentRow()) ) {
+              isDarkSourceValid(basefolder, ui->lstDarkFolders->currentRow()) ) {
 
             ui->lstDarkFolders->item(ui->lstDarkFolders->currentRow())->setText(basefolder);
         }

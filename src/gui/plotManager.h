@@ -22,9 +22,9 @@
 
 #include <QObject>
 
-#include "../data/dataStore.h"
-#include "../commands/signalDispatcher.h"
-#include "../contrib/qCustomPlot/qcustomplot.h"
+#include "data/dataStore.h"
+#include "commands/signalDispatcher.h"
+#include "contrib/qCustomPlot/qcustomplot.h"
 
 /**
  * @brief Manages all plots displayed in this app
