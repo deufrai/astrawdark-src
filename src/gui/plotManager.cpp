@@ -108,7 +108,7 @@ void PlotManager::clearLightsTempDistriGraph()
 
 void PlotManager::refreshDarkTempEvoGraph()
 {
-   refreshTempEvoPlot(_darkTempEvoPlot, DataStore::getInstance()->getFilteredDarks());
+    refreshTempEvoPlot(_darkTempEvoPlot, DataStore::getInstance()->getFilteredDarks());
 }
 
 

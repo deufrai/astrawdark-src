@@ -28,7 +28,7 @@
 
 namespace Ui {
 
-class MainWindow;
+    class MainWindow;
 }
 
 /**
