@@ -18,8 +18,8 @@
  */
 
 #include "lightsCheckCommand.h"
-#include "../data/imageInfo.h"
-#include "../data/dataStore.h"
+#include "data/imageInfo.h"
+#include "data/dataStore.h"
 #include "signalDispatcher.h"
 #include <QList>
 

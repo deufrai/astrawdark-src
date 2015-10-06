@@ -18,7 +18,7 @@
  */
 
 #include "abstractScanCommand.h"
-#include "../data/access/exifReader.h"
+#include "data/access/exifReader.h"
 
 #include <QDirIterator>
 

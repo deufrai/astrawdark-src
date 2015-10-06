@@ -22,7 +22,7 @@
 #include "scanLightsCommand.h"
 #include "lightsCheckCommand.h"
 
-#include "../data/dataStore.h"
+#include "data/dataStore.h"
 
 CommandFactory::CommandFactory()
 {

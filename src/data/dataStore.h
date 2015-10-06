@@ -24,7 +24,7 @@
 #include <QStandardItemModel>
 
 #include "imageInfo.h"
-#include "../commands/abstractCommand.h"
+#include "commands/abstractCommand.h"
 
 /**
  * @brief Stores all application data.

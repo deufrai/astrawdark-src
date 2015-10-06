@@ -22,7 +22,7 @@
 
 #include <QMainWindow>
 
-#include "../commands/commandManager.h"
+#include "commands/commandManager.h"
 #include "plotManager.h"
 
 

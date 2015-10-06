@@ -19,7 +19,7 @@
 
 #include "aboutDialog.h"
 #include "ui_aboutDialog.h"
-#include "../globals.h"
+#include "globals.h"
 
 AboutDialog::AboutDialog(QWidget *parent) :
     QDialog(parent),

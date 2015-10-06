@@ -19,8 +19,8 @@
 
 #include "dataStore.h"
 #include "imageInfo.h"
-#include "../globals.h"
-#include "../commands/signalDispatcher.h"
+#include "globals.h"
+#include "commands/signalDispatcher.h"
 
 #include <QSettings>
 #include <QTime>
