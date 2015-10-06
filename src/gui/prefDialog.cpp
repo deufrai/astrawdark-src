@@ -27,7 +27,6 @@
 #include <QDir>
 #include <QMessageBox>
 #include <QListWidgetItem>
-#include <QMessageBox>
 
 #ifndef QT_NO_DEBUG
 #include <QDebug>
