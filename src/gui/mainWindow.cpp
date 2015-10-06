@@ -284,7 +284,10 @@ void MainWindow::on_btnChooseLightsFolder_clicked()
 {
     QString startFolder = ui->lineCurrentLightsFolderPath->text();
 
-    if ( startFolder.isEmpty() || ! QDir(startFolder).exists() ) startFolder = QDir::homePath();
+    if ( startFolder.isEmpty() || ! QDir(startFolder).exists() ) {
+
+        startFolder = QDir::homePath();
+    }
 
     QString lightsFolder = QFileDialog::getExistingDirectory(this,
                                                              tr("Please select lights folder"),
