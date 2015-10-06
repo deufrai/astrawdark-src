@@ -52,12 +52,18 @@ AboutDialog::AboutDialog(QWidget *parent) :
     ui->aboutLabel->setText( aboutString );
 
     QLabel* lblCreditExiv2 = new QLabel(this);
-    lblCreditExiv2->setText(QString("<a href=\"http://www.exiv2.org/\">Exiv2 library</a> : ").append(tr("EXIF metadata handling")));
+
+    lblCreditExiv2->setText(QString("<a href=\"http://www.exiv2.org/\">Exiv2 library</a> : ")
+                            .append(tr("EXIF metadata handling")));
+
     lblCreditExiv2->setOpenExternalLinks(true);
     ui->grpCredits->layout()->addWidget(lblCreditExiv2);
 
     QLabel* lblCreditsQCustomPlot = new QLabel(this);
-    lblCreditsQCustomPlot->setText(QString("<a href=\"http://www.qcustomplot.com/\">QCustomPlot Widget</a> : ").append(tr("Data plotting")));
+
+    lblCreditsQCustomPlot->setText(QString("<a href=\"http://www.qcustomplot.com/\">QCustomPlot Widget</a> : ")
+                                   .append(tr("Data plotting")));
+
     lblCreditsQCustomPlot->setOpenExternalLinks(true);
     ui->grpCredits->layout()->addWidget(lblCreditsQCustomPlot);
 
