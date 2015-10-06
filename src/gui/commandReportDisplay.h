@@ -25,7 +25,7 @@
 class AbstractCommand;
 
 namespace Ui {
-class CommandReportDisplay;
+    class CommandReportDisplay;
 }
 
 /**
