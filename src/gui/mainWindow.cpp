@@ -140,6 +140,11 @@ MainWindow::MainWindow(CommandManager *manager, QWidget *parent)
             this,
             &MainWindow::on_consistencyResult);
 
+    connect(SignalDispatcher::getInstance(),
+            &SignalDispatcher::commandCreated,
+            this,
+            &MainWindow::on_commandCreated);
+
 
 
     ui->tabDarkDetailsWidget->setCurrentIndex(0);
@@ -354,4 +359,9 @@ void MainWindow::on_consistencyResult(bool consistent)
                              .append("\n\n")
                              .append(tr("Temperature matching cannot be performed")));
     }
+}
+
+void MainWindow::on_commandCreated()
+{
+    ui->tblCommandView->scrollToTop();
 }
