@@ -34,7 +34,7 @@ void AbstractScanCommand::getRawPathsInDirectory(const QString directory)
      * retrieve paths of all RAW files located in current dark source folder,
      * including subdirectories
      */
-    _progressMessage = tr("Locating raw files...");
+    _message = tr("Locating raw files...");
     emit statusChanged(this);
 
     QDirIterator it(directory,
@@ -46,11 +46,11 @@ void AbstractScanCommand::getRawPathsInDirectory(const QString directory)
     while (it.hasNext()) {
 
         _imagePaths << it.next();
-        _progressMessage = tr("%1 RAW file(s) found").arg(++found);
+        _message = tr("%1 RAW file(s) found").arg(++found);
         emit statusChanged(this);
     }
 
-    _progressMessage = tr("%1 RAW file(s) found").arg(found);
+    _message = tr("%1 RAW file(s) found").arg(found);
     emit statusChanged(this);
 }
 
@@ -80,7 +80,7 @@ void AbstractScanCommand::retrieveExifMetadata()
             _imageInfos << imageInfo;
         }
 
-        _progressMessage = tr("Scanned file %1 / %2").arg(++fileCount).arg(_imagePaths.count());
+        _message = tr("Scanned file %1 / %2").arg(++fileCount).arg(_imagePaths.count());
         emit statusChanged(this);
         emit progress(fileCount);
     }

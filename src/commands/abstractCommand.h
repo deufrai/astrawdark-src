@@ -120,7 +120,7 @@ public:
      * This message is displayed in command log
      * @return the progress message
      */
-    const QString& getProgessMessage() const {return _progressMessage;}
+    const QString& getProgessMessage() const {return _message;}
 
     /**
      * Get command's processing report
@@ -159,7 +159,7 @@ protected:
     /** Command description */
     QString         _description;
     /** Command progress message */
-    QString         _progressMessage;
+    QString         _message;
     /** Command report messages */
     QStringList     _reportMessages;
     /** Command running status */

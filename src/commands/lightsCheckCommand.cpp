@@ -40,7 +40,7 @@ void LightsCheckCommand::do_processing()
 
     bool consistent = true;
 
-    _progressMessage = tr("Checking lights...");
+    _message = tr("Checking lights...");
     emit statusChanged(this);
 
     ImageInfo reference, test;
@@ -80,9 +80,8 @@ void LightsCheckCommand::do_processing()
                                   .arg(test.getPath()).append(tr("don't have the same serial# + ISO + exposure time")));
     }
 
-    _progressMessage = tr("Done");
+    _message = tr("All lights checked");
     emit statusChanged(this);
-
     emit consistencyResult(consistent);
 }
 
