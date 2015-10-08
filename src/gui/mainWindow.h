@@ -145,7 +145,7 @@ private slots:
     void on_consistencyResult(bool consistent);
 
     /** A new command has been created */
-    void on_commandCreated();
+    void on_commandCreated(AbstractCommand* command);
 
 signals:
     /** Tell the CommandManager to create a ScanDark command */

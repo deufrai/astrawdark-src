@@ -361,7 +361,23 @@ void MainWindow::on_consistencyResult(bool consistent)
     }
 }
 
-void MainWindow::on_commandCreated()
+void MainWindow::on_commandCreated(AbstractCommand *command)
 {
     ui->tblCommandView->scrollToTop();
+
+    QProgressBar* progBar = new QProgressBar(this);
+    progBar->setMaximum(0);
+
+    connect(command,
+            &AbstractCommand::progress,
+            progBar,
+            &QProgressBar::setValue);
+
+    connect(command,
+            &AbstractCommand::progressMax,
+            progBar,
+            &QProgressBar::setMaximum);
+
+    QAbstractItemModel* model = ui->tblCommandView->model();
+    ui->tblCommandView->setIndexWidget(model->index(model->rowCount() - command->getSerial() -1, 4, QModelIndex()), progBar);
 }

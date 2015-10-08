@@ -313,8 +313,10 @@ void DataStore::updateCommandModelRow(int row, AbstractCommand *command)
     _commandListModel->setData(_commandListModel->index(row,3,QModelIndex()),
                                command->getDescription());
 
-    _commandListModel->setData(_commandListModel->index(row,4,QModelIndex()),
-                               command->getProgessMessage());
+//    _commandListModel->setData(_commandListModel->index(row,4,QModelIndex()),
+//                               command->getProgessMessage());
+
+
 
     _commandListModel->setData(_commandListModel->index(row,5,QModelIndex()),
                                command->getReportMessages().join('\n'));

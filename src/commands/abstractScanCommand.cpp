@@ -57,6 +57,7 @@ void AbstractScanCommand::getRawPathsInDirectory(const QString directory)
 void AbstractScanCommand::retrieveExifMetadata()
 {
     long fileCount = 0;
+    emit progressMax(_imagePaths.count());
 
     /*
      * Retrieve EXIF metadata for each RAW file
@@ -81,6 +82,7 @@ void AbstractScanCommand::retrieveExifMetadata()
 
         _progressMessage = tr("Scanned file %1 / %2").arg(++fileCount).arg(_imagePaths.count());
         emit statusChanged(this);
+        emit progress(fileCount);
     }
 }
 
