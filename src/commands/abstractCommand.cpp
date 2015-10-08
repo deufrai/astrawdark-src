@@ -60,6 +60,8 @@ void AbstractCommand::execute()
 
     _elapsed = _timer.elapsed();
     _status = COMPLETE;
+    emit progressMax(1);
+    emit progress(1);
     emit statusChanged(this);
 }
 

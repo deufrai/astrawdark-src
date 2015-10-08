@@ -361,10 +361,8 @@ void MainWindow::on_consistencyResult(bool consistent)
     }
 }
 
-void MainWindow::on_commandCreated(AbstractCommand *command)
+void MainWindow::createProgressBarForCommand(AbstractCommand *command)
 {
-    ui->tblCommandView->scrollToTop();
-
     QProgressBar* progBar = new QProgressBar(this);
     progBar->setMaximum(0);
 
@@ -380,4 +378,11 @@ void MainWindow::on_commandCreated(AbstractCommand *command)
 
     QAbstractItemModel* model = ui->tblCommandView->model();
     ui->tblCommandView->setIndexWidget(model->index(model->rowCount() - command->getSerial() -1, 4, QModelIndex()), progBar);
+}
+
+void MainWindow::on_commandCreated(AbstractCommand *command)
+{
+    ui->tblCommandView->scrollToTop();
+
+    createProgressBarForCommand(command);
 }

@@ -78,6 +78,8 @@ private:
     /** Our plot manager */
     PlotManager* _plotManager;
 
+    void createProgressBarForCommand(AbstractCommand *command);
+
 private slots:
     /** User wants to quit */
     void on_actionQuit_triggered();
