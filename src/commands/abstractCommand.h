@@ -134,6 +134,9 @@ public:
      */
     const QString getStatusString() const;
 
+    unsigned int getProgress() const {return _progress;}
+    unsigned int getProgressMin() const {return _progressMin;}
+    unsigned int getProgressMax() const {return _progressMax;}
 
 private:
     /** The serial number */
@@ -177,6 +180,10 @@ protected:
     bool            _warning;
     /** The command's processing report */
     CommandReport   _commandReport;
+
+    unsigned int    _progress;
+    unsigned int    _progressMin;
+    unsigned int    _progressMax;
 
 signals:
     /** Advertise status changes */
