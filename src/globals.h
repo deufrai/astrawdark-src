@@ -48,7 +48,7 @@ public:
     static const QString SETTINGKEY_SCANDARKS_ON_STARTUP;
 
     /** Command log progressBar min width */
-    static const int COMMAND_LOG_PROGRESS_WIDTH = 300;
+    static const int COMMAND_LOG_PROGRESS_WIDTH = 250;
 
 };
 
