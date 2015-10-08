@@ -30,9 +30,8 @@
 #include <QDebug>
 #endif
 
-MainWindow::MainWindow(CommandManager *manager, QWidget *parent)
+MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
-      _commandManager(manager),
       LBL_DARKCOUNT_BASETEXT(tr("Displayed darks count")),
       LBL_LIGHTSCOUNT_BASETEXT(tr("Displayed lights count : %1")),
       ui(new Ui::MainWindow),
@@ -145,7 +144,7 @@ MainWindow::MainWindow(CommandManager *manager, QWidget *parent)
             this,
             &MainWindow::on_commandCreated);
 
-
+    _commandManager = new CommandManager(this);
 
     ui->tabDarkDetailsWidget->setCurrentIndex(0);
     ui->tabMainWidget->setCurrentIndex(0);
@@ -369,12 +368,12 @@ void MainWindow::createProgressBarForCommand(AbstractCommand *command)
     connect(command,
             &AbstractCommand::progress,
             progBar,
-            &QProgressBar::setValue);
+            &QProgressBar::setValue, Qt::BlockingQueuedConnection);
 
     connect(command,
             &AbstractCommand::progressMax,
             progBar,
-            &QProgressBar::setMaximum);
+            &QProgressBar::setMaximum, Qt::BlockingQueuedConnection);
 
     QAbstractItemModel* model = ui->tblCommandView->model();
     ui->tblCommandView->setIndexWidget(model->index(model->rowCount() - command->getSerial() -1, 4, QModelIndex()), progBar);

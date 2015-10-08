@@ -41,10 +41,9 @@ class MainWindow : public QMainWindow
 public:
     /**
      * Constructor
-     * @param manager a pointer to the command manager
      * @param parent Qt parent
      */
-    explicit MainWindow(CommandManager* manager, QWidget *parent = 0);
+    explicit MainWindow(QWidget *parent = 0);
 
     /** Destructor */
     ~MainWindow();

@@ -18,7 +18,6 @@
  */
 
 #include "gui/mainWindow.h"
-#include "commands/commandManager.h"
 #include "data/imageInfo.h"
 #include "data/dataStore.h"
 #include "globals.h"
@@ -73,8 +72,7 @@ int main(int argc, char *argv[])
     a.setAttribute(Qt::AA_DontShowIconsInMenus);
 #endif
 
-    CommandManager* commandManager = new CommandManager();
-    MainWindow w(commandManager);
+    MainWindow w;
 
     if ( DataStore::getInstance()->getRememberWindowGeometry() ) {
 
@@ -99,8 +97,6 @@ int main(int argc, char *argv[])
     w.show();
 
     int nRet = a.exec();
-
-    delete commandManager;
 
     if ( DataStore::getInstance()->getRememberWindowGeometry() ) {
 
