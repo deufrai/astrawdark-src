@@ -365,6 +365,7 @@ void MainWindow::createProgressBarForCommand(AbstractCommand *command)
 {
     QProgressBar* progBar = new QProgressBar(this);
     progBar->setMaximum(0);
+    progBar->setMinimumWidth(Globals::COMMAND_LOG_PROGRESS_WIDTH);
 
     connect(command,
             &AbstractCommand::progress,
