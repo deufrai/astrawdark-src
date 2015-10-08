@@ -77,7 +77,8 @@ MainWindow::MainWindow(QWidget *parent)
     commandHv->setSectionResizeMode(2, QHeaderView::ResizeToContents);
     commandHv->setSectionResizeMode(3, QHeaderView::ResizeToContents);
     commandHv->setSectionResizeMode(4, QHeaderView::ResizeToContents);
-    commandHv->setSectionResizeMode(5, QHeaderView::Stretch);
+    commandHv->setSectionResizeMode(5, QHeaderView::ResizeToContents);
+    commandHv->setSectionResizeMode(6, QHeaderView::Stretch);
     QHeaderView* commandVv = ui->tblCommandView->verticalHeader();
     commandVv->setSectionResizeMode(QHeaderView::ResizeToContents);
     commandVv->hide();
