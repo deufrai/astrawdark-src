@@ -134,10 +134,6 @@ public:
      */
     const QString getStatusString() const;
 
-    unsigned int getProgress() const {return _progress;}
-    unsigned int getProgressMin() const {return _progressMin;}
-    unsigned int getProgressMax() const {return _progressMax;}
-
 private:
     /** The serial number */
     static int SERIAL;
@@ -181,13 +177,24 @@ protected:
     /** The command's processing report */
     CommandReport   _commandReport;
 
+    /** current progress value */
     unsigned int    _progress;
+
+    /** progress minimum value */
     unsigned int    _progressMin;
+
+    /** progress maximum value */
     unsigned int    _progressMax;
 
 signals:
     /** Advertise status changes */
     void statusChanged(AbstractCommand*);
+
+    /** advertise progress */
+    void progress(int);
+
+    /** advertise max progress steps change */
+    void progressMax(int);
 
 };
 

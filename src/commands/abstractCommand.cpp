@@ -27,7 +27,10 @@ AbstractCommand::AbstractCommand()
       _elapsed(0),
       _serial(SERIAL++),
       _error(false),
-      _warning(false) {
+      _warning(false),
+      _progress(0),
+      _progressMin(0),
+      _progressMax(0) {
 
     connect(this,
             &AbstractCommand::statusChanged,
