@@ -76,13 +76,14 @@ DataStore::DataStore()
     /*
      * Model setup
      */
-    _commandListModel->setColumnCount(6);
+    _commandListModel->setColumnCount(7);
     _commandListModel->setHorizontalHeaderLabels(QStringList()
                                                  << tr("N°")
                                                  << tr("Time")
                                                  << tr("Status")
                                                  << tr("Command")
                                                  << tr("Progress")
+                                                 << tr("Message")
                                                  << tr("Report"));
 
     _darkListModel->setColumnCount(6);
@@ -256,14 +257,17 @@ void DataStore::on_CommandStatusChange(AbstractCommand* command)
 void DataStore::on_CommandCreated(AbstractCommand *command)
 {
     _commandListModel->insertRows(0,1);
-    _commandListModel->setData(_commandListModel->index(0,
-                                                        1,
-                                                        QModelIndex()),
-                               QTime::currentTime().toString("hh:mm:ss"));
+
     _commandListModel->setData(_commandListModel->index(0,
                                                         0,
                                                         QModelIndex()),
                                command->getSerial()+1); // commands are numbered from 0
+
+    _commandListModel->setData(_commandListModel->index(0,
+                                                        1,
+                                                        QModelIndex()),
+                               QTime::currentTime().toString("hh:mm:ss"));
+
 
     updateCommandModelRow(0, command);
 }
@@ -313,10 +317,10 @@ void DataStore::updateCommandModelRow(int row, AbstractCommand *command)
     _commandListModel->setData(_commandListModel->index(row,3,QModelIndex()),
                                command->getDescription());
 
-    _commandListModel->setData(_commandListModel->index(row,4,QModelIndex()),
+    _commandListModel->setData(_commandListModel->index(row,5,QModelIndex()),
                                command->getProgessMessage());
 
-    _commandListModel->setData(_commandListModel->index(row,5,QModelIndex()),
+    _commandListModel->setData(_commandListModel->index(row,6,QModelIndex()),
                                command->getReportMessages().join('\n'));
 
 

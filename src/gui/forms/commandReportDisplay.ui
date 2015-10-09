@@ -103,7 +103,7 @@
            </font>
           </property>
           <property name="text">
-           <string>Progress</string>
+           <string>Message</string>
           </property>
          </widget>
         </item>

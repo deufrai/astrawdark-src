@@ -30,9 +30,8 @@
 #include <QDebug>
 #endif
 
-MainWindow::MainWindow(CommandManager *manager, QWidget *parent)
+MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
-      _commandManager(manager),
       LBL_DARKCOUNT_BASETEXT(tr("Displayed darks count")),
       LBL_LIGHTSCOUNT_BASETEXT(tr("Displayed lights count : %1")),
       ui(new Ui::MainWindow),
@@ -78,7 +77,8 @@ MainWindow::MainWindow(CommandManager *manager, QWidget *parent)
     commandHv->setSectionResizeMode(2, QHeaderView::ResizeToContents);
     commandHv->setSectionResizeMode(3, QHeaderView::ResizeToContents);
     commandHv->setSectionResizeMode(4, QHeaderView::ResizeToContents);
-    commandHv->setSectionResizeMode(5, QHeaderView::Stretch);
+    commandHv->setSectionResizeMode(5, QHeaderView::ResizeToContents);
+    commandHv->setSectionResizeMode(6, QHeaderView::Stretch);
     QHeaderView* commandVv = ui->tblCommandView->verticalHeader();
     commandVv->setSectionResizeMode(QHeaderView::ResizeToContents);
     commandVv->hide();
@@ -145,7 +145,7 @@ MainWindow::MainWindow(CommandManager *manager, QWidget *parent)
             this,
             &MainWindow::on_commandCreated);
 
-
+    _commandManager = new CommandManager(this);
 
     ui->tabDarkDetailsWidget->setCurrentIndex(0);
     ui->tabMainWidget->setCurrentIndex(0);
@@ -361,7 +361,29 @@ void MainWindow::on_consistencyResult(bool consistent)
     }
 }
 
-void MainWindow::on_commandCreated()
+void MainWindow::createProgressBarForCommand(AbstractCommand *command)
+{
+    QProgressBar* progBar = new QProgressBar(this);
+    progBar->setMaximum(0);
+    progBar->setMinimumWidth(Globals::COMMAND_LOG_PROGRESS_WIDTH);
+
+    connect(command,
+            &AbstractCommand::progress,
+            progBar,
+            &QProgressBar::setValue, Qt::BlockingQueuedConnection);
+
+    connect(command,
+            &AbstractCommand::progressMax,
+            progBar,
+            &QProgressBar::setMaximum, Qt::BlockingQueuedConnection);
+
+    QAbstractItemModel* model = ui->tblCommandView->model();
+    ui->tblCommandView->setIndexWidget(model->index(model->rowCount() - command->getSerial() -1, 4, QModelIndex()), progBar);
+}
+
+void MainWindow::on_commandCreated(AbstractCommand *command)
 {
     ui->tblCommandView->scrollToTop();
+
+    createProgressBarForCommand(command);
 }

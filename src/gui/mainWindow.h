@@ -41,10 +41,9 @@ class MainWindow : public QMainWindow
 public:
     /**
      * Constructor
-     * @param manager a pointer to the command manager
      * @param parent Qt parent
      */
-    explicit MainWindow(CommandManager* manager, QWidget *parent = 0);
+    explicit MainWindow(QWidget *parent = 0);
 
     /** Destructor */
     ~MainWindow();
@@ -77,6 +76,8 @@ private:
 
     /** Our plot manager */
     PlotManager* _plotManager;
+
+    void createProgressBarForCommand(AbstractCommand *command);
 
 private slots:
     /** User wants to quit */
@@ -145,7 +146,7 @@ private slots:
     void on_consistencyResult(bool consistent);
 
     /** A new command has been created */
-    void on_commandCreated();
+    void on_commandCreated(AbstractCommand* command);
 
 signals:
     /** Tell the CommandManager to create a ScanDark command */

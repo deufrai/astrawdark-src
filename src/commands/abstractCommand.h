@@ -120,7 +120,7 @@ public:
      * This message is displayed in command log
      * @return the progress message
      */
-    const QString& getProgessMessage() const {return _progressMessage;}
+    const QString& getProgessMessage() const {return _message;}
 
     /**
      * Get command's processing report
@@ -133,7 +133,6 @@ public:
      * @return a string representation
      */
     const QString getStatusString() const;
-
 
 private:
     /** The serial number */
@@ -160,7 +159,7 @@ protected:
     /** Command description */
     QString         _description;
     /** Command progress message */
-    QString         _progressMessage;
+    QString         _message;
     /** Command report messages */
     QStringList     _reportMessages;
     /** Command running status */
@@ -178,9 +177,24 @@ protected:
     /** The command's processing report */
     CommandReport   _commandReport;
 
+    /** current progress value */
+    unsigned int    _progress;
+
+    /** progress minimum value */
+    unsigned int    _progressMin;
+
+    /** progress maximum value */
+    unsigned int    _progressMax;
+
 signals:
     /** Advertise status changes */
     void statusChanged(AbstractCommand*);
+
+    /** advertise progress */
+    void progress(int);
+
+    /** advertise max progress steps change */
+    void progressMax(int);
 
 };
 
