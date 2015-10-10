@@ -21,7 +21,5 @@ AstRawDark compiling instructions :
     a) GNU/Linux : All you need is probably already available as packaged
                    tools for your distro. you'll need qt5-default, g++ & make packages
 
-    b) Windows & OSX : The simplest way to build astrawdark would be to get QtCreator along with a
-                       full opensource Qt5 stack.
-
+    b) Windows & OSX : The simplest way would be to get QtCreator along with a full opensource Qt5 stack.
                        Just visit http://www.qt.io/download-open-source/
