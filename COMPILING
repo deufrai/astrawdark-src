@@ -1,0 +1,24 @@
+AstRawDark compiling instructions :
+===================================
+
+1)  Dependencies :
+==================
+
+    AstRawDark depends on the libexiv2 C++ library.
+
+    a) GNU/Linux : libexiv2, runtime and dev, packages are available in
+                   evry good distro
+
+    b) Windows & OSX : See http://dev.exiv2.org/projects/exiv2/wiki/How_do_I_build_Exiv2_on_the_XYZ_platform
+                       for instructions about building & installing libexiv2
+
+
+2)  Building astrawdark :
+=========================
+
+    AstRawDark is written in C++ and uses the Qt Framework (Version 5)
+
+    The simplest way to build astrawdark would be to get QtCreator along with a
+    full opensource Qt5 stack.
+
+    Just visit http://www.qt.io/download-open-source/

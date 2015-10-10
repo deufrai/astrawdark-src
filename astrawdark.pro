@@ -82,7 +82,8 @@ LIBS += -lexiv2
 DISTFILES += \
     doc/README \
     Doxyfile \
-    README
+    README \
+    COMPILING
 
 UI_DIR = tmp
 MOC_DIR = tmp
