@@ -6,8 +6,7 @@ AstRawDark compiling instructions :
 
     AstRawDark depends on the libexiv2 C++ library.
 
-    a) GNU/Linux : libexiv2, runtime and dev, packages are available in
-                   evry good distro
+    a) GNU/Linux : libexiv2, runtime and dev, packages are available in every good distro
 
     b) Windows & OSX : See http://dev.exiv2.org/projects/exiv2/wiki/How_do_I_build_Exiv2_on_the_XYZ_platform
                        for instructions about building & installing libexiv2
