@@ -89,7 +89,7 @@ public:
 
     /**
      * Set the flag telling if user wants the window to remember its geometry
-     * @param remember true or false
+     * @param remembe true or false
      */
     void setRememberWindowGeometry(bool remember);
 
