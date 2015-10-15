@@ -334,6 +334,7 @@ void MainWindow::on_lightsScanStart()
     ui->lblLightsCount->setText(LBL_LIGHTSCOUNT_BASETEXT.arg("Scan in progress..."));
     ui->btnChooseLightsFolder->setDisabled(true);
     ui->btnRescanLights->setDisabled(true);
+    ui->btnLightsMatch->setDisabled(true);
 }
 
 void MainWindow::on_lightsScanDone()
@@ -353,7 +354,11 @@ void MainWindow::on_lightsScanDone()
 
 void MainWindow::on_consistencyResult(bool consistent)
 {
-    if ( ! consistent ) {
+    if ( consistent ) {
+
+    	ui->btnLightsMatch->setEnabled(true);
+
+    } else {
 
         QMessageBox::warning(this,
                              tr("Lights are not consistent"),

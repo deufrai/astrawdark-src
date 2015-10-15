@@ -309,6 +309,19 @@
            </widget>
           </item>
           <item>
+           <widget class="QPushButton" name="btnLightsMatch">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">padding: .5em;</string>
+            </property>
+            <property name="text">
+             <string>Match lights</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <spacer name="horizontalSpacer_4">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
