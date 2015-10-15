@@ -101,7 +101,7 @@ bool ExifReader::retrieveExifMetadata(ImageInfo &imageInfo)
 
         return true;
 
-    } catch ( Exiv2::Error e ) {
+    } catch ( Exiv2::Error& e ) {
 
 #ifndef QT_NO_DEBUG
         qWarning() << e.what();
