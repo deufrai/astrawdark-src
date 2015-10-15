@@ -249,7 +249,7 @@ void PlotManager::refreshTempDistriPlot(QCustomPlot *plot, QList<ImageInfo> info
         }
     }
 
-    ((QCPBars*)(plot->plottable(0)))->setData(x,y);
+    static_cast<QCPBars*>(plot->plottable(0))->setData(x,y);
 
     // ARD-100: fix X axis when dataset is empty
     if ( infos.count() == 0 ) {
