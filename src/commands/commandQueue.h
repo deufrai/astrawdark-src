@@ -59,6 +59,10 @@ private:
     /** the command queue */
     QQueue<AbstractCommand*> _commands;
 
+    /**
+     * Get the next pending command
+     * @return a pointer to next pending command
+     */
     AbstractCommand* getScheduledCommand() const;
 
 signals:
