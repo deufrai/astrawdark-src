@@ -304,8 +304,6 @@ void MainWindow::on_btnChooseLightsFolder_clicked()
         ui->lineCurrentLightsFolderPath->setText(lightsFolder);
         _dataStore->setLightsFolder(lightsFolder);
 
-        ui->btnRescanLights->setEnabled(true);
-
         emit scanLightsFolder();
     }
 
@@ -335,11 +333,14 @@ void MainWindow::on_lightsScanStart()
 {
     ui->lblLightsCount->setText(LBL_LIGHTSCOUNT_BASETEXT.arg("Scan in progress..."));
     ui->btnChooseLightsFolder->setDisabled(true);
+    ui->btnRescanLights->setDisabled(true);
 }
 
 void MainWindow::on_lightsScanDone()
 {
     ui->btnChooseLightsFolder->setEnabled(true);
+    ui->btnRescanLights->setEnabled(true);
+
     updateLightsContentCount();
     ui->tblLightsList->scrollToTop();
 
