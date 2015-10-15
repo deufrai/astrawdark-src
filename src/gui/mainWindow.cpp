@@ -304,6 +304,8 @@ void MainWindow::on_btnChooseLightsFolder_clicked()
         ui->lineCurrentLightsFolderPath->setText(lightsFolder);
         _dataStore->setLightsFolder(lightsFolder);
 
+        ui->btnRescanLights->setEnabled(true);
+
         emit scanLightsFolder();
     }
 
@@ -386,4 +388,9 @@ void MainWindow::on_commandCreated(AbstractCommand *command)
     ui->tblCommandView->scrollToTop();
 
     createProgressBarForCommand(command);
+}
+
+void MainWindow::on_btnRescanLights_clicked()
+{
+	emit scanLightsFolder();
 }

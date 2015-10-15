@@ -148,6 +148,9 @@ private slots:
     /** A new command has been created */
     void on_commandCreated(AbstractCommand* command);
 
+    /** User wants a lights folder rescan */
+    void on_btnRescanLights_clicked();
+
 signals:
     /** Tell the CommandManager to create a ScanDark command */
     void scanDarkLibrary();
