@@ -42,6 +42,10 @@ public:
      * @param parent Qt parent
      */
     explicit CommandManager(QObject *parent = 0);
+
+    /**
+     * Destructor
+     */
     ~CommandManager();
 
 private:
