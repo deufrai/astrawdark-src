@@ -17,6 +17,24 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * @mainpage Welcome to AstRawDark
+ *
+ * @section intro_sec Introduction
+ *
+ * AstRawDark helps you manage your astrophotography dark frames library and
+ * generate quality master darks by selecting dark frames with temperature matching
+ * the lights you have to pre-process
+ *
+ * @section dowload_sec Downloads
+ *
+ * binaries for the main platforms (GNU/linux .deb, OSX & Windows) are available here :
+ * http://wardsback.org/pub/astrawdark/dls
+ *
+ * Have fun
+ *
+ */
+
 #include "gui/mainWindow.h"
 #include "data/imageInfo.h"
 #include "data/dataStore.h"
