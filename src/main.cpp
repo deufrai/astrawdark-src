@@ -26,10 +26,21 @@
  * generate quality master darks by selecting dark frames with temperature matching
  * the lights you have to pre-process
  *
+ * In here you'll find AstRawDark's C++ source code documentation. It will help you get a grip
+ * on how the various components work & interact with eachother.
+ *
  * @section dowload_sec Downloads
  *
  * binaries for the main platforms (GNU/linux .deb, OSX & Windows) are available here :
  * http://wardsback.org/pub/astrawdark/dls
+ *
+ * @section info_sec Developpement tools
+ *
+ * Source code browser :
+ * http://code.wardsback.org/projects/ARD/repos/astrawdark-src/browse
+ *
+ * Developpment tasks & issues :
+ * http://requests.wardsback.org/projects/ARD/summary/statistics
  *
  * Have fun
  *
