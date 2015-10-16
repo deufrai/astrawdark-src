@@ -335,6 +335,8 @@ void MainWindow::on_lightsScanStart()
     ui->btnChooseLightsFolder->setDisabled(true);
     ui->btnRescanLights->setDisabled(true);
     ui->btnLightsMatch->setDisabled(true);
+    ui->sldDarkMatchers->setDisabled(true);
+    ui->sldDarkMatchers->setValue(0);
 }
 
 void MainWindow::on_lightsScanDone()
@@ -357,6 +359,8 @@ void MainWindow::on_consistencyResult(bool consistent)
     if ( consistent ) {
 
     	ui->btnLightsMatch->setEnabled(true);
+    	ui->sldDarkMatchers->setEnabled(true);
+    	ui->sldDarkMatchers->setRange(0, _dataStore->getLightsCount());
 
     } else {
 
