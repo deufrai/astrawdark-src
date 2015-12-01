@@ -151,6 +151,16 @@ private slots:
     /** User wants a lights folder rescan */
     void on_btnRescanLights_clicked();
 
+    /** User wants to match her lights */
+    void on_btnLightsMatch_clicked();
+
+    /**
+     * Matching dark count slider moved
+     *
+     * @param value new new value
+     */
+    void on_sldDarkMatchers_valueChanged(int value);
+
 signals:
     /** Tell the CommandManager to create a ScanDark command */
     void scanDarkLibrary();

@@ -358,7 +358,6 @@ void MainWindow::on_consistencyResult(bool consistent)
 {
     if ( consistent ) {
 
-    	ui->btnLightsMatch->setEnabled(true);
     	ui->sldDarkMatchers->setEnabled(true);
     	ui->sldDarkMatchers->setRange(0, _dataStore->getLightsCount());
 
@@ -403,4 +402,22 @@ void MainWindow::on_commandCreated(AbstractCommand *command)
 void MainWindow::on_btnRescanLights_clicked()
 {
 	emit scanLightsFolder();
+}
+
+void MainWindow::on_btnLightsMatch_clicked() {
+
+#ifndef QT_NO_DEBUG
+        qDebug() << "\'MATCH\' button clicked...";
+#endif
+
+}
+
+void MainWindow::on_sldDarkMatchers_valueChanged(int value) {
+
+#ifndef QT_NO_DEBUG
+        qDebug() << "Match slider new value :" << value;
+#endif
+
+        ui->btnLightsMatch->setEnabled(0 < value && _dataStore->getLightsCount() > 0 );
+
 }
