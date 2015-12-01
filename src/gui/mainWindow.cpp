@@ -406,7 +406,7 @@ void MainWindow::on_btnRescanLights_clicked()
 
 void MainWindow::on_btnLightsMatch_clicked() {
 
-	emit matchLights();
+	emit matchLights(ui->sldDarkMatchers->value());
 }
 
 void MainWindow::on_sldDarkMatchers_valueChanged(int value) {

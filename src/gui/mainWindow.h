@@ -171,8 +171,12 @@ signals:
     /** Tell the CommandManager to create a ScanLights command */
     void checkLights();
 
-    /** Tell the commandManager to create a MatchLights command */
-    void matchLights();
+    /**
+     * Tell the commandManager to create a MatchLights command
+     *
+     * @param darkCount number of darks to use for matching
+     */
+    void matchLights(int darkCount);
 };
 
 #endif // MAINWINDOW_H
