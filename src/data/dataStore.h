@@ -163,7 +163,7 @@ public:
     /**
      * Set needed darks count for matching
      *
-     * @return neededDarks4Matching nedded darks count
+     * @param neededDarks4Matching nedded darks count
      */
 	void setNeededDarks4Matching(int neededDarks4Matching) { _neededDarks4Matching = neededDarks4Matching; }
 
