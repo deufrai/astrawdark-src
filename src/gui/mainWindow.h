@@ -170,6 +170,9 @@ signals:
 
     /** Tell the CommandManager to create a ScanLights command */
     void checkLights();
+
+    /** Tell the commandManager to create a MatchLights command */
+    void matchLights();
 };
 
 #endif // MAINWINDOW_H

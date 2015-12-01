@@ -406,18 +406,10 @@ void MainWindow::on_btnRescanLights_clicked()
 
 void MainWindow::on_btnLightsMatch_clicked() {
 
-#ifndef QT_NO_DEBUG
-        qDebug() << "\'MATCH\' button clicked...";
-#endif
-
+	emit matchLights();
 }
 
 void MainWindow::on_sldDarkMatchers_valueChanged(int value) {
 
-#ifndef QT_NO_DEBUG
-        qDebug() << "Match slider new value :" << value;
-#endif
-
-        ui->btnLightsMatch->setEnabled(0 < value && _dataStore->getLightsCount() > 0 );
-
+	ui->btnLightsMatch->setEnabled(0 < value && _dataStore->getLightsCount() > 0 );
 }
