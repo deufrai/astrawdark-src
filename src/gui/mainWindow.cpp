@@ -406,6 +406,7 @@ void MainWindow::on_btnRescanLights_clicked()
 
 void MainWindow::on_btnLightsMatch_clicked() {
 
+	_dataStore->setNeededDarks4Matching(ui->sldDarkMatchers->value());
 	emit matchLights();
 }
 

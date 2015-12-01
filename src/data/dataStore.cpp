@@ -51,7 +51,8 @@ DataStore::DataStore()
       _commandListModel(new QStandardItemModel()),
       _darkTreeModel(new QStandardItemModel()),
       _rememberWindowGeometry(false),
-      _scanDarksOnStartup(false)
+      _scanDarksOnStartup(false),
+	  _neededDarks4Matching(0)
 {
     QSettings settings;
 

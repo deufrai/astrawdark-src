@@ -153,6 +153,20 @@ public:
      */
     void setLightsFolder(const QString lights) { _lightsFolder = lights;}
 
+    /**
+     * Get needed darks count for matching
+     *
+     * @return nedded darks count
+     */
+	int getNeededDarks4Matching() const { return _neededDarks4Matching; }
+
+    /**
+     * Set needed darks count for matching
+     *
+     * @return neededDarks4Matching nedded darks count
+     */
+	void setNeededDarks4Matching(int neededDarks4Matching) { _neededDarks4Matching = neededDarks4Matching; }
+
 private:
     QStandardItemModel* _darkListModel;
     QStandardItemModel* _lightsListModel;
@@ -166,6 +180,7 @@ private:
     bool                _scanDarksOnStartup;
     static QString      _S_DarkDisplayFilter;
     QString             _lightsFolder;
+    int					_neededDarks4Matching;
 
     /**
      * Update an already known command
@@ -244,6 +259,7 @@ public slots:
      * @param paths a list of dark folder source paths
      */
     void on_newDarkSources(QStringList paths);
+
 };
 
 #endif // DATASTORE_H
