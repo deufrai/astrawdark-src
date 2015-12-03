@@ -168,6 +168,8 @@ public:
 	void setNeededDarks4Matching(int neededDarks4Matching) { _neededDarks4Matching = neededDarks4Matching; }
 
 private:
+    static QString      _S_DarkDisplayFilter;
+
     QStandardItemModel* _darkListModel;
     QStandardItemModel* _lightsListModel;
     QStandardItemModel* _commandListModel;
@@ -178,7 +180,6 @@ private:
     QList<ImageInfo>    _scannedLights;
     bool                _rememberWindowGeometry;
     bool                _scanDarksOnStartup;
-    static QString      _S_DarkDisplayFilter;
     QString             _lightsFolder;
     int					_neededDarks4Matching;
 
