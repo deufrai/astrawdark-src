@@ -44,7 +44,8 @@ SOURCES += src/main.cpp\
     src/commands/abstractScanCommand.cpp \
     src/commands/scanLightsCommand.cpp \
     src/commands/lightsCheckCommand.cpp \
-    src/data/dto/imageStack.cpp
+    src/data/dto/imageStack.cpp \
+    src/data/helpers/imageStackHelper.cpp
 
 INCLUDEPATH += src
 
@@ -71,7 +72,8 @@ HEADERS  += \
     src/commands/abstractScanCommand.h \
     src/commands/scanLightsCommand.h \
     src/commands/lightsCheckCommand.h \
-    src/data/dto/imageStack.h
+    src/data/dto/imageStack.h \
+    src/data/helpers/imageStackHelper.h
 
 FORMS    += \
     src/gui/forms/mainWindow.ui \
