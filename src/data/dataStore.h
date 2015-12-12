@@ -23,7 +23,7 @@
 #include <QObject>
 #include <QStandardItemModel>
 
-#include "imageInfo.h"
+#include "dto/imageInfo.h"
 #include "commands/abstractCommand.h"
 
 /**

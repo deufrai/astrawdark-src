@@ -18,7 +18,7 @@
  */
 
 #include "dataStore.h"
-#include "imageInfo.h"
+#include "dto/imageInfo.h"
 #include "globals.h"
 #include "commands/signalDispatcher.h"
 

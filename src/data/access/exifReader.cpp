@@ -18,7 +18,7 @@
  */
 
 #include "exifReader.h"
-#include "data/imageInfo.h"
+#include "data/dto/imageInfo.h"
 
 #include <QStringList>
 #include <QString>
