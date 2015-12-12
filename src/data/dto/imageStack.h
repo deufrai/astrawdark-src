@@ -18,7 +18,7 @@
  */
 
 #ifndef SRC_DATA_DTO_IMAGESTACK_H_
-#define SRC_DATA_DTO_IMAGESTACK_H_m
+#define SRC_DATA_DTO_IMAGESTACK_H_
 
 #include "data/dto/imageInfo.h"
 
