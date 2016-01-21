@@ -18,6 +18,7 @@
  */
 
 #include "plotManager.h"
+#include "data/helpers/imageStackHelper.h"
 
 #ifndef QT_NO_DEBUG
 #include <QDebug>
@@ -215,20 +216,17 @@ void PlotManager::refreshTempDistriPlot(QCustomPlot *plot, QList<ImageInfo> info
 {
     QVector<double> x, y;
 
-    QMap<int, ImageInfo> data;
-    foreach ( ImageInfo info, infos ) {
-
-        data.insertMulti(info.getTemperature(), info);
-    }
+    QList<ImageStack*> stacks = ImageStackHelper::createStackListFromImageInfos(infos);
 
     int maxTemp = 0;
     int minTemp = 200;
 
     int maxCount = 0;
 
-    foreach (int temperature, data.uniqueKeys()) {
+    foreach ( ImageStack* stack, stacks ) {
 
-        int count = data.values(temperature).count();
+        int count = stack->getSize();
+        int temperature = stack->getTemperature();
 
         x << temperature;
         y << count;

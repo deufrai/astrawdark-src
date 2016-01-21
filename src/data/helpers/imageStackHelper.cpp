@@ -11,27 +11,28 @@ ImageStackHelper::ImageStackHelper() {}
 
 ImageStackHelper::~ImageStackHelper() {}
 
-QList<ImageStack> ImageStackHelper::createStackListFromImageInfos(QList<ImageInfo> infos) {
+QList<ImageStack*> ImageStackHelper::createStackListFromImageInfos(QList<ImageInfo> infos) {
 
-	QList<ImageStack> stacks;
+	QList<ImageStack*> stacks;
 
 	foreach ( ImageInfo info, infos ) {
 
 		bool found = false;
-		foreach ( ImageStack stack, stacks ) {
 
-			if ( ! found && info.getTemperature() == stack.getTemperature() ) {
+		foreach ( ImageStack* pStack, stacks ) {
 
-				stack.add(info);
+			if ( ! found && info.getTemperature() == pStack->getTemperature() ) {
+
+				pStack->add(info);
 				found = true;
 			}
 		}
 
 		if ( ! found ) {
 
-			ImageStack stack(info.getTemperature());
-			stack.add(info);
-			stacks.append(stack);
+			ImageStack* pStack = new ImageStack((info.getTemperature()));
+			pStack->add(info);
+			stacks.append(pStack);
 		}
 	}
 

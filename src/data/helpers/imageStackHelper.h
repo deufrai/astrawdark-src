@@ -34,10 +34,11 @@ private:
 	ImageStackHelper();
 	virtual ~ImageStackHelper();
 
+public:
 	/**
 	 * Create a list of ImageStack from a list of ImageInfo based
 	 */
-	static QList<ImageStack> createStackListFromImageInfos(QList<ImageInfo> infos );
+	static QList<ImageStack*> createStackListFromImageInfos(QList<ImageInfo> infos );
 
 };
 
