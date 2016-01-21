@@ -262,6 +262,8 @@ void PlotManager::refreshTempDistriPlot(QCustomPlot *plot, QList<ImageInfo> info
     plot->yAxis->setTickStep(roundUp(maxCount / 10, 5));
 
     plot->replot();
+
+    foreach ( ImageStack* stack, stacks ) { delete stack; }
 }
 
 void PlotManager::clearPlot(QCustomPlot *plot)
