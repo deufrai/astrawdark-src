@@ -74,7 +74,7 @@ void MatchDarksCommand::do_processing() {
 
 	if ( filteredDarks.isEmpty() ) {
 
-		qWarning() << "No darks match your lights shooting conditions";
+		qWarning("No darks match your lights shooting conditions");
 
         _error = true;
         QString msg = tr("ERROR - No darks match your lights shooting conditions");
