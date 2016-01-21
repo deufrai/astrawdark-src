@@ -8,6 +8,7 @@
 #include "matchDarksCommand.h"
 #include "data/dataStore.h"
 #include "data/dto/imageInfo.h"
+#include "data/helpers/imageStackHelper.h"
 
 #ifndef QT_NO_DEBUG
 #include <QDebug>
@@ -88,6 +89,70 @@ void MatchDarksCommand::do_processing() {
 					 << filteredDarks.size() << " darks that match shooting settings";
 		#endif
 
+		QList<ImageStack*> lightStacks = ImageStackHelper::createStackListFromImageInfos(lights);
+		QList<ImageStack*> darkStacks = ImageStackHelper::createStackListFromImageInfos(filteredDarks);
 
+		#ifndef QT_NO_DEBUG
+		qDebug() << "  T° : wanted  | available";
+		#endif
+
+		int matchedDarksCount = 0;
+
+		foreach( ImageStack* pLightStack, lightStacks ) {
+
+			int lightStackTemp = pLightStack->getTemperature();
+			int lightStackSize = pLightStack->getSize();
+
+			bool foundDarkStack = false;
+
+			foreach ( ImageStack* pDarkStack, darkStacks ) {
+
+				if ( pDarkStack->getTemperature() == lightStackTemp ) {
+
+					foundDarkStack = true;
+
+					int darkStackSize = pDarkStack->getSize();
+					int wantedDarks = lightStackSize * neededDarksCount / lights.size();
+
+					if ( 0 == wantedDarks ) {
+
+						wantedDarks = 1;
+					}
+
+					#ifndef QT_NO_DEBUG
+					qDebug() << lightStackTemp << "°C : "
+							 << wantedDarks
+							 << "   |   "
+							 << darkStackSize;
+					#endif
+
+					if ( wantedDarks > darkStackSize ) {
+
+				        _error = true;
+				        QString msg = tr("ERROR - Not enough darks for T° = %1").arg(lightStackTemp);
+				        _reportMessages << msg;
+				        _commandReport.addSection(msg, QStringList());
+				        return;
+
+					} else {
+
+						matchedDarksCount += wantedDarks;
+					}
+				}
+			}
+
+			if ( ! foundDarkStack ) {
+
+		        _error = true;
+		        QString msg = tr("ERROR - Not enough darks for T° = %1").arg(lightStackTemp);
+		        _reportMessages << msg;
+		        _commandReport.addSection(msg, QStringList());
+		        return;
+			}
+		}
+
+		#ifndef QT_NO_DEBUG
+		qDebug() << "Matched " << matchedDarksCount << " darks";
+		#endif
 	}
 }
