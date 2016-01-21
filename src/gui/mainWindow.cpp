@@ -145,6 +145,11 @@ MainWindow::MainWindow(QWidget *parent)
             this,
             &MainWindow::on_commandCreated);
 
+    connect(this,
+    		&MainWindow::matchLights,
+			SignalDispatcher::getInstance(),
+			&SignalDispatcher::on_createMatchDarksCommand);
+
     _commandManager = new CommandManager(this);
 
     ui->tabDarkDetailsWidget->setCurrentIndex(0);

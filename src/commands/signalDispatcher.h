@@ -98,8 +98,12 @@ signals:
     /** let's create a lights check command */
     void createLightsCheckCommand();
 
+    /** let's create a darks match command */
+    void createMatchDarksCommand();
+
     /** advertize consistency check result */
     void consistencyResult(bool);
+
 
 public slots:
     /** A new dark scan has just started */
@@ -146,6 +150,9 @@ public slots:
 
     /** let's create a lights check command */
     void on_createLightsCheckCommand() {emit createLightsCheckCommand();}
+
+    /** let's create a dark match command */
+    void on_createMatchDarksCommand() {emit createMatchDarksCommand();}
 
     /** A new lights scan just started */
     void on_lightsScanStarted() {emit lightsScanStarted();}

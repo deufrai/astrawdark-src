@@ -53,6 +53,12 @@ public:
      */
     static AbstractCommand* createLightsCheckCommand();
 
+    /**
+     * Create a MatchDarksCommand
+     * @return a pointer to the newly created command
+     */
+    static AbstractCommand* createMatchDarksCommand();
+
 };
 
 #endif // COMMANDFACTORY_H
