@@ -42,7 +42,7 @@ void MatchDarksCommand::do_processing() {
 
 	/*
 	 * Here we know that all lights have been checked for consistancy
-	 * do we can get camera body serial number, exposure time and ISO settings
+	 * so we can get camera body serial number, exposure time and ISO settings
 	 * from whichever light
 	 */
 	ImageInfo referenceLight = lights.at(0);
@@ -87,14 +87,13 @@ void MatchDarksCommand::do_processing() {
 		#ifndef QT_NO_DEBUG
 			qDebug() << neededDarksCount << " darks wanted. We found "
 					 << filteredDarks.size() << " darks that match shooting settings";
+
+			qDebug() << "  T°  : needed\t| available";
+			qDebug() << "=================================";
 		#endif
 
 		QList<ImageStack*> lightStacks = ImageStackHelper::createStackListFromImageInfos(lights);
 		QList<ImageStack*> darkStacks = ImageStackHelper::createStackListFromImageInfos(filteredDarks);
-
-		#ifndef QT_NO_DEBUG
-		qDebug() << "  T° : wanted  | available";
-		#endif
 
 		int matchedDarksCount = 0;
 
@@ -120,9 +119,9 @@ void MatchDarksCommand::do_processing() {
 					}
 
 					#ifndef QT_NO_DEBUG
-					qDebug() << lightStackTemp << "°C : "
+					qDebug() << lightStackTemp << "°C :  "
 							 << wantedDarks
-							 << "   |   "
+							 << "\t|   "
 							 << darkStackSize;
 					#endif
 
@@ -130,6 +129,11 @@ void MatchDarksCommand::do_processing() {
 
 				        _error = true;
 				        QString msg = tr("ERROR - Not enough darks for T° = %1").arg(lightStackTemp);
+
+						#ifndef QT_NO_DEBUG
+							qDebug(msg.toStdString().c_str());
+						#endif
+
 				        _reportMessages << msg;
 				        _commandReport.addSection(msg, QStringList());
 				        return;
@@ -145,6 +149,11 @@ void MatchDarksCommand::do_processing() {
 
 		        _error = true;
 		        QString msg = tr("ERROR - Not enough darks for T° = %1").arg(lightStackTemp);
+
+		        #ifndef QT_NO_DEBUG
+		        	qDebug(msg.toStdString().c_str());
+				#endif
+
 		        _reportMessages << msg;
 		        _commandReport.addSection(msg, QStringList());
 		        return;
