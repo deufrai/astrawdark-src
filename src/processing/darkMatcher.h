@@ -35,8 +35,20 @@ public:
 	DarkMatcher();
 	virtual ~DarkMatcher();
 
+	/**
+	 * Get processing results
+	 *
+	 * @return a list of ImageInfo
+	 */
 	QList<ImageInfo> getResults() const { return _results; }
 
+	/**
+	 * perform dark matching
+	 *
+	 * @param lights : list of lights to be preprocessed
+	 * @param darks : list of all darks in library
+	 * @param desiredDarkCount : how many darks must we use for matching
+	 */
 	void match(QList<ImageInfo> lights, QList<ImageInfo> darks, int desiredDarkCount);
 
 private:
