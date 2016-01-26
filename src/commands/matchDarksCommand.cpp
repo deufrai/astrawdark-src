@@ -21,6 +21,9 @@
 #include "data/dataStore.h"
 #include "data/dto/imageInfo.h"
 #include "data/helpers/imageStackHelper.h"
+#include "processing/darkMatcher.h"
+
+#include <exception>
 
 #ifndef QT_NO_DEBUG
 #include <QDebug>
@@ -52,128 +55,20 @@ void MatchDarksCommand::do_processing() {
 		qDebug() << "Matching " << neededDarksCount << " darks";
 	#endif
 
-	/*
-	 * Here we know that all lights have been checked for consistancy
-	 * so we can get camera body serial number, exposure time and ISO settings
-	 * from whichever light
-	 */
-	ImageInfo referenceLight = lights.at(0);
+	DarkMatcher matcher;
 
-	QString serial = referenceLight.getCameraSerial();
-	int exposureTime = referenceLight.getExposure();
-	int isoSpeed = referenceLight.getIso();
+	try {
 
-	/*
-	 * We filter darks based on these shooting conditions
-	 */
+		matcher.match(lights, allDarks, neededDarksCount);
 
-	_message = tr("Filtering darks...");
-	emit statusChanged(this);
-
-	QList<ImageInfo> filteredDarks;
-
-	foreach (ImageInfo dark, allDarks) {
-
-		if ( dark.getCameraSerial() == serial       &&
-			 dark.getExposure()     == exposureTime &&
-			 dark.getIso()          == isoSpeed        ) {
-
-			filteredDarks.append(dark);
-		}
-	}
-
-	_message = tr("Darks filtered");
-	emit statusChanged(this);
-
-	if ( filteredDarks.isEmpty() ) {
-
-		qWarning("No darks match your lights shooting conditions");
+	} catch ( std::exception const& e) {
 
         _error = true;
-        QString msg = tr("ERROR - No darks match your lights shooting conditions");
+        //TODO : get localized error messages
+        QString msg = e.what();
         _reportMessages << msg;
         _commandReport.addSection(msg, QStringList());
 
-	} else {
-
-		#ifndef QT_NO_DEBUG
-			qDebug() << neededDarksCount << " darks wanted. We found "
-					 << filteredDarks.size() << " darks that match shooting settings";
-
-			qDebug() << "  T°  : needed\t| available";
-			qDebug() << "=================================";
-		#endif
-
-		QList<ImageStack*> lightStacks = ImageStackHelper::createStackListFromImageInfos(lights);
-		QList<ImageStack*> darkStacks = ImageStackHelper::createStackListFromImageInfos(filteredDarks);
-
-		int matchedDarksCount = 0;
-
-		foreach( ImageStack* pLightStack, lightStacks ) {
-
-			int lightStackTemp = pLightStack->getTemperature();
-			int lightStackSize = pLightStack->getSize();
-
-			bool foundDarkStack = false;
-
-			foreach ( ImageStack* pDarkStack, darkStacks ) {
-
-				if ( pDarkStack->getTemperature() == lightStackTemp ) {
-
-					foundDarkStack = true;
-
-					int darkStackSize = pDarkStack->getSize();
-					int wantedDarks = lightStackSize * neededDarksCount / lights.size();
-
-					if ( 0 == wantedDarks ) {
-
-						wantedDarks = 1;
-					}
-
-					#ifndef QT_NO_DEBUG
-					qDebug() << lightStackTemp << "°C :  "
-							 << wantedDarks
-							 << "\t|   "
-							 << darkStackSize;
-					#endif
-
-					if ( wantedDarks > darkStackSize ) {
-
-				        _error = true;
-				        QString msg = tr("ERROR - Not enough darks for T° = %1").arg(lightStackTemp);
-
-						#ifndef QT_NO_DEBUG
-							qDebug(msg.toStdString().c_str());
-						#endif
-
-				        _reportMessages << msg;
-				        _commandReport.addSection(msg, QStringList());
-				        return;
-
-					} else {
-
-						matchedDarksCount += wantedDarks;
-					}
-				}
-			}
-
-			if ( ! foundDarkStack ) {
-
-		        _error = true;
-		        QString msg = tr("ERROR - Not enough darks for T° = %1").arg(lightStackTemp);
-
-		        #ifndef QT_NO_DEBUG
-		        	qDebug(msg.toStdString().c_str());
-				#endif
-
-		        _reportMessages << msg;
-		        _commandReport.addSection(msg, QStringList());
-		        return;
-			}
-		}
-
-		#ifndef QT_NO_DEBUG
-		qDebug() << "Matched " << matchedDarksCount << " darks";
-		#endif
 	}
+
 }
