@@ -22,6 +22,8 @@
 
 #include <stdexcept>
 
+#include <QObject>
+
 #ifndef QT_NO_DEBUG
 #include <QDebug>
 #endif
@@ -65,8 +67,7 @@ void DarkMatcher::match(QList<ImageInfo> lights, QList<ImageInfo> darks, int des
 
 	if ( filteredDarks.isEmpty() ) {
 
-		qWarning("No darks match your lights shooting conditions");
-		throw std::runtime_error("ERROR - No darks match your lights shooting conditions");
+		throw std::runtime_error(QObject::tr("ERROR - No darks match your lights shooting conditions").toStdString());
 
 	} else {
 
@@ -113,8 +114,9 @@ void DarkMatcher::match(QList<ImageInfo> lights, QList<ImageInfo> darks, int des
 
 					if ( neededDarks > darkStackSize ) {
 
-						// TODO : implement error feedback
-						throw std::runtime_error("ERROR - Not enough darks for T° = " + lightStackTemp);
+						throw std::runtime_error(QObject::tr("ERROR - Not enough darks for T° = %1")
+							.arg(lightStackTemp)
+							.toStdString());
 
 					} else {
 
@@ -126,7 +128,9 @@ void DarkMatcher::match(QList<ImageInfo> lights, QList<ImageInfo> darks, int des
 
 			if ( ! foundDarkStack ) {
 
-				throw std::runtime_error("ERROR - No darks for T° = " + lightStackTemp);
+				throw std::runtime_error(QObject::tr("ERROR - No dark for T° = %1")
+					.arg(lightStackTemp)
+					.toStdString());
 			}
 		}
 

@@ -64,9 +64,9 @@ void MatchDarksCommand::do_processing() {
 	} catch ( std::exception const& e) {
 
         _error = true;
-        //TODO : get localized error messages
         QString msg = e.what();
         _reportMessages << msg;
+        qWarning(e.what());
         _commandReport.addSection(msg, QStringList());
 
 	}
