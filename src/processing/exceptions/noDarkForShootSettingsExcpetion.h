@@ -17,29 +17,26 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SRC_COMMANDS_MATCHDARKSCOMMAND_H_
-#define SRC_COMMANDS_MATCHDARKSCOMMAND_H_
+#ifndef SRC_PROCESSING_EXCEPTIONS_NODARKFORSHOOTSETTINGSEXCPETION_H_
+#define SRC_PROCESSING_EXCEPTIONS_NODARKFORSHOOTSETTINGSEXCPETION_H_
 
-#include "abstractCommand.h"
+#include "matchingException.h"
 
 /**
- * @brief Command that creates a list of darks
- * from a list of lights.
- *
+ * @brief Temperature matching failed because of shooting settings mismsatch
+ *        between lights and darks.
  */
-class MatchDarksCommand : public AbstractCommand {
+class NoDarkForShootSettingsExcpetion : public MatchingException {
 
-	Q_OBJECT
 public:
-	MatchDarksCommand();
-	virtual ~MatchDarksCommand();
+	/**
+	 * Constructor
+	 *
+	 * @param msg incorporated message
+	 */
+	NoDarkForShootSettingsExcpetion(const char* msg);
 
-protected:
-    /** processing payload */
-    virtual void do_processing();
-
-private:
-    void on_error(const QString msg);
+	virtual ~NoDarkForShootSettingsExcpetion() throw ();
 };
 
-#endif /* SRC_COMMANDS_MATCHDARKSCOMMAND_H_ */
+#endif /* SRC_PROCESSING_EXCEPTIONS_NODARKFORSHOOTSETTINGSEXCPETION_H_ */

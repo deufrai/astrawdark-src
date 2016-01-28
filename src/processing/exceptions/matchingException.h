@@ -17,29 +17,24 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SRC_COMMANDS_MATCHDARKSCOMMAND_H_
-#define SRC_COMMANDS_MATCHDARKSCOMMAND_H_
+#ifndef SRC_PROCESSING_EXCEPTIONS_MATCHINGEXCEPTION_H_
+#define SRC_PROCESSING_EXCEPTIONS_MATCHINGEXCEPTION_H_
 
-#include "abstractCommand.h"
+#include <stdexcept>
 
 /**
- * @brief Command that creates a list of darks
- * from a list of lights.
- *
+ * @brief Abstract mother of all temperature-matching related exceptions.
  */
-class MatchDarksCommand : public AbstractCommand {
-
-	Q_OBJECT
-public:
-	MatchDarksCommand();
-	virtual ~MatchDarksCommand();
+class MatchingException : public std::runtime_error {
 
 protected:
-    /** processing payload */
-    virtual void do_processing();
-
-private:
-    void on_error(const QString msg);
+	/**
+	 * Constructor
+	 *
+	 * @param msg incorporated message
+	 */
+	MatchingException(const char* msg);
+	virtual ~MatchingException() throw ();
 };
 
-#endif /* SRC_COMMANDS_MATCHDARKSCOMMAND_H_ */
+#endif /* SRC_PROCESSING_EXCEPTIONS_MATCHINGEXCEPTION_H_ */

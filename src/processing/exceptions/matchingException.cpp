@@ -17,29 +17,14 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SRC_COMMANDS_MATCHDARKSCOMMAND_H_
-#define SRC_COMMANDS_MATCHDARKSCOMMAND_H_
+#include "matchingException.h"
 
-#include "abstractCommand.h"
+MatchingException::MatchingException(const char* msg)
+: std::runtime_error::runtime_error(msg) {
 
-/**
- * @brief Command that creates a list of darks
- * from a list of lights.
- *
- */
-class MatchDarksCommand : public AbstractCommand {
+}
 
-	Q_OBJECT
-public:
-	MatchDarksCommand();
-	virtual ~MatchDarksCommand();
+MatchingException::~MatchingException() throw () {
 
-protected:
-    /** processing payload */
-    virtual void do_processing();
+}
 
-private:
-    void on_error(const QString msg);
-};
-
-#endif /* SRC_COMMANDS_MATCHDARKSCOMMAND_H_ */

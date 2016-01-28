@@ -19,10 +19,8 @@
 
 #include "darkMatcher.h"
 #include "data/helpers/imageStackHelper.h"
-
-#include <stdexcept>
-
-#include <QObject>
+#include "processing/exceptions/noDarkForShootSettingsExcpetion.h"
+#include "processing/exceptions/noDarkForTempException.h"
 
 #ifndef QT_NO_DEBUG
 #include <QDebug>
@@ -51,91 +49,115 @@ void DarkMatcher::match(QList<ImageInfo> lights, QList<ImageInfo> darks, int des
 	int isoSpeed = referenceLight.getIso();
 
 	/*
-	 * We filter darks based on these shooting conditions
+	 * We filter darks based on these shooting conditions.
+	 * Keeping only darks shot with :
+	 *
+	 *  - same camera body, based on serial #
+	 *  - same exposure time
+	 *  - same ISO settings
 	 */
 	QList<ImageInfo> filteredDarks;
 
 	foreach (ImageInfo dark, darks) {
 
 		if ( dark.getCameraSerial() == serial       &&
-			 dark.getExposure()     == exposureTime &&
-			 dark.getIso()          == isoSpeed        ) {
+				dark.getExposure()  == exposureTime &&
+				dark.getIso()       == isoSpeed        ) {
 
 			filteredDarks.append(dark);
 		}
 	}
 
-	if ( filteredDarks.isEmpty() ) {
-
-		throw std::runtime_error(QObject::tr("ERROR - No darks match your lights shooting conditions").toStdString());
-
-	} else {
+	if ( ! filteredDarks.isEmpty() ) {
 
 		#ifndef QT_NO_DEBUG
-			qDebug() << desiredDarkCount << " darks wanted. We found "
-					 << filteredDarks.size() << " darks that match shooting settings";
+				qDebug() << desiredDarkCount << " darks wanted. We found "
+						<< filteredDarks.size() << " darks that match shooting settings";
 
-			qDebug() << "  T°  : needed\t| available";
-			qDebug() << "=================================";
+				qDebug() << "  T°  : needed\t| available";
+				qDebug() << "=================================";
 		#endif
 
+		/*
+		 * Create temperature stacks for lights & filtered darks
+		 */
 		QList<ImageStack*> lightStacks = ImageStackHelper::createStackListFromImageInfos(lights);
 		QList<ImageStack*> darkStacks = ImageStackHelper::createStackListFromImageInfos(filteredDarks);
 
-		int matchedDarksCount = 0;
-
+		/*
+		 * For each light stack
+		 */
 		foreach( ImageStack* pLightStack, lightStacks ) {
 
-			int lightStackTemp = pLightStack->getTemperature();
 			int lightStackSize = pLightStack->getSize();
 
 			bool foundDarkStack = false;
+
+			/*
+			 * compute how many darks we need for this temperature
+			 *
+			 *
+			 *                                           total number of darks wanted
+			 * needed darks = size of lights stack x  ---------------------------------
+			 *                                             total number of lights
+			 *
+			 * FIXME: rounding leads to matched dark count beeing slightly off by +- 1
+			 */
+			int neededDarks = qRound(lightStackSize * desiredDarkCount / static_cast<double> (lights.size()));
+
+			/*
+			 * we look for a dark stack with same temperature
+			 */
+			int lightStackTemp = pLightStack->getTemperature();
 
 			foreach ( ImageStack* pDarkStack, darkStacks ) {
 
 				if ( pDarkStack->getTemperature() == lightStackTemp ) {
 
+					/*
+					 * Found the right dark stack  !!!
+					 */
 					foundDarkStack = true;
 
 					int darkStackSize = pDarkStack->getSize();
-					int neededDarks = lightStackSize * desiredDarkCount / lights.size();
-
-					if ( 0 == neededDarks ) {
-
-						neededDarks = 1;
-					}
 
 					#ifndef QT_NO_DEBUG
-					qDebug() << lightStackTemp << "°C :  "
-							 << neededDarks
-							 << "\t|   "
-							 << darkStackSize;
+						qDebug() << lightStackTemp << "°C :  "
+								<< neededDarks
+								<< "\t|   "
+								<< darkStackSize;
 					#endif
 
-					if ( neededDarks > darkStackSize ) {
+					if ( neededDarks <= darkStackSize ) {
 
-						throw std::runtime_error(QObject::tr("ERROR - Not enough darks for T° = %1")
-							.arg(lightStackTemp)
-							.toStdString());
+						/*
+						 * Darks stack has enough images, we feed the monkey
+						 */
+						for ( int i=0; i<neededDarks; i++ ) {
+
+							_results << pDarkStack->getImages().at(i);
+						}
 
 					} else {
 
-						matchedDarksCount += neededDarks;
-						// TODO : feed actual result member
+						throw NoDarkForTempException("Not enough darks", lightStackTemp, neededDarks, darkStackSize);
 					}
 				}
 			}
 
 			if ( ! foundDarkStack ) {
 
-				throw std::runtime_error(QObject::tr("ERROR - No dark for T° = %1")
-					.arg(lightStackTemp)
-					.toStdString());
+				throw NoDarkForTempException("Not enough darks", lightStackTemp, neededDarks, 0);
 			}
 		}
 
 		#ifndef QT_NO_DEBUG
-		qDebug() << "Matched " << matchedDarksCount << " darks";
+				qDebug() << "Matched " << _results.size() << " darks";
 		#endif
+
+
+	} else {
+
+		throw NoDarkForShootSettingsExcpetion("No darks match your lights shooting conditions");
 	}
 }

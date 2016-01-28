@@ -40,7 +40,7 @@ public:
 	 *
 	 * @return a list of ImageInfo
 	 */
-	QList<ImageInfo> getResults() const { return _results; }
+	QList<ImageInfo> getMatchedDarks() const { return _results; }
 
 	/**
 	 * perform dark matching

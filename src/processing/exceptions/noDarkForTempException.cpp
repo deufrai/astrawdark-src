@@ -17,29 +17,18 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SRC_COMMANDS_MATCHDARKSCOMMAND_H_
-#define SRC_COMMANDS_MATCHDARKSCOMMAND_H_
+#include "noDarkForTempException.h"
 
-#include "abstractCommand.h"
+NoDarkForTempException::NoDarkForTempException(const char* msg, int temp, int needed, int available)
+: MatchingException(msg),
+  _temp(temp),
+  _needed(needed),
+  _available(available) {
 
-/**
- * @brief Command that creates a list of darks
- * from a list of lights.
- *
- */
-class MatchDarksCommand : public AbstractCommand {
+}
 
-	Q_OBJECT
-public:
-	MatchDarksCommand();
-	virtual ~MatchDarksCommand();
+NoDarkForTempException::~NoDarkForTempException() throw () {
 
-protected:
-    /** processing payload */
-    virtual void do_processing();
 
-private:
-    void on_error(const QString msg);
-};
+}
 
-#endif /* SRC_COMMANDS_MATCHDARKSCOMMAND_H_ */

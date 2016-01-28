@@ -47,7 +47,10 @@ SOURCES += src/main.cpp\
     src/data/dto/imageStack.cpp \
     src/data/helpers/imageStackHelper.cpp \
     src/commands/matchDarksCommand.cpp \
-    src/processing/darkMatcher.cpp
+    src/processing/darkMatcher.cpp \
+    src/processing/exceptions/matchingException.cpp \
+    src/processing/exceptions/noDarkForShootSettingsExcpetion.cpp \
+    src/processing/exceptions/noDarkForTempException.cpp
 
 INCLUDEPATH += src
 
@@ -77,7 +80,10 @@ HEADERS  += \
     src/data/dto/imageStack.h \
     src/data/helpers/imageStackHelper.h \
     src/commands/matchDarksCommand.h \
-    src/processing/darkMatcher.h
+    src/processing/darkMatcher.h \
+    src/processing/exceptions/matchingException.h \
+    src/processing/exceptions/noDarkForShootSettingsExcpetion.h \
+    src/processing/exceptions/noDarkForTempException.h
 
 FORMS    += \
     src/gui/forms/mainWindow.ui \

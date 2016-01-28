@@ -17,29 +17,15 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SRC_COMMANDS_MATCHDARKSCOMMAND_H_
-#define SRC_COMMANDS_MATCHDARKSCOMMAND_H_
+#include "noDarkForShootSettingsExcpetion.h"
 
-#include "abstractCommand.h"
+NoDarkForShootSettingsExcpetion::NoDarkForShootSettingsExcpetion(const char* msg)
+: MatchingException::MatchingException(msg){
 
-/**
- * @brief Command that creates a list of darks
- * from a list of lights.
- *
- */
-class MatchDarksCommand : public AbstractCommand {
 
-	Q_OBJECT
-public:
-	MatchDarksCommand();
-	virtual ~MatchDarksCommand();
+}
 
-protected:
-    /** processing payload */
-    virtual void do_processing();
+NoDarkForShootSettingsExcpetion::~NoDarkForShootSettingsExcpetion() throw () {
 
-private:
-    void on_error(const QString msg);
-};
+}
 
-#endif /* SRC_COMMANDS_MATCHDARKSCOMMAND_H_ */

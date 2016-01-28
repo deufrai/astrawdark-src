@@ -22,8 +22,10 @@
 #include "data/dto/imageInfo.h"
 #include "data/helpers/imageStackHelper.h"
 #include "processing/darkMatcher.h"
+#include "processing/exceptions/noDarkForShootSettingsExcpetion.h"
+#include "processing/exceptions/noDarkForTempException.h"
 
-#include <exception>
+#include <stdexcept>
 
 #ifndef QT_NO_DEBUG
 #include <QDebug>
@@ -57,18 +59,37 @@ void MatchDarksCommand::do_processing() {
 
 	DarkMatcher matcher;
 
+	_message = tr("Matching darks...");
+	emit statusChanged(this);
+
 	try {
 
 		matcher.match(lights, allDarks, neededDarksCount);
 
-	} catch ( std::exception const& e) {
+        _reportMessages << tr("OK.");
+        _commandReport.addSection(tr("Completed successfully"),QStringList());
 
-        _error = true;
-        QString msg = e.what();
-        _reportMessages << msg;
-        qWarning(e.what());
-        _commandReport.addSection(msg, QStringList());
+	} catch ( NoDarkForShootSettingsExcpetion const& e ) {
 
+        on_error(tr("ERROR - No darks available for your lights shooting settings"));
+
+
+	} catch ( NoDarkForTempException const& e) {
+
+        on_error(tr("ERROR - Not enough darks for T = %1°C. Needed = %2, Available = %3")
+            .arg(e.getTemp())
+            .arg(e.getNeeded())
+            .arg(e.getAvailable()));
 	}
 
+	_message = tr("%1 darks matched").arg(matcher.getMatchedDarks().size());
+	emit statusChanged(this);
+}
+
+void MatchDarksCommand::on_error(const QString msg) {
+
+    _error = true;
+    _reportMessages << msg;
+    qWarning(msg.toStdString().c_str());
+    _commandReport.addSection(msg, QStringList());
 }
