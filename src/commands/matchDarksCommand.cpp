@@ -20,12 +20,9 @@
 #include "matchDarksCommand.h"
 #include "data/dataStore.h"
 #include "data/dto/imageInfo.h"
-#include "data/helpers/imageStackHelper.h"
 #include "processing/darkMatcher.h"
 #include "processing/exceptions/noDarkForShootSettingsExcpetion.h"
 #include "processing/exceptions/noDarkForTempException.h"
-
-#include <stdexcept>
 
 #ifndef QT_NO_DEBUG
 #include <QDebug>
