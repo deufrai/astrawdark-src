@@ -149,6 +149,9 @@ void DarkMatcher::match(QList<ImageInfo> lights, QList<ImageInfo> darks, int des
 
 					} else {
 
+						#ifndef QT_NO_DEBUG
+							qDebug() << "Not enough darks for T = " << lightStackTemp << " °C";
+						#endif
 						throw NoDarkForTempException("Not enough darks", lightStackTemp, neededDarks, darkStackSize);
 					}
 				}
@@ -156,6 +159,9 @@ void DarkMatcher::match(QList<ImageInfo> lights, QList<ImageInfo> darks, int des
 
 			if ( ! foundDarkStack ) {
 
+				#ifndef QT_NO_DEBUG
+					qDebug() << "No darks for T = " << lightStackTemp << " °C";
+				#endif
 				throw NoDarkForTempException("Not enough darks", lightStackTemp, neededDarks, 0);
 			}
 		}

@@ -21,7 +21,8 @@
 
 #include "data/dataStore.h"
 #include "processing/darkMatcher.h"
-#include "processing/exceptions/matchingException.h"
+#include "processing/exceptions/noDarkForShootSettingsExcpetion.h"
+#include "processing/exceptions/noDarkForTempException.h"
 
 #ifndef QT_NO_DEBUG
 #include <QDebug>
@@ -59,55 +60,49 @@ void ComputeBestMatchCommand::do_processing() {
 	// we first try the biggest dar kset possible : all of them
 	DarkMatcher matcher;
 
-	try {
 
-		matcher.match(DataStore::getInstance()->getScannedLights(),
-				      DataStore::getInstance()->getScannedDarks(),
-					  high);
+	do {
 
-		found = true;
+		try {
 
-	} catch (MatchingException const& e) {
+			#ifndef QT_NO_DEBUG
+				qDebug() << "BEFORE : LOW = " << low << " | HIGH = " << high;
+			#endif
 
-		#ifndef QT_NO_DEBUG
-			qDebug() << "Biggest set doesn't match. Seaching now ...";
-		#endif
+			matcher.match(DataStore::getInstance()->getScannedLights(),
+						  DataStore::getInstance()->getScannedDarks(),
+						  high);
 
-		high -= (high - low ) / 2;
+			low = high;
+			high += (lowestBad - high) / 2;
 
-		while ( high -low != 1 ) {
+			#ifndef QT_NO_DEBUG
+				qDebug() << "AFTER : LOW = " << low << " | HIGH = " << high;
+			#endif
 
-			try {
+			found = true;
 
-				#ifndef QT_NO_DEBUG
-					qDebug() << "BEFORE : LOW = " << low << " | HIGH = " << high;
-				#endif
+		} catch (NoDarkForTempException const& e) {
 
-				matcher.match(DataStore::getInstance()->getScannedLights(),
-						      DataStore::getInstance()->getScannedDarks(),
-							  high);
+			lowestBad = high;
+			high -= (high - low ) / 2;
 
-				low = high;
-				high += (lowestBad - high) / 2;
+			#ifndef QT_NO_DEBUG
+				qDebug() << "AFTER : LOW = " << low << " | HIGH = " << high;
+			#endif
 
-				#ifndef QT_NO_DEBUG
-					qDebug() << "AFTER : LOW = " << low << " | HIGH = " << high;
-				#endif
+		} catch (NoDarkForShootSettingsExcpetion const& e) {
 
-				found = true;
+			_error = true;
+			QString msg = tr("No darks match your shooting settings.");
+			_reportMessages << msg;
+			_commandReport.addSection(msg,QStringList());
 
-			} catch (MatchingException const& e) {
-
-				lowestBad = high;
-				high -= (high - low ) / 2;
-
-				#ifndef QT_NO_DEBUG
-					qDebug() << "AFTER : LOW = " << low << " | HIGH = " << high;
-				#endif
-			}
-
+			return;
 		}
-	}
+
+	} while ( high -low > 1 );
+
 
 	if ( found ) {
 
