@@ -23,6 +23,7 @@
 #include "processing/darkMatcher.h"
 #include "processing/exceptions/noDarkForShootSettingsExcpetion.h"
 #include "processing/exceptions/noDarkForTempException.h"
+#include "commands/signalDispatcher.h"
 
 #ifndef QT_NO_DEBUG
 #include <QDebug>
@@ -31,6 +32,11 @@
 ComputeBestMatchCommand::ComputeBestMatchCommand() {
 
 	_description = tr("Compute best match");
+
+	connect(this,
+			&ComputeBestMatchCommand::bestMatchFound,
+			SignalDispatcher::getInstance(),
+			&SignalDispatcher::on_bestMatchFound);
 }
 
 ComputeBestMatchCommand::~ComputeBestMatchCommand() {
@@ -57,9 +63,7 @@ void ComputeBestMatchCommand::do_processing() {
 
 	bool found = false;
 
-	// we first try the biggest dar kset possible : all of them
 	DarkMatcher matcher;
-
 
 	do {
 
@@ -94,6 +98,7 @@ void ComputeBestMatchCommand::do_processing() {
 		} catch (NoDarkForShootSettingsExcpetion const& e) {
 
 			_error = true;
+			_message = tr("Matching failed");
 			QString msg = tr("No darks match your shooting settings.");
 			_reportMessages << msg;
 			_commandReport.addSection(msg,QStringList());
@@ -106,10 +111,12 @@ void ComputeBestMatchCommand::do_processing() {
 
 	if ( found ) {
 
-		_message = tr("Best match found = %1").arg(high -1);
+		int bestMatch = high -1;
+		_message = tr("Best match found");
 		emit statusChanged(this);
 		_reportMessages << tr("OK.");
 		_commandReport.addSection(tr("Completed successfully"),QStringList());
+		emit bestMatchFound(bestMatch);
 
 
 		#ifndef QT_NO_DEBUG
@@ -119,6 +126,7 @@ void ComputeBestMatchCommand::do_processing() {
 	} else {
 
 		_error = true;
+		_message = tr("Matching failed");
 		QString msg = tr("Couldn't find T° match");
 		_reportMessages << msg;
 		_commandReport.addSection(msg,QStringList());

@@ -28,11 +28,21 @@
  */
 class ComputeBestMatchCommand : public AbstractCommand {
 
+	Q_OBJECT
+
 public:
 	ComputeBestMatchCommand();
 	virtual ~ComputeBestMatchCommand();
 
 	virtual void do_processing();
+
+signals:
+
+	/**
+	 * A best match was found
+	 * @param match the number of darks that best match lights T° distribution
+	 */
+	void bestMatchFound(int match);
 };
 
 #endif /* SRC_COMMANDS_COMPUTEBESTMATCHCOMMAND_H_ */

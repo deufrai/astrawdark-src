@@ -155,6 +155,11 @@ MainWindow::MainWindow(QWidget *parent)
 			SignalDispatcher::getInstance(),
 			&SignalDispatcher::createComputeBestMatchCommand);
 
+    connect(SignalDispatcher::getInstance(),
+			&SignalDispatcher::bestMatchFound,
+			this,
+    		&MainWindow::on_bestMatchFound);
+
     _commandManager = new CommandManager(this);
 
     ui->tabDarkDetailsWidget->setCurrentIndex(0);
@@ -368,9 +373,6 @@ void MainWindow::on_consistencyResult(bool consistent)
 {
     if ( consistent ) {
 
-//    	ui->sldDarkMatchers->setEnabled(true);
-//    	ui->sldDarkMatchers->setRange(0, _dataStore->getLightsCount());
-
     	emit computeBestMatch();
 
     } else {
@@ -425,4 +427,11 @@ void MainWindow::on_btnLightsMatch_clicked() {
 void MainWindow::on_sldDarkMatchers_valueChanged(int value) {
 
 	ui->btnLightsMatch->setEnabled(0 < value && _dataStore->getLightsCount() > 0 );
+}
+
+void MainWindow::on_bestMatchFound(int bestMatch) {
+
+	ui->sldDarkMatchers->setEnabled(true);
+	ui->sldDarkMatchers->setRange(0, bestMatch);
+	ui->sldDarkMatchers->setValue(bestMatch);
 }

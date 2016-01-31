@@ -161,6 +161,12 @@ private slots:
      */
     void on_sldDarkMatchers_valueChanged(int value);
 
+    /**
+     * A best match was found
+     * @param bestMatch the number of darks that best match lights T° distribution
+     */
+    void on_bestMatchFound(int bestMatch);
+
 signals:
     /** Tell the CommandManager to create a ScanDark command */
     void scanDarkLibrary();

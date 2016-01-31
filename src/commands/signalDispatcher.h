@@ -101,11 +101,20 @@ signals:
     /** let's create a darks match command */
     void createMatchDarksCommand();
 
-    /** advertize consistency check result */
-    void consistencyResult(bool);
+    /**
+     * advertize consistency check result
+     * @param consistent true if lights are consistents
+     */
+    void consistencyResult(bool consistent);
 
     /** let's create a best dark match command */
     void createComputeBestMatchCommand();
+
+    /**
+     * A best match was found
+     * @param bestMatch the number of darks that best match lights T° distribution
+     */
+    void bestMatchFound(int bestMatch);
 
 
 public slots:
@@ -166,7 +175,11 @@ public slots:
     /** A best match computation was requested */
     void on_createComputeBestMatchCommand() { emit createComputeBestMatchCommand();}
 
-
+    /**
+     * A best match was found
+     * @param bestMatch the number of darks that best match lights T° distribution
+     */
+    void on_bestMatchFound(int bestMatch) { emit bestMatchFound(bestMatch); }
 
 };
 
