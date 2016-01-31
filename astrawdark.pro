@@ -50,7 +50,8 @@ SOURCES += src/main.cpp\
     src/processing/darkMatcher.cpp \
     src/processing/exceptions/matchingException.cpp \
     src/processing/exceptions/noDarkForShootSettingsExcpetion.cpp \
-    src/processing/exceptions/noDarkForTempException.cpp
+    src/processing/exceptions/noDarkForTempException.cpp \
+    src/commands/computeBestMatchCommand.cpp
 
 INCLUDEPATH += src
 
@@ -83,7 +84,8 @@ HEADERS  += \
     src/processing/darkMatcher.h \
     src/processing/exceptions/matchingException.h \
     src/processing/exceptions/noDarkForShootSettingsExcpetion.h \
-    src/processing/exceptions/noDarkForTempException.h
+    src/processing/exceptions/noDarkForTempException.h \ 
+    src/commands/computeBestMatchCommand.h
 
 FORMS    += \
     src/gui/forms/mainWindow.ui \

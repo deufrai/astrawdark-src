@@ -173,6 +173,9 @@ signals:
 
     /** Tell the commandManager to create a MatchLights command */
     void matchLights();
+
+    /** Tell the commandManager to create a ComputeBestMatch command */
+    void computeBestMatch();
 };
 
 #endif // MAINWINDOW_H

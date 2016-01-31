@@ -104,6 +104,9 @@ signals:
     /** advertize consistency check result */
     void consistencyResult(bool);
 
+    /** let's create a best dark match command */
+    void createComputeBestMatchCommand();
+
 
 public slots:
     /** A new dark scan has just started */
@@ -159,6 +162,9 @@ public slots:
 
     /** lights consistency result arrived */
     void on_consistencyResult(bool consistent) {emit consistencyResult(consistent);}
+
+    /** A best match computation was requested */
+    void on_createComputeBestMatchCommand() { emit createComputeBestMatchCommand();}
 
 
 

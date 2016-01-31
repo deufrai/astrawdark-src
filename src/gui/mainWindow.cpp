@@ -150,6 +150,11 @@ MainWindow::MainWindow(QWidget *parent)
 			SignalDispatcher::getInstance(),
 			&SignalDispatcher::on_createMatchDarksCommand);
 
+    connect(this,
+    		&MainWindow::computeBestMatch,
+			SignalDispatcher::getInstance(),
+			&SignalDispatcher::createComputeBestMatchCommand);
+
     _commandManager = new CommandManager(this);
 
     ui->tabDarkDetailsWidget->setCurrentIndex(0);
@@ -363,8 +368,10 @@ void MainWindow::on_consistencyResult(bool consistent)
 {
     if ( consistent ) {
 
-    	ui->sldDarkMatchers->setEnabled(true);
-    	ui->sldDarkMatchers->setRange(0, _dataStore->getLightsCount());
+//    	ui->sldDarkMatchers->setEnabled(true);
+//    	ui->sldDarkMatchers->setRange(0, _dataStore->getLightsCount());
+
+    	emit computeBestMatch();
 
     } else {
 

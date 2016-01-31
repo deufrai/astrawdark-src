@@ -55,6 +55,11 @@ CommandManager::CommandManager(QObject *parent)
             this,
             &CommandManager::on_createMatchDarksCommand);
 
+    connect(SignalDispatcher::getInstance(),
+            &SignalDispatcher::createComputeBestMatchCommand,
+            this,
+            &CommandManager::on_createComputeBestMatchCommand);
+
 
     _executor.start();
 
@@ -93,4 +98,9 @@ void CommandManager::on_createLightsCheckCommand()
 void CommandManager::on_createMatchDarksCommand() {
 
 	_queue->enqueueCommand(CommandFactory::createMatchDarksCommand());
+}
+
+void CommandManager::on_createComputeBestMatchCommand() {
+
+	_queue->enqueueCommand(CommandFactory::createComputeBestMatchCommand());
 }

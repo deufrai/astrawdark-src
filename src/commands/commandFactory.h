@@ -59,6 +59,12 @@ public:
      */
     static AbstractCommand* createMatchDarksCommand();
 
+    /**
+     * Create a ComputeBestMatchCommand
+     * @return a pointer to the newly created command
+     */
+    static AbstractCommand* createComputeBestMatchCommand();
+
 };
 
 #endif // COMMANDFACTORY_H

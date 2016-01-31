@@ -37,6 +37,8 @@ DarkMatcher::~DarkMatcher() {
 
 void DarkMatcher::match(QList<ImageInfo> lights, QList<ImageInfo> darks, int desiredDarkCount) {
 
+	_results.clear();
+
 	/*
 	 * Here we know that all lights have been checked for consistancy
 	 * so we can get camera body serial number, exposure time and ISO settings
@@ -73,7 +75,14 @@ void DarkMatcher::match(QList<ImageInfo> lights, QList<ImageInfo> darks, int des
 		#ifndef QT_NO_DEBUG
 				qDebug() << desiredDarkCount << " darks wanted. We found "
 						<< filteredDarks.size() << " darks that match shooting settings";
+		#endif
 
+		if ( desiredDarkCount > filteredDarks.size() ) {
+
+			throw NoDarkForTempException("Not enough darks", 0, desiredDarkCount, filteredDarks.size());
+		}
+
+		#ifndef QT_NO_DEBUG
 				qDebug() << "  T°  : needed\t| available";
 				qDebug() << "=================================";
 		#endif

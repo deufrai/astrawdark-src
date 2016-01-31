@@ -76,6 +76,9 @@ public slots:
     /** Slot triggered by darks matching requests */
     void on_createMatchDarksCommand();
 
+    /** Slot triggered by request of best dark match */
+    void on_createComputeBestMatchCommand();
+
 
 
 };
