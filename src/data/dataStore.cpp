@@ -144,6 +144,11 @@ DataStore::DataStore()
             this,
             &DataStore::on_newDarkSources);
 
+    connect(SignalDispatcher::getInstance(),
+            &SignalDispatcher::matchFound,
+            this,
+            &DataStore::on_matchFound);
+
     connect(this,
             &DataStore::darkListModelChanged,
             SignalDispatcher::getInstance(),
@@ -440,4 +445,9 @@ void DataStore::setDarkDisplayFilter(const QString filter)
     _S_DarkDisplayFilter = filter;
 
     filterDarks();
+}
+
+void DataStore::on_matchFound(QList<ImageInfo> matchedDarks) {
+
+	_matchedDarks = matchedDarks;
 }

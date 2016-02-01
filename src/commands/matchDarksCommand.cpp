@@ -23,6 +23,7 @@
 #include "processing/darkMatcher.h"
 #include "processing/exceptions/noDarkForShootSettingsExcpetion.h"
 #include "processing/exceptions/noDarkForTempException.h"
+#include "commands/signalDispatcher.h"
 
 #ifndef QT_NO_DEBUG
 #include <QDebug>
@@ -31,6 +32,11 @@
 MatchDarksCommand::MatchDarksCommand() {
 
 	_description = QString(tr("Match darks"));
+
+	connect(this,
+			&MatchDarksCommand::matchFound,
+			SignalDispatcher::getInstance(),
+			&SignalDispatcher::matchFound);
 
 }
 
@@ -63,8 +69,12 @@ void MatchDarksCommand::do_processing() {
 
 		matcher.match(lights, allDarks, neededDarksCount);
 
+		_message = tr("%1 darks matched").arg(matcher.getMatchedDarks().size());
         _reportMessages << tr("OK.");
         _commandReport.addSection(tr("Completed successfully"),QStringList());
+
+		emit statusChanged(this);
+		emit matchFound(matcher.getMatchedDarks());
 
 	} catch ( NoDarkForShootSettingsExcpetion const& e ) {
 
@@ -78,9 +88,6 @@ void MatchDarksCommand::do_processing() {
             .arg(e.getNeeded())
             .arg(e.getAvailable()));
 	}
-
-	_message = tr("%1 darks matched").arg(matcher.getMatchedDarks().size());
-	emit statusChanged(this);
 }
 
 void MatchDarksCommand::on_error(const QString msg) {

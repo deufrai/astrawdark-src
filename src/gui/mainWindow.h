@@ -125,6 +125,12 @@ private slots:
     void on_btnChooseLightsFolder_clicked();
 
     /**
+     * User moved slider to choose the number of dark to use for T° matching
+     * @param value slider value
+     */
+    void on_sldDarkMatchers_valueChanged(int value);
+
+    /**
      * Dark sources have changed
      * @param sources a list of dark source folder paths
      */
@@ -155,17 +161,20 @@ private slots:
     void on_btnLightsMatch_clicked();
 
     /**
-     * Matching dark count slider moved
-     *
-     * @param value new new value
-     */
-    void on_sldDarkMatchers_valueChanged(int value);
-
-    /**
      * A best match was found
      * @param bestMatch the number of darks that best match lights T° distribution
      */
-    void on_bestMatchFound(int bestMatch);
+    void on_bestMatchCount(int bestMatch);
+
+    /**
+     * A match was found
+     */
+    void on_matchFound();
+
+    /**
+     * User asked for matched darks exports
+     */
+    void on_btnExportDarks_clicked();
 
 signals:
     /** Tell the CommandManager to create a ScanDark command */

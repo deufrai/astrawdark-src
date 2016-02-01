@@ -156,9 +156,14 @@ MainWindow::MainWindow(QWidget *parent)
 			&SignalDispatcher::createComputeBestMatchCommand);
 
     connect(SignalDispatcher::getInstance(),
-			&SignalDispatcher::bestMatchFound,
+			&SignalDispatcher::bestMatchCount,
 			this,
-    		&MainWindow::on_bestMatchFound);
+    		&MainWindow::on_bestMatchCount);
+
+    connect(SignalDispatcher::getInstance(),
+            &SignalDispatcher::matchFound,
+            this,
+            &MainWindow::on_matchFound);
 
     _commandManager = new CommandManager(this);
 
@@ -352,6 +357,7 @@ void MainWindow::on_lightsScanStart()
     ui->btnLightsMatch->setDisabled(true);
     ui->sldDarkMatchers->setDisabled(true);
     ui->sldDarkMatchers->setValue(0);
+    ui->btnExportDarks->setDisabled(true);
 }
 
 void MainWindow::on_lightsScanDone()
@@ -427,11 +433,32 @@ void MainWindow::on_btnLightsMatch_clicked() {
 void MainWindow::on_sldDarkMatchers_valueChanged(int value) {
 
 	ui->btnLightsMatch->setEnabled(0 < value && _dataStore->getLightsCount() > 0 );
+	ui->btnExportDarks->setDisabled(true);
 }
 
-void MainWindow::on_bestMatchFound(int bestMatch) {
+void MainWindow::on_bestMatchCount(int bestMatch) {
 
 	ui->sldDarkMatchers->setEnabled(true);
 	ui->sldDarkMatchers->setRange(0, bestMatch);
 	ui->sldDarkMatchers->setValue(bestMatch);
+	ui->btnExportDarks->setEnabled(true);
+}
+
+void MainWindow::on_matchFound() {
+
+	ui->btnExportDarks->setEnabled(true);
+}
+
+
+void MainWindow::on_btnExportDarks_clicked() {
+
+	qDebug() << "Export !!!!!";
+
+	QList<ImageInfo> matchedDarks = DataStore::getInstance()->getMatchedDarks();
+
+	foreach ( ImageInfo info, matchedDarks ) {
+
+		//TODO: actually export & remove temp debug code
+		qDebug() << info.getPath();
+	}
 }

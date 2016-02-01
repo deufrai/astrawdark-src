@@ -21,6 +21,7 @@
 #define SRC_COMMANDS_COMPUTEBESTMATCHCOMMAND_H_
 
 #include "abstractCommand.h"
+#include "data/dto/imageInfo.h"
 
 /**
  * Compute the size of the largest darks set that matches T° distribution
@@ -37,12 +38,17 @@ public:
 	virtual void do_processing();
 
 signals:
+	/**
+	 * A best match was found
+	 * @param matchedDarks a set of darks, matching current lights
+	 */
+	void matchFound(QList<ImageInfo> matchedDarks);
 
 	/**
 	 * A best match was found
-	 * @param match the number of darks that best match lights T° distribution
+	 * @param count the size of our matched dark set
 	 */
-	void bestMatchFound(int match);
+	void bestMatchCount(int count);
 };
 
 #endif /* SRC_COMMANDS_COMPUTEBESTMATCHCOMMAND_H_ */

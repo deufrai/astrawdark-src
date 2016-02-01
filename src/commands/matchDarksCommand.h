@@ -21,6 +21,7 @@
 #define SRC_COMMANDS_MATCHDARKSCOMMAND_H_
 
 #include "abstractCommand.h"
+#include "data/dto/imageInfo.h"
 
 /**
  * @brief Command that creates a list of darks
@@ -40,6 +41,13 @@ protected:
 
 private:
     void on_error(const QString msg);
+
+signals:
+	/**
+	 * A match was found
+	 * @param matchedDarks a set of darks, matching current lights
+	 */
+	void matchFound(QList<ImageInfo> matchedDarks);
 };
 
 #endif /* SRC_COMMANDS_MATCHDARKSCOMMAND_H_ */

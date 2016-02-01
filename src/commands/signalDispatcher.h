@@ -111,10 +111,16 @@ signals:
     void createComputeBestMatchCommand();
 
     /**
-     * A best match was found
-     * @param bestMatch the number of darks that best match lights T° distribution
+     * A match was found
+     * @param matchedDarks a set of darks, matching current lights
      */
-    void bestMatchFound(int bestMatch);
+    void matchFound(QList<ImageInfo> matchedDarks);
+
+    /**
+     * A best match count is available
+     * @param matchedDarksCount the number of darks from found best match
+     */
+    void bestMatchCount(int matchedDarksCount);
 
 
 public slots:
@@ -176,10 +182,16 @@ public slots:
     void on_createComputeBestMatchCommand() { emit createComputeBestMatchCommand();}
 
     /**
-     * A best match was found
-     * @param bestMatch the number of darks that best match lights T° distribution
+     * A match was found
+     * @param matchedDarks a set of darks, matching current lights
      */
-    void on_bestMatchFound(int bestMatch) { emit bestMatchFound(bestMatch); }
+    void on_matchFound(QList<ImageInfo> matchedDarks) { emit matchFound(matchedDarks); }
+
+    /**
+     * A best match count is available
+     * @param matchedDarksCount the number of darks from found best match
+     */
+    void on_bestMatchCount(int matchedDarksCount) { emit bestMatchCount(matchedDarksCount); }
 
 };
 

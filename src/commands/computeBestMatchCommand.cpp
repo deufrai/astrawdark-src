@@ -34,9 +34,14 @@ ComputeBestMatchCommand::ComputeBestMatchCommand() {
 	_description = tr("Compute best match");
 
 	connect(this,
-			&ComputeBestMatchCommand::bestMatchFound,
+			&ComputeBestMatchCommand::matchFound,
 			SignalDispatcher::getInstance(),
-			&SignalDispatcher::on_bestMatchFound);
+			&SignalDispatcher::on_matchFound);
+
+	connect(this,
+			&ComputeBestMatchCommand::bestMatchCount,
+			SignalDispatcher::getInstance(),
+			&SignalDispatcher::on_bestMatchCount);
 }
 
 ComputeBestMatchCommand::~ComputeBestMatchCommand() {
@@ -111,12 +116,12 @@ void ComputeBestMatchCommand::do_processing() {
 
 	if ( found ) {
 
-		int bestMatch = high -1;
 		_message = tr("Best match found");
 		emit statusChanged(this);
 		_reportMessages << tr("OK.");
 		_commandReport.addSection(tr("Completed successfully"),QStringList());
-		emit bestMatchFound(bestMatch);
+		emit matchFound(matcher.getMatchedDarks());
+		emit bestMatchCount(matcher.getMatchedDarks().size());
 
 
 		#ifndef QT_NO_DEBUG

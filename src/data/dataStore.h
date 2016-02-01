@@ -142,6 +142,12 @@ public:
     const QList<ImageInfo>& getFilteredDarks() const {return _filteredDarks;}
 
     /**
+     * Get all matched darks
+     * @return a list of darks infos
+     */
+    const QList<ImageInfo>& getMatchedDarks() const {return _matchedDarks;}
+
+    /**
      * Get lights folder
      * @return lights folder
      */
@@ -178,6 +184,7 @@ private:
     QList<ImageInfo>    _scannedDarks;
     QList<ImageInfo>    _filteredDarks;
     QList<ImageInfo>    _scannedLights;
+    QList<ImageInfo>    _matchedDarks;
     bool                _rememberWindowGeometry;
     bool                _scanDarksOnStartup;
     QString             _lightsFolder;
@@ -260,6 +267,12 @@ public slots:
      * @param paths a list of dark folder source paths
      */
     void on_newDarkSources(QStringList paths);
+
+    /**
+     * A match was found
+     * @param matchedDarks a set of darks, matching current lights
+     */
+    void on_matchFound(QList<ImageInfo> matchedDarks);
 
 };
 
