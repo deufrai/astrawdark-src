@@ -23,6 +23,7 @@
 #include "lightsCheckCommand.h"
 #include "matchDarksCommand.h"
 #include "computeBestMatchCommand.h"
+#include "darkCopyCommand.h"
 
 #include "data/dataStore.h"
 
@@ -54,4 +55,9 @@ AbstractCommand* CommandFactory::createMatchDarksCommand() {
 AbstractCommand* CommandFactory::createComputeBestMatchCommand() {
 
 	return new ComputeBestMatchCommand();
+}
+
+AbstractCommand* CommandFactory::createDarkCopyCommand() {
+
+	return new DarkCopyCommand();
 }

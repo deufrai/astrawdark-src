@@ -447,6 +447,11 @@ void DataStore::setDarkDisplayFilter(const QString filter)
     filterDarks();
 }
 
+void DataStore::setDarkCopyFolderPath(const QString copyFolder) {
+
+	_darksCopyFolder = copyFolder;
+}
+
 void DataStore::on_matchFound(QList<ImageInfo> matchedDarks) {
 
 	_matchedDarks = matchedDarks;

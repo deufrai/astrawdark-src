@@ -47,6 +47,7 @@ SOURCES += src/main.cpp\
     src/data/dto/imageStack.cpp \
     src/data/helpers/imageStackHelper.cpp \
     src/commands/matchDarksCommand.cpp \
+    src/commands/darkCopyCommand.cpp \
     src/processing/darkMatcher.cpp \
     src/processing/exceptions/matchingException.cpp \
     src/processing/exceptions/noDarkForShootSettingsExcpetion.cpp \
@@ -81,6 +82,7 @@ HEADERS  += \
     src/data/dto/imageStack.h \
     src/data/helpers/imageStackHelper.h \
     src/commands/matchDarksCommand.h \
+    src/commands/darkCopyCommand.h \
     src/processing/darkMatcher.h \
     src/processing/exceptions/matchingException.h \
     src/processing/exceptions/noDarkForShootSettingsExcpetion.h \

@@ -100,6 +100,12 @@ public:
     void setScanDarkOnStartup(bool scan);
 
     /**
+     * Set dark copy destination folder path
+     * @param copyFolder path to copy destination folder
+     */
+    void setDarkCopyFolderPath(const QString copyFolder);
+
+    /**
      * Does the user want a dark lib scan on app startup ?
      * @return true if user wants it
      */
@@ -154,6 +160,12 @@ public:
     const QString& getLightsFolder() const {return _lightsFolder; }
 
     /**
+     * Get dark copy destination folder path
+     * @return copyFolder path to copy destination folder
+     */
+    const QString& getDarkCopyFolderPath() { return _darksCopyFolder; }
+
+    /**
      * Set lights folder
      * @param lights lights folder
      */
@@ -188,6 +200,7 @@ private:
     bool                _rememberWindowGeometry;
     bool                _scanDarksOnStartup;
     QString             _lightsFolder;
+    QString				_darksCopyFolder;
     int					_neededDarks4Matching;
 
     /**

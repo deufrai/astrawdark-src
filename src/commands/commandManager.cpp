@@ -60,6 +60,11 @@ CommandManager::CommandManager(QObject *parent)
             this,
             &CommandManager::on_createComputeBestMatchCommand);
 
+    connect(SignalDispatcher::getInstance(),
+            &SignalDispatcher::createDarkCopyCommand,
+            this,
+            &CommandManager::on_createDarkCopyCommand);
+
 
     _executor.start();
 
@@ -103,4 +108,9 @@ void CommandManager::on_createMatchDarksCommand() {
 void CommandManager::on_createComputeBestMatchCommand() {
 
 	_queue->enqueueCommand(CommandFactory::createComputeBestMatchCommand());
+}
+
+void CommandManager::on_createDarkCopyCommand() {
+
+	_queue->enqueueCommand(CommandFactory::createDarkCopyCommand());
 }

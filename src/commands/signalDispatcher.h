@@ -101,6 +101,9 @@ signals:
     /** let's create a darks match command */
     void createMatchDarksCommand();
 
+    /** let's create a darks copy command */
+    void createDarkCopyCommand();
+
     /**
      * advertize consistency check result
      * @param consistent true if lights are consistents
@@ -171,6 +174,9 @@ public slots:
 
     /** let's create a dark match command */
     void on_createMatchDarksCommand() {emit createMatchDarksCommand();}
+
+    /** let's create a darks copy command */
+    void on_createDarkCopyCommand() { emit createDarkCopyCommand(); }
 
     /** A new lights scan just started */
     void on_lightsScanStarted() {emit lightsScanStarted();}
