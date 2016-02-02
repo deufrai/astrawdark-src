@@ -38,6 +38,12 @@ void DarkCopyCommand::do_processing() {
 	// get destination folder path
 	QString copyPath = DataStore::getInstance()->getDarkCopyFolderPath();
 
+	// get infos from the first dark, since they are all shot with same settings
+	ImageInfo reference = darks.at(0);
+
+	int expopsure   = reference.getExposure();
+	int iso			= reference.getIso();
+
 	int currentProgress = 0;
 	emit progressMax(darks.size());
 
@@ -47,14 +53,23 @@ void DarkCopyCommand::do_processing() {
 
 		QFile sourceFile(dark.getPath());
 		QFileInfo sourceInfo(sourceFile);
+		int temperature = dark.getTemperature();
+
+		QString destFileName = QString("%1_iso%2_%3sec_%4C.%5")
+				.arg(currentProgress +1, 4, 10, QLatin1Char('0'))
+				.arg(iso)
+				.arg(expopsure)
+				.arg(temperature)
+				.arg(sourceInfo.completeSuffix());
+
 		QString sourcePath = sourceInfo.filePath();
-		QString destPath = copyPath + "/" + sourceInfo.fileName();
+		QString destFilePath = copyPath + "/" + destFileName;
 
 		_message = tr("Copying file %1/%2").arg(currentProgress +1 ).arg(darks.size());
 
-		if ( sourceFile.copy( destPath) ) {
+		if ( sourceFile.copy( destFilePath) ) {
 
-			copiedFilesReports << tr("Copied %1\nto %2\n").arg(sourcePath).arg(destPath);
+			copiedFilesReports << tr("Copied %1\nto %2\n").arg(sourcePath).arg(destFilePath);
 
 		} else {
 
@@ -62,7 +77,7 @@ void DarkCopyCommand::do_processing() {
 			QString msg = tr("Error on file copy");
 
 			QStringList errorDetails;
-			errorDetails << tr("Could not copy %1\nto\n%2").arg(sourcePath).arg(destPath);
+			errorDetails << tr("Could not copy %1\nto\n%2").arg(sourcePath).arg(destFilePath);
 
 			_reportMessages << msg;
 	        _commandReport.addSection(msg, errorDetails);
