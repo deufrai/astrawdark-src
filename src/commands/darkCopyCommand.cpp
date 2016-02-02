@@ -10,7 +10,6 @@
 #include "data/dataStore.h"
 
 #include <QFileInfo>
-#include <QStorageInfo>
 
 #ifndef QT_NO_DEBUG
 #include <QDebug>
@@ -29,9 +28,9 @@ DarkCopyCommand::~DarkCopyCommand() {
 
 void DarkCopyCommand::do_processing() {
 
-	#ifndef QT_NO_DEBUG
-		qDebug() << "DarkCopyCommand::do_processing -- START";
-	#endif
+#ifndef QT_NO_DEBUG
+	qDebug() << "DarkCopyCommand::do_processing -- START";
+#endif
 
 	// Get matched darks from dataStore
 	QList<ImageInfo> darks = DataStore::getInstance()->getMatchedDarks();
@@ -45,59 +44,41 @@ void DarkCopyCommand::do_processing() {
 		totalSize += fileInfo.size();
 	}
 
-	#ifndef QT_NO_DEBUG
-		qDebug() << "Total copy size : " << totalSize << " bytes";
-	#endif
+#ifndef QT_NO_DEBUG
+	qDebug() << "Total copy size : " << totalSize << " bytes";
+#endif
 
-	// Check filesystem free space
+	// TODO: check if destination is empty
 	QString copyPath = DataStore::getInstance()->getDarkCopyFolderPath();
-	QStorageInfo storageInfo(copyPath);
 
-	#ifndef QT_NO_DEBUG
-		qDebug() << "Destination available space : " << storageInfo.bytesAvailable() << " bytes";
-	#endif
+	int currentProgress = 0;
+	emit progressMax(darks.size());
 
-	if ( storageInfo.bytesAvailable() > totalSize ) {
+	foreach ( ImageInfo dark, darks ) {
 
-		// TODO: check if destination is empty
+		QFile sourceFile(dark.getPath());
+		QFileInfo sourceInfo(sourceFile);
 
-		int currentProgress = 0;
-		emit progressMax(darks.size());
+		if ( sourceFile.copy(copyPath + "/" + sourceInfo.fileName() ) ) {
 
-		foreach ( ImageInfo dark, darks ) {
+			emit progress(++currentProgress);
+			_message = tr("Copied %1/%2 file(s)").arg(currentProgress).arg(darks.size());
 
-			QFile sourceFile(dark.getPath());
-			QFileInfo sourceInfo(sourceFile);
+#ifndef QT_NO_DEBUG
+			qDebug() << "Successfully copied to " << copyPath + "/" + sourceInfo.fileName();
+#endif
 
-			if ( sourceFile.copy(copyPath + "/" + sourceInfo.fileName() ) ) {
+		} else {
 
-				emit progress(++currentProgress);
-				_message = tr("Copied %1/%2 file(s)").arg(currentProgress).arg(darks.size());
-				#ifndef QT_NO_DEBUG
-					qDebug() << "Successfully copied to " << copyPath + "/" + sourceInfo.fileName();
-				#endif
+			//TODO: gracefully abort
+			_error = true;
 
-			} else {
-
-				//TODO: gracefully abort
-				_error = true;
-				#ifndef QT_NO_DEBUG
-					qDebug() << "Failed copy to " << copyPath + "/" + sourceInfo.fileName();
-				#endif
-				break;
-			}
-
-			emit statusChanged(this);
+#ifndef QT_NO_DEBUG
+			qDebug() << "Failed copy to " << copyPath + "/" + sourceInfo.fileName();
+#endif
+			break;
 		}
 
-	} else {
-
-		//TODO: gracefully abort
-		_error = true;
-		#ifndef QT_NO_DEBUG
-			qDebug() << "Not enough space on device for copy";
-		#endif
+		emit statusChanged(this);
 	}
-
-	// copy files
 }
