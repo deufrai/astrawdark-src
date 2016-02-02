@@ -35,43 +35,37 @@ void DarkCopyCommand::do_processing() {
 	// Get matched darks from dataStore
 	QList<ImageInfo> darks = DataStore::getInstance()->getMatchedDarks();
 
-	// compute total data size
-	qint64 totalSize = 0;
-
-	foreach ( ImageInfo dark, darks ) {
-
-		QFileInfo fileInfo(dark.getPath());
-		totalSize += fileInfo.size();
-	}
-
-#ifndef QT_NO_DEBUG
-	qDebug() << "Total copy size : " << totalSize << " bytes";
-#endif
-
-	// TODO: check if destination is empty
+	// get destination folder path
 	QString copyPath = DataStore::getInstance()->getDarkCopyFolderPath();
 
 	int currentProgress = 0;
 	emit progressMax(darks.size());
 
+	QStringList copiedFilesReports;
+
 	foreach ( ImageInfo dark, darks ) {
 
 		QFile sourceFile(dark.getPath());
 		QFileInfo sourceInfo(sourceFile);
+		QString sourcePath = sourceInfo.filePath();
+		QString destPath = copyPath + "/" + sourceInfo.fileName();
 
-		if ( sourceFile.copy(copyPath + "/" + sourceInfo.fileName() ) ) {
+		_message = tr("Copying file %1/%2").arg(currentProgress +1 ).arg(darks.size());
 
-			emit progress(++currentProgress);
-			_message = tr("Copied %1/%2 file(s)").arg(currentProgress).arg(darks.size());
+		if ( sourceFile.copy( destPath) ) {
 
-#ifndef QT_NO_DEBUG
-			qDebug() << "Successfully copied to " << copyPath + "/" + sourceInfo.fileName();
-#endif
+			copiedFilesReports << tr("Copied %1\nto %2\n").arg(sourcePath).arg(destPath);
 
 		} else {
 
-			//TODO: gracefully abort
 			_error = true;
+			QString msg = tr("Error on file copy");
+
+			QStringList errorDetails;
+			errorDetails << tr("Could not copy %1\nto\n%2").arg(sourcePath).arg(destPath);
+
+			_reportMessages << msg;
+	        _commandReport.addSection(msg, errorDetails);
 
 #ifndef QT_NO_DEBUG
 			qDebug() << "Failed copy to " << copyPath + "/" + sourceInfo.fileName();
@@ -79,6 +73,14 @@ void DarkCopyCommand::do_processing() {
 			break;
 		}
 
+		emit progress(++currentProgress);
 		emit statusChanged(this);
 	}
+
+	if ( ! _error ) {
+
+        _reportMessages << tr("OK");
+        _commandReport.addSection(tr("Completed successfully"),copiedFilesReports);
+	}
+
 }

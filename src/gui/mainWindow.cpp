@@ -465,6 +465,7 @@ void MainWindow::on_btnExportDarks_clicked() {
 
 	if ( ! ( darksCopyFolder.isEmpty() || darksCopyFolder.isNull() ) ) {
 
+		// TODO: check if destination is empty
 		_dataStore->setDarkCopyFolderPath(darksCopyFolder);
 
 		emit copyDarks();
