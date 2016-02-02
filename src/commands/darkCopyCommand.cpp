@@ -83,7 +83,7 @@ void DarkCopyCommand::do_processing() {
 	        _commandReport.addSection(msg, errorDetails);
 
 #ifndef QT_NO_DEBUG
-			qDebug() << "Failed copy to " << copyPath + "/" + sourceInfo.fileName();
+			qDebug() << "Failed copy to " << destFilePath;
 #endif
 			break;
 		}
