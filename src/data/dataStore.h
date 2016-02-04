@@ -23,7 +23,7 @@
 #include <QObject>
 #include <QStandardItemModel>
 
-#include "imageInfo.h"
+#include "dto/imageInfo.h"
 #include "commands/abstractCommand.h"
 
 /**
@@ -100,6 +100,12 @@ public:
     void setScanDarkOnStartup(bool scan);
 
     /**
+     * Set dark copy destination folder path
+     * @param copyFolder path to copy destination folder
+     */
+    void setDarkCopyFolderPath(const QString copyFolder);
+
+    /**
      * Does the user want a dark lib scan on app startup ?
      * @return true if user wants it
      */
@@ -142,10 +148,22 @@ public:
     const QList<ImageInfo>& getFilteredDarks() const {return _filteredDarks;}
 
     /**
+     * Get all matched darks
+     * @return a list of darks infos
+     */
+    const QList<ImageInfo>& getMatchedDarks() const {return _matchedDarks;}
+
+    /**
      * Get lights folder
      * @return lights folder
      */
     const QString& getLightsFolder() const {return _lightsFolder; }
+
+    /**
+     * Get dark copy destination folder path
+     * @return copyFolder path to copy destination folder
+     */
+    const QString& getDarkCopyFolderPath() { return _darksCopyFolder; }
 
     /**
      * Set lights folder
@@ -153,7 +171,23 @@ public:
      */
     void setLightsFolder(const QString lights) { _lightsFolder = lights;}
 
+    /**
+     * Get needed darks count for matching
+     *
+     * @return nedded darks count
+     */
+	int getNeededDarks4Matching() const { return _neededDarks4Matching; }
+
+    /**
+     * Set needed darks count for matching
+     *
+     * @param neededDarks4Matching nedded darks count
+     */
+	void setNeededDarks4Matching(int neededDarks4Matching) { _neededDarks4Matching = neededDarks4Matching; }
+
 private:
+    static QString      _S_DarkDisplayFilter;
+
     QStandardItemModel* _darkListModel;
     QStandardItemModel* _lightsListModel;
     QStandardItemModel* _commandListModel;
@@ -162,10 +196,12 @@ private:
     QList<ImageInfo>    _scannedDarks;
     QList<ImageInfo>    _filteredDarks;
     QList<ImageInfo>    _scannedLights;
+    QList<ImageInfo>    _matchedDarks;
     bool                _rememberWindowGeometry;
     bool                _scanDarksOnStartup;
-    static QString      _S_DarkDisplayFilter;
     QString             _lightsFolder;
+    QString				_darksCopyFolder;
+    int					_neededDarks4Matching;
 
     /**
      * Update an already known command
@@ -244,6 +280,13 @@ public slots:
      * @param paths a list of dark folder source paths
      */
     void on_newDarkSources(QStringList paths);
+
+    /**
+     * A match was found
+     * @param matchedDarks a set of darks, matching current lights
+     */
+    void on_matchFound(QList<ImageInfo> matchedDarks);
+
 };
 
 #endif // DATASTORE_H

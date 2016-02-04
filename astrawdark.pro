@@ -28,7 +28,7 @@ SOURCES += src/main.cpp\
     src/commands/scanDarkSourceCommand.cpp \
     src/data/access/exifReader.cpp \
     src/data/dataStore.cpp \
-    src/data/imageInfo.cpp \
+    src/data/dto/imageInfo.cpp \
     src/gui/mainWindow.cpp \
     src/gui/prefDialog.cpp \
     src/commands/commandManager.cpp \
@@ -43,7 +43,16 @@ SOURCES += src/main.cpp\
     src/helpers/localeHelper.cpp \
     src/commands/abstractScanCommand.cpp \
     src/commands/scanLightsCommand.cpp \
-    src/commands/lightsCheckCommand.cpp
+    src/commands/lightsCheckCommand.cpp \
+    src/data/dto/imageStack.cpp \
+    src/data/helpers/imageStackHelper.cpp \
+    src/commands/matchDarksCommand.cpp \
+    src/commands/darkCopyCommand.cpp \
+    src/processing/darkMatcher.cpp \
+    src/processing/exceptions/matchingException.cpp \
+    src/processing/exceptions/noDarkForShootSettingsExcpetion.cpp \
+    src/processing/exceptions/noDarkForTempException.cpp \
+    src/commands/computeBestMatchCommand.cpp
 
 INCLUDEPATH += src
 
@@ -54,7 +63,7 @@ HEADERS  += \
     src/commands/scanDarkSourceCommand.h \
     src/data/access/exifReader.h \
     src/data/dataStore.h \
-    src/data/imageInfo.h \
+    src/data/dto/imageInfo.h \
     src/gui/mainWindow.h \
     src/gui/prefDialog.h \
     src/commands/commandManager.h \
@@ -69,7 +78,16 @@ HEADERS  += \
     src/helpers/localeHelper.h \
     src/commands/abstractScanCommand.h \
     src/commands/scanLightsCommand.h \
-    src/commands/lightsCheckCommand.h
+    src/commands/lightsCheckCommand.h \
+    src/data/dto/imageStack.h \
+    src/data/helpers/imageStackHelper.h \
+    src/commands/matchDarksCommand.h \
+    src/commands/darkCopyCommand.h \
+    src/processing/darkMatcher.h \
+    src/processing/exceptions/matchingException.h \
+    src/processing/exceptions/noDarkForShootSettingsExcpetion.h \
+    src/processing/exceptions/noDarkForTempException.h \ 
+    src/commands/computeBestMatchCommand.h
 
 FORMS    += \
     src/gui/forms/mainWindow.ui \

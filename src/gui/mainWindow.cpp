@@ -31,359 +31,472 @@
 #endif
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent),
-      LBL_DARKCOUNT_BASETEXT(tr("Displayed darks count")),
-      LBL_LIGHTSCOUNT_BASETEXT(tr("Displayed lights count : %1")),
-      ui(new Ui::MainWindow),
-      _dataStore(DataStore::getInstance())
+: QMainWindow(parent),
+  LBL_DARKCOUNT_BASETEXT(tr("Displayed darks count")),
+  LBL_LIGHTSCOUNT_BASETEXT(tr("Displayed lights count : %1")),
+  ui(new Ui::MainWindow),
+  _dataStore(DataStore::getInstance())
 
 {
-    ui->setupUi(this);
+	ui->setupUi(this);
 
-    _plotManager = new PlotManager(ui->pltDarkTempPlot,
-                                   ui->pltDarkTempDistriPlot,
-                                   ui->pltLightsTempPlot,
-                                   ui->pltLightsTempDistriPlot,
-                                   this);
+	_plotManager = new PlotManager(ui->pltDarkTempPlot,
+			ui->pltDarkTempDistriPlot,
+			ui->pltLightsTempPlot,
+			ui->pltLightsTempDistriPlot,
+			this);
 
-    setWindowTitle(Globals::APPLICATION_NAME);
+	setWindowTitle(Globals::APPLICATION_NAME);
 
-    ui->tblDarkView->setModel(_dataStore->getDarkModel());
-    QHeaderView* darkHv = ui->tblDarkView->horizontalHeader();
-    darkHv->setSectionResizeMode(0, QHeaderView::Stretch);
-    darkHv->setSectionResizeMode(1, QHeaderView::ResizeToContents);
-    darkHv->setSectionResizeMode(2, QHeaderView::ResizeToContents);
-    darkHv->setSectionResizeMode(3, QHeaderView::ResizeToContents);
-    darkHv->setSectionResizeMode(4, QHeaderView::ResizeToContents);
-    darkHv->setSectionResizeMode(5, QHeaderView::ResizeToContents);
-    QHeaderView* darkVv = ui->tblDarkView->verticalHeader();
-    darkVv->hide();
+	ui->tblDarkView->setModel(_dataStore->getDarkModel());
+	QHeaderView* darkHv = ui->tblDarkView->horizontalHeader();
+	darkHv->setSectionResizeMode(0, QHeaderView::Stretch);
+	darkHv->setSectionResizeMode(1, QHeaderView::ResizeToContents);
+	darkHv->setSectionResizeMode(2, QHeaderView::ResizeToContents);
+	darkHv->setSectionResizeMode(3, QHeaderView::ResizeToContents);
+	darkHv->setSectionResizeMode(4, QHeaderView::ResizeToContents);
+	darkHv->setSectionResizeMode(5, QHeaderView::ResizeToContents);
+	QHeaderView* darkVv = ui->tblDarkView->verticalHeader();
+	darkVv->hide();
 
-    ui->tblLightsList->setModel(_dataStore->getLightsModel());
-    QHeaderView* lightHv = ui->tblLightsList->horizontalHeader();
-    lightHv->setSectionResizeMode(0, QHeaderView::Stretch);
-    lightHv->setSectionResizeMode(1, QHeaderView::ResizeToContents);
-    lightHv->setSectionResizeMode(2, QHeaderView::ResizeToContents);
-    lightHv->setSectionResizeMode(3, QHeaderView::ResizeToContents);
-    lightHv->setSectionResizeMode(4, QHeaderView::ResizeToContents);
-    lightHv->setSectionResizeMode(5, QHeaderView::ResizeToContents);
-    QHeaderView* lightVv = ui->tblLightsList->verticalHeader();
-    lightVv->hide();
+	ui->tblLightsList->setModel(_dataStore->getLightsModel());
+	QHeaderView* lightHv = ui->tblLightsList->horizontalHeader();
+	lightHv->setSectionResizeMode(0, QHeaderView::Stretch);
+	lightHv->setSectionResizeMode(1, QHeaderView::ResizeToContents);
+	lightHv->setSectionResizeMode(2, QHeaderView::ResizeToContents);
+	lightHv->setSectionResizeMode(3, QHeaderView::ResizeToContents);
+	lightHv->setSectionResizeMode(4, QHeaderView::ResizeToContents);
+	lightHv->setSectionResizeMode(5, QHeaderView::ResizeToContents);
+	QHeaderView* lightVv = ui->tblLightsList->verticalHeader();
+	lightVv->hide();
 
-    ui->tblCommandView->setModel(_dataStore->getCommandListModel());
-    QHeaderView* commandHv = ui->tblCommandView->horizontalHeader();
-    commandHv->setSectionResizeMode(0, QHeaderView::ResizeToContents);
-    commandHv->setSectionResizeMode(1, QHeaderView::ResizeToContents);
-    commandHv->setSectionResizeMode(2, QHeaderView::ResizeToContents);
-    commandHv->setSectionResizeMode(3, QHeaderView::ResizeToContents);
-    commandHv->setSectionResizeMode(4, QHeaderView::ResizeToContents);
-    commandHv->setSectionResizeMode(5, QHeaderView::ResizeToContents);
-    commandHv->setSectionResizeMode(6, QHeaderView::Stretch);
-    QHeaderView* commandVv = ui->tblCommandView->verticalHeader();
-    commandVv->setSectionResizeMode(QHeaderView::ResizeToContents);
-    commandVv->hide();
+	ui->tblCommandView->setModel(_dataStore->getCommandListModel());
+	QHeaderView* commandHv = ui->tblCommandView->horizontalHeader();
+	commandHv->setSectionResizeMode(0, QHeaderView::ResizeToContents);
+	commandHv->setSectionResizeMode(1, QHeaderView::ResizeToContents);
+	commandHv->setSectionResizeMode(2, QHeaderView::ResizeToContents);
+	commandHv->setSectionResizeMode(3, QHeaderView::ResizeToContents);
+	commandHv->setSectionResizeMode(4, QHeaderView::ResizeToContents);
+	commandHv->setSectionResizeMode(5, QHeaderView::ResizeToContents);
+	commandHv->setSectionResizeMode(6, QHeaderView::Stretch);
+	QHeaderView* commandVv = ui->tblCommandView->verticalHeader();
+	commandVv->setSectionResizeMode(QHeaderView::ResizeToContents);
+	commandVv->hide();
 
-    ui->treeDarkView->setModel(_dataStore->getDarkTreeModel());
-    QHeaderView* darkTreeHv = ui->treeDarkView->header();
-    darkTreeHv->setSectionResizeMode(0, QHeaderView::Stretch);
-    darkTreeHv->hide();
+	ui->treeDarkView->setModel(_dataStore->getDarkTreeModel());
+	QHeaderView* darkTreeHv = ui->treeDarkView->header();
+	darkTreeHv->setSectionResizeMode(0, QHeaderView::Stretch);
+	darkTreeHv->hide();
 
-    ui->btnRescanDarks->setEnabled( !_dataStore->getDarkSources().empty() );
+	ui->btnRescanDarks->setEnabled( !_dataStore->getDarkSources().empty() );
 
-    connect(SignalDispatcher::getInstance(),
-            &SignalDispatcher::darkSourcesChanged,
-            this,
-            &MainWindow::on_darkSourcesChanged);
+	connect(SignalDispatcher::getInstance(),
+			&SignalDispatcher::darkSourcesChanged,
+			this,
+			&MainWindow::on_darkSourcesChanged);
 
-    connect(SignalDispatcher::getInstance(),
-            &SignalDispatcher::darkScanStarted,
-            this,
-            &MainWindow::on_darkScanStart);
+	connect(SignalDispatcher::getInstance(),
+			&SignalDispatcher::darkScanStarted,
+			this,
+			&MainWindow::on_darkScanStart);
 
-    connect(SignalDispatcher::getInstance(),
-            &SignalDispatcher::darkScanDone,
-            this,
-            &MainWindow::on_darkScanDone);
+	connect(SignalDispatcher::getInstance(),
+			&SignalDispatcher::darkScanDone,
+			this,
+			&MainWindow::on_darkScanDone);
 
-    connect(this,
-            &MainWindow::scanDarkLibrary,
-            SignalDispatcher::getInstance(),
-            &SignalDispatcher::on_createDarkScanCommand);
+	connect(this,
+			&MainWindow::scanDarkLibrary,
+			SignalDispatcher::getInstance(),
+			&SignalDispatcher::on_createDarkScanCommand);
 
-    connect(this,
-            &MainWindow::scanLightsFolder,
-            SignalDispatcher::getInstance(),
-            &SignalDispatcher::on_createLightsScanCommand);
+	connect(this,
+			&MainWindow::scanLightsFolder,
+			SignalDispatcher::getInstance(),
+			&SignalDispatcher::on_createLightsScanCommand);
 
-    connect(SignalDispatcher::getInstance(),
-            &SignalDispatcher::darkListModelChanged,
-            this,
-            &MainWindow::on_darkListModelChanged);
+	connect(SignalDispatcher::getInstance(),
+			&SignalDispatcher::darkListModelChanged,
+			this,
+			&MainWindow::on_darkListModelChanged);
 
-    connect(SignalDispatcher::getInstance(),
-            &SignalDispatcher::lightsScanStarted,
-            this,
-            &MainWindow::on_lightsScanStart);
+	connect(SignalDispatcher::getInstance(),
+			&SignalDispatcher::lightsScanStarted,
+			this,
+			&MainWindow::on_lightsScanStart);
 
-    connect(SignalDispatcher::getInstance(),
-            &SignalDispatcher::lightsScanDone,
-            this,
-            &MainWindow::on_lightsScanDone);
+	connect(SignalDispatcher::getInstance(),
+			&SignalDispatcher::lightsScanDone,
+			this,
+			&MainWindow::on_lightsScanDone);
 
-    connect(this,
-            &MainWindow::checkLights,
-            SignalDispatcher::getInstance(),
-            &SignalDispatcher::on_createLightsCheckCommand);
+	connect(this,
+			&MainWindow::checkLights,
+			SignalDispatcher::getInstance(),
+			&SignalDispatcher::on_createLightsCheckCommand);
 
-    connect(SignalDispatcher::getInstance(),
-            &SignalDispatcher::consistencyResult,
-            this,
-            &MainWindow::on_consistencyResult);
+	connect(this,
+			&MainWindow::copyDarks,
+			SignalDispatcher::getInstance(),
+			&SignalDispatcher::on_createDarkCopyCommand);
 
-    connect(SignalDispatcher::getInstance(),
-            &SignalDispatcher::commandCreated,
-            this,
-            &MainWindow::on_commandCreated);
+	connect(SignalDispatcher::getInstance(),
+			&SignalDispatcher::consistencyResult,
+			this,
+			&MainWindow::on_consistencyResult);
 
-    _commandManager = new CommandManager(this);
+	connect(SignalDispatcher::getInstance(),
+			&SignalDispatcher::commandCreated,
+			this,
+			&MainWindow::on_commandCreated);
 
-    ui->tabDarkDetailsWidget->setCurrentIndex(0);
-    ui->tabMainWidget->setCurrentIndex(0);
-    ui->tabLightsDetailsWidget->setCurrentIndex(0);
+	connect(this,
+			&MainWindow::matchLights,
+			SignalDispatcher::getInstance(),
+			&SignalDispatcher::on_createMatchDarksCommand);
 
-    if ( 0 == _dataStore->getDarkSources().count() ) {
+	connect(this,
+			&MainWindow::computeBestMatch,
+			SignalDispatcher::getInstance(),
+			&SignalDispatcher::createComputeBestMatchCommand);
+
+	connect(SignalDispatcher::getInstance(),
+			&SignalDispatcher::bestMatchCount,
+			this,
+			&MainWindow::on_bestMatchCount);
+
+	connect(SignalDispatcher::getInstance(),
+			&SignalDispatcher::matchFound,
+			this,
+			&MainWindow::on_matchFound);
+
+	_commandManager = new CommandManager(this);
+
+	ui->tabDarkDetailsWidget->setCurrentIndex(0);
+	ui->tabMainWidget->setCurrentIndex(0);
+	ui->tabLightsDetailsWidget->setCurrentIndex(0);
+
+	if ( 0 == _dataStore->getDarkSources().count() ) {
 
 #ifndef QT_NO_DEBUG
-        qDebug() << "No dark sources set yet";
+qDebug() << "No dark sources set yet";
 #endif
-        QMessageBox messageBox(QMessageBox::Question,
-                               tr("AstRawDark : No dark sources set"),
-                               QString("<h3>")
-                               .append(tr("Your darks library sources are not configured"))
-                               .append("</h3>")
-                               .append(tr("Would you like to review your darks library settings ?")),
-                               QMessageBox::Yes | QMessageBox::No,
-                               this);
-        messageBox.setButtonText(QMessageBox::Yes, tr("Yes"));
-        messageBox.setButtonText(QMessageBox::No, tr("No"));
+QMessageBox messageBox(QMessageBox::Question,
+		tr("AstRawDark : No dark sources set"),
+		QString("<h3>")
+		.append(tr("Your darks library sources are not configured"))
+		.append("</h3>")
+		.append(tr("Would you like to review your darks library settings ?")),
+		QMessageBox::Yes | QMessageBox::No,
+		this);
+messageBox.setButtonText(QMessageBox::Yes, tr("Yes"));
+messageBox.setButtonText(QMessageBox::No, tr("No"));
 
-        if ( QMessageBox::Yes == messageBox.exec() ) {
+if ( QMessageBox::Yes == messageBox.exec() ) {
 
-            PrefDialog(this).exec();
-        }
-    }
+	PrefDialog(this).exec();
+}
+	}
 
-    updateLightsContentCount();
+	updateLightsContentCount();
 }
 
 MainWindow::~MainWindow()
 {
-    delete ui;
+	delete ui;
 }
 
 void MainWindow::changeEvent(QEvent *e)
 {
-    QMainWindow::changeEvent(e);
-    switch (e->type()) {
-    case QEvent::LanguageChange:
-        ui->retranslateUi(this);
-        break;
-    default:
-        break;
-    }
+	QMainWindow::changeEvent(e);
+	switch (e->type()) {
+	case QEvent::LanguageChange:
+		ui->retranslateUi(this);
+		break;
+	default:
+		break;
+	}
 }
 
 void MainWindow::on_actionQuit_triggered()
 {
-    this->close();
+	this->close();
 }
 
 void MainWindow::on_btnRescanDarks_clicked()
 {
-    emit scanDarkLibrary();
+	emit scanDarkLibrary();
 }
 
 void MainWindow::on_actionPrefs_triggered()
 {
-    PrefDialog(this).exec();
+	PrefDialog(this).exec();
 }
 
 void MainWindow::on_actionCommandLog_toggled(bool checked)
 {
-    ui->dckCommands->setVisible(checked);
+	ui->dckCommands->setVisible(checked);
 }
 
 void MainWindow::on_actionAbout_triggered()
 {
-    AboutDialog(this).exec();
+	AboutDialog(this).exec();
 }
 
 void MainWindow::on_tblCommandView_doubleClicked(const QModelIndex &index)
 {
-    int commandSerial = index.model()->data(index.model()->index(index.row(), 0)).toInt() -1;
+	int commandSerial = index.model()->data(index.model()->index(index.row(), 0)).toInt() -1;
 
-    const AbstractCommand* command = _commandManager->getCommand(commandSerial);
+	const AbstractCommand* command = _commandManager->getCommand(commandSerial);
 
-    CommandReportDisplay* d = new CommandReportDisplay(command);
-    d->show();
+	CommandReportDisplay* d = new CommandReportDisplay(command);
+	d->show();
 }
 
 void MainWindow::updateDarkContentCount()
 {
-    QString darkContentTabText = LBL_DARKCOUNT_BASETEXT;
-    int darkLibrarySize = _dataStore->getDarkLibrarySize();
-    int darkModelSize = _dataStore->getDarkModel()->rowCount();
+	QString darkContentTabText = LBL_DARKCOUNT_BASETEXT;
+	int darkLibrarySize = _dataStore->getDarkLibrarySize();
+	int darkModelSize = _dataStore->getDarkModel()->rowCount();
 
-    if ( darkLibrarySize != darkModelSize ) {
+	if ( darkLibrarySize != darkModelSize ) {
 
-        darkContentTabText.append(tr(" (Filtered)"));
-    }
+		darkContentTabText.append(tr(" (Filtered)"));
+	}
 
-    darkContentTabText.append(tr(" : %1 / %2").arg(darkModelSize).arg(darkLibrarySize));
+	darkContentTabText.append(tr(" : %1 / %2").arg(darkModelSize).arg(darkLibrarySize));
 
-    ui->lblDarkCount->setText(darkContentTabText);
+	ui->lblDarkCount->setText(darkContentTabText);
 }
 
 void MainWindow::updateLightsContentCount()
 {
-    ui->lblLightsCount->setText(LBL_LIGHTSCOUNT_BASETEXT.arg(_dataStore->getLightsCount()));
+	ui->lblLightsCount->setText(LBL_LIGHTSCOUNT_BASETEXT.arg(_dataStore->getLightsCount()));
 }
 
 void MainWindow::on_treeDarkView_clicked(const QModelIndex &index)
 {
-    ui->btnDarkFilterClear->setEnabled(true);
+	ui->btnDarkFilterClear->setEnabled(true);
 
-    QModelIndex targetNode;
+	QModelIndex targetNode;
 
-    if ( index.column() != 0 ) {
+	if ( index.column() != 0 ) {
 
-        targetNode = index.sibling(index.row(), 0);
+		targetNode = index.sibling(index.row(), 0);
 
-    } else {
+	} else {
 
-        targetNode = index;
-    }
+		targetNode = index;
+	}
 
-    _dataStore->setDarkDisplayFilter(targetNode.data(Qt::UserRole).toString());
+	_dataStore->setDarkDisplayFilter(targetNode.data(Qt::UserRole).toString());
 }
 
 void MainWindow::on_btnDarkFilterClear_clicked()
 {
-    ui->treeDarkView->clearSelection();
-    ui->btnDarkFilterClear->setDisabled(true);
-    _dataStore->setDarkDisplayFilter("");
+	ui->treeDarkView->clearSelection();
+	ui->btnDarkFilterClear->setDisabled(true);
+	_dataStore->setDarkDisplayFilter("");
 }
 
 void MainWindow::on_darkListModelChanged()
 {
-    updateDarkContentCount();
-    ui->tblDarkView->scrollToTop();
+	updateDarkContentCount();
+	ui->tblDarkView->scrollToTop();
 }
 
 void MainWindow::on_actionRescanDarksLibrary_triggered()
 {
-    emit scanDarkLibrary();
+	emit scanDarkLibrary();
 }
 
 void MainWindow::on_btnChooseLightsFolder_clicked()
 {
-    QString startFolder = ui->lineCurrentLightsFolderPath->text();
+	QString startFolder = ui->lineCurrentLightsFolderPath->text();
 
-    if ( startFolder.isEmpty() || ! QDir(startFolder).exists() ) {
+	if ( startFolder.isEmpty() || ! QDir(startFolder).exists() ) {
 
-        startFolder = QDir::homePath();
-    }
+		startFolder = QDir::homePath();
+	}
 
-    QString lightsFolder = QFileDialog::getExistingDirectory(this,
-                                                             tr("Please select lights folder"),
-                                                             startFolder,
-                                                             QFileDialog::ShowDirsOnly);
+	QString lightsFolder = QFileDialog::getExistingDirectory(this,
+			tr("Please select lights folder"),
+			startFolder,
+			QFileDialog::ShowDirsOnly);
 
-    if ( ! lightsFolder.isEmpty() && lightsFolder != startFolder ) {
+	if ( ! lightsFolder.isEmpty() && lightsFolder != startFolder ) {
 
-        ui->lineCurrentLightsFolderPath->setText(lightsFolder);
-        _dataStore->setLightsFolder(lightsFolder);
+		ui->lineCurrentLightsFolderPath->setText(lightsFolder);
+		_dataStore->setLightsFolder(lightsFolder);
 
-        emit scanLightsFolder();
-    }
+		emit scanLightsFolder();
+	}
 
 }
 
 void MainWindow::on_darkSourcesChanged(const QStringList& sources)
 {
-    ui->btnRescanDarks->setEnabled( !sources.empty() );
+	ui->btnRescanDarks->setEnabled( !sources.empty() );
 }
 
 void MainWindow::on_darkScanStart()
 {
-    ui->lblDarkCount->setText(LBL_DARKCOUNT_BASETEXT + tr(" : Scan in progress..."));
-    ui->btnRescanDarks->setDisabled(true);
-    ui->btnDarkFilterClear->setDisabled(true);
-    ui->actionRescanDarksLibrary->setDisabled(true);
+	ui->lblDarkCount->setText(LBL_DARKCOUNT_BASETEXT + tr(" : Scan in progress..."));
+	ui->btnRescanDarks->setDisabled(true);
+	ui->btnDarkFilterClear->setDisabled(true);
+	ui->actionRescanDarksLibrary->setDisabled(true);
 }
 
 void MainWindow::on_darkScanDone()
 {
 
-    ui->btnRescanDarks->setEnabled(true);
-    ui->actionRescanDarksLibrary->setEnabled(true);
+	ui->btnRescanDarks->setEnabled(true);
+	ui->actionRescanDarksLibrary->setEnabled(true);
 }
 
 void MainWindow::on_lightsScanStart()
 {
-    ui->lblLightsCount->setText(LBL_LIGHTSCOUNT_BASETEXT.arg("Scan in progress..."));
-    ui->btnChooseLightsFolder->setDisabled(true);
+	ui->lblLightsCount->setText(LBL_LIGHTSCOUNT_BASETEXT.arg("Scan in progress..."));
+	ui->btnChooseLightsFolder->setDisabled(true);
+	ui->btnRescanLights->setDisabled(true);
+	ui->btnLightsMatch->setDisabled(true);
+	ui->sldDarkMatchers->setDisabled(true);
+	ui->sldDarkMatchers->setValue(0);
+	ui->btnExportDarks->setDisabled(true);
 }
 
 void MainWindow::on_lightsScanDone()
 {
-    ui->btnChooseLightsFolder->setEnabled(true);
-    updateLightsContentCount();
-    ui->tblLightsList->scrollToTop();
+	ui->btnChooseLightsFolder->setEnabled(true);
+	ui->btnRescanLights->setEnabled(true);
 
-    if ( _dataStore->getLightsCount() > 0 ) {
+	updateLightsContentCount();
+	ui->tblLightsList->scrollToTop();
 
-        emit checkLights();
-    }
+	if ( _dataStore->getLightsCount() > 0 ) {
+
+		emit checkLights();
+	}
 
 }
 
 void MainWindow::on_consistencyResult(bool consistent)
 {
-    if ( ! consistent ) {
+	if ( consistent ) {
 
-        QMessageBox::warning(this,
-                             tr("Lights are not consistent"),
-                             tr("These lights have not been shot with the same camera"
-                                " or have different ISO settings and exposure times.")
-                             .append("\n\n")
-                             .append(tr("Temperature matching cannot be performed")));
-    }
+		emit computeBestMatch();
+
+	} else {
+
+		QMessageBox::warning(this,
+				tr("Lights are not consistent"),
+				tr("These lights have not been shot with the same camera"
+						" or have different ISO settings and exposure times.")
+						.append("\n\n")
+						.append(tr("Temperature matching cannot be performed")));
+	}
 }
 
 void MainWindow::createProgressBarForCommand(AbstractCommand *command)
 {
-    QProgressBar* progBar = new QProgressBar(this);
-    progBar->setMaximum(0);
-    progBar->setMinimumWidth(Globals::COMMAND_LOG_PROGRESS_WIDTH);
+	QProgressBar* progBar = new QProgressBar(this);
+	progBar->setMaximum(0);
+	progBar->setMinimumWidth(Globals::COMMAND_LOG_PROGRESS_WIDTH);
 
-    connect(command,
-            &AbstractCommand::progress,
-            progBar,
-            &QProgressBar::setValue, Qt::BlockingQueuedConnection);
+	connect(command,
+			&AbstractCommand::progress,
+			progBar,
+			&QProgressBar::setValue, Qt::BlockingQueuedConnection);
 
-    connect(command,
-            &AbstractCommand::progressMax,
-            progBar,
-            &QProgressBar::setMaximum, Qt::BlockingQueuedConnection);
+	connect(command,
+			&AbstractCommand::progressMax,
+			progBar,
+			&QProgressBar::setMaximum, Qt::BlockingQueuedConnection);
 
-    QAbstractItemModel* model = ui->tblCommandView->model();
-    ui->tblCommandView->setIndexWidget(model->index(model->rowCount() - command->getSerial() -1, 4, QModelIndex()), progBar);
+	QAbstractItemModel* model = ui->tblCommandView->model();
+	ui->tblCommandView->setIndexWidget(model->index(model->rowCount() - command->getSerial() -1, 4, QModelIndex()), progBar);
 }
 
 void MainWindow::on_commandCreated(AbstractCommand *command)
 {
-    ui->tblCommandView->scrollToTop();
+	ui->tblCommandView->scrollToTop();
 
-    createProgressBarForCommand(command);
+	createProgressBarForCommand(command);
+}
+
+void MainWindow::on_btnRescanLights_clicked()
+{
+	emit scanLightsFolder();
+}
+
+void MainWindow::on_btnLightsMatch_clicked() {
+
+	_dataStore->setNeededDarks4Matching(ui->sldDarkMatchers->value());
+	emit matchLights();
+}
+
+void MainWindow::on_sldDarkMatchers_valueChanged(int value) {
+
+	ui->btnLightsMatch->setEnabled(0 < value && _dataStore->getLightsCount() > 0 );
+	ui->btnExportDarks->setDisabled(true);
+}
+
+void MainWindow::on_bestMatchCount(int bestMatch) {
+
+	ui->sldDarkMatchers->setEnabled(true);
+	ui->sldDarkMatchers->setRange(0, bestMatch);
+	ui->sldDarkMatchers->setValue(bestMatch);
+	ui->btnExportDarks->setEnabled(true);
+}
+
+void MainWindow::on_matchFound() {
+
+	ui->btnExportDarks->setEnabled(true);
+}
+
+
+void MainWindow::on_btnExportDarks_clicked() {
+
+
+	QString darksCopyFolder = QFileDialog::getExistingDirectory(this,
+			tr("Please select matched darks copy destination folder"),
+			QDir::homePath(),
+			QFileDialog::ShowDirsOnly);
+
+	if ( ! ( darksCopyFolder.isEmpty() || darksCopyFolder.isNull() ) ) {
+
+		_dataStore->setDarkCopyFolderPath(darksCopyFolder);
+
+		/*
+		 * check if folder is empty
+		 *
+		 * We count all files in folder except for '.' & '..'
+		 * If we see any other file, warn user
+		 */
+		QDir destFolder(darksCopyFolder);
+	    QStringList list = destFolder.entryList();
+
+	    int count = 0;
+
+	    foreach (QString entry, list)
+	    {
+	        if(entry != "." && entry != "..")
+	        {
+	            count++;
+	        }
+	    }
+
+	    if (  0 == count ) {
+
+	    	emit copyDarks();
+
+	    } else {
+
+			QMessageBox::warning(this,
+					tr("Destination folder is not empty"),
+					tr("As we don't want to ever risk of erasing / damaging your astro shots, "
+                            "an empty target folder is required.\n\n"
+							"Please choose an empty target folder."));
+	    }
+	}
 }

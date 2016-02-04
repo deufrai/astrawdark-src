@@ -50,6 +50,21 @@ CommandManager::CommandManager(QObject *parent)
             this,
             &CommandManager::on_createLightsCheckCommand);
 
+    connect(SignalDispatcher::getInstance(),
+            &SignalDispatcher::createMatchDarksCommand,
+            this,
+            &CommandManager::on_createMatchDarksCommand);
+
+    connect(SignalDispatcher::getInstance(),
+            &SignalDispatcher::createComputeBestMatchCommand,
+            this,
+            &CommandManager::on_createComputeBestMatchCommand);
+
+    connect(SignalDispatcher::getInstance(),
+            &SignalDispatcher::createDarkCopyCommand,
+            this,
+            &CommandManager::on_createDarkCopyCommand);
+
 
     _executor.start();
 
@@ -83,4 +98,19 @@ void CommandManager::on_createLightsScanCommand()
 void CommandManager::on_createLightsCheckCommand()
 {
     _queue->enqueueCommand(CommandFactory::createLightsCheckCommand());
+}
+
+void CommandManager::on_createMatchDarksCommand() {
+
+	_queue->enqueueCommand(CommandFactory::createMatchDarksCommand());
+}
+
+void CommandManager::on_createComputeBestMatchCommand() {
+
+	_queue->enqueueCommand(CommandFactory::createComputeBestMatchCommand());
+}
+
+void CommandManager::on_createDarkCopyCommand() {
+
+	_queue->enqueueCommand(CommandFactory::createDarkCopyCommand());
 }

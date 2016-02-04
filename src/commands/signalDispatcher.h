@@ -23,7 +23,7 @@
 #include <QObject>
 #include <QStringList>
 
-#include "data/imageInfo.h"
+#include "data/dto/imageInfo.h"
 #include "abstractCommand.h"
 
 /**
@@ -98,8 +98,33 @@ signals:
     /** let's create a lights check command */
     void createLightsCheckCommand();
 
-    /** advertize consistency check result */
-    void consistencyResult(bool);
+    /** let's create a darks match command */
+    void createMatchDarksCommand();
+
+    /** let's create a darks copy command */
+    void createDarkCopyCommand();
+
+    /**
+     * advertize consistency check result
+     * @param consistent true if lights are consistents
+     */
+    void consistencyResult(bool consistent);
+
+    /** let's create a best dark match command */
+    void createComputeBestMatchCommand();
+
+    /**
+     * A match was found
+     * @param matchedDarks a set of darks, matching current lights
+     */
+    void matchFound(QList<ImageInfo> matchedDarks);
+
+    /**
+     * A best match count is available
+     * @param matchedDarksCount the number of darks from found best match
+     */
+    void bestMatchCount(int matchedDarksCount);
+
 
 public slots:
     /** A new dark scan has just started */
@@ -147,13 +172,32 @@ public slots:
     /** let's create a lights check command */
     void on_createLightsCheckCommand() {emit createLightsCheckCommand();}
 
+    /** let's create a dark match command */
+    void on_createMatchDarksCommand() {emit createMatchDarksCommand();}
+
+    /** let's create a darks copy command */
+    void on_createDarkCopyCommand() { emit createDarkCopyCommand(); }
+
     /** A new lights scan just started */
     void on_lightsScanStarted() {emit lightsScanStarted();}
 
     /** lights consistency result arrived */
     void on_consistencyResult(bool consistent) {emit consistencyResult(consistent);}
 
+    /** A best match computation was requested */
+    void on_createComputeBestMatchCommand() { emit createComputeBestMatchCommand();}
 
+    /**
+     * A match was found
+     * @param matchedDarks a set of darks, matching current lights
+     */
+    void on_matchFound(QList<ImageInfo> matchedDarks) { emit matchFound(matchedDarks); }
+
+    /**
+     * A best match count is available
+     * @param matchedDarksCount the number of darks from found best match
+     */
+    void on_bestMatchCount(int matchedDarksCount) { emit bestMatchCount(matchedDarksCount); }
 
 };
 
