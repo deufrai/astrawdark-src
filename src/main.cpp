@@ -47,7 +47,7 @@
  */
 
 #include "gui/mainWindow.h"
-#include "data/imageInfo.h"
+#include "data/dto/imageInfo.h"
 #include "data/dataStore.h"
 #include "globals.h"
 #include "helpers/localeHelper.h"

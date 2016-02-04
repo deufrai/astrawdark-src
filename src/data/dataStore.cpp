@@ -18,7 +18,7 @@
  */
 
 #include "dataStore.h"
-#include "imageInfo.h"
+#include "dto/imageInfo.h"
 #include "globals.h"
 #include "commands/signalDispatcher.h"
 
@@ -51,7 +51,8 @@ DataStore::DataStore()
       _commandListModel(new QStandardItemModel()),
       _darkTreeModel(new QStandardItemModel()),
       _rememberWindowGeometry(false),
-      _scanDarksOnStartup(false)
+      _scanDarksOnStartup(false),
+	  _neededDarks4Matching(0)
 {
     QSettings settings;
 
@@ -142,6 +143,11 @@ DataStore::DataStore()
             &SignalDispatcher::darkSourcesChanged,
             this,
             &DataStore::on_newDarkSources);
+
+    connect(SignalDispatcher::getInstance(),
+            &SignalDispatcher::matchFound,
+            this,
+            &DataStore::on_matchFound);
 
     connect(this,
             &DataStore::darkListModelChanged,
@@ -439,4 +445,14 @@ void DataStore::setDarkDisplayFilter(const QString filter)
     _S_DarkDisplayFilter = filter;
 
     filterDarks();
+}
+
+void DataStore::setDarkCopyFolderPath(const QString copyFolder) {
+
+	_darksCopyFolder = copyFolder;
+}
+
+void DataStore::on_matchFound(QList<ImageInfo> matchedDarks) {
+
+	_matchedDarks = matchedDarks;
 }

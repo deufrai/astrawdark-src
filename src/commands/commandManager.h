@@ -73,6 +73,17 @@ public slots:
     /** Slot triggered by lights check requests */
     void on_createLightsCheckCommand();
 
+    /** Slot triggered by darks matching requests */
+    void on_createMatchDarksCommand();
+
+    /** Slot triggered by request of best dark match */
+    void on_createComputeBestMatchCommand();
+
+    /** Slot triggered by request of dark copy */
+    void on_createDarkCopyCommand();
+
+
+
 };
 
 #endif // COMMANDMANAGER_H
