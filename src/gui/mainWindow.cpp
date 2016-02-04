@@ -495,7 +495,7 @@ void MainWindow::on_btnExportDarks_clicked() {
 			QMessageBox::warning(this,
 					tr("Destination folder is not empty"),
 					tr("As we don't want to ever risk of erasing / damaging your astro shots, "
-							"We need an empty destination directory.\n\n"
+                            "an empty target folder is required.\n\n"
 							"Please choose an empty target folder."));
 	    }
 	}
