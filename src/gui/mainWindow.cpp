@@ -465,9 +465,38 @@ void MainWindow::on_btnExportDarks_clicked() {
 
 	if ( ! ( darksCopyFolder.isEmpty() || darksCopyFolder.isNull() ) ) {
 
-		// TODO: check if destination is empty
 		_dataStore->setDarkCopyFolderPath(darksCopyFolder);
 
-		emit copyDarks();
+		/*
+		 * check if folder is empty
+		 *
+		 * We count all files in folder except for '.' & '..'
+		 * If we see any other file, warn user
+		 */
+		QDir destFolder(darksCopyFolder);
+	    QStringList list = destFolder.entryList();
+
+	    int count = 0;
+
+	    foreach (QString entry, list)
+	    {
+	        if(entry != "." && entry != "..")
+	        {
+	            count++;
+	        }
+	    }
+
+	    if (  0 == count ) {
+
+	    	emit copyDarks();
+
+	    } else {
+
+			QMessageBox::warning(this,
+					tr("Destination folder is not empty"),
+					tr("As we don't want to ever risk of erasing / damaging your astro shots, "
+							"We need an empty destination directory.\n\n"
+							"Please choose an empty target folder."));
+	    }
 	}
 }
