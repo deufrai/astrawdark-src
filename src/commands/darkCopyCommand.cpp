@@ -10,6 +10,7 @@
 #include "data/dataStore.h"
 
 #include <QFileInfo>
+#include <QStorageInfo>
 
 #ifndef QT_NO_DEBUG
 #include <QDebug>
@@ -65,7 +66,6 @@ void DarkCopyCommand::do_processing() {
 		qDebug() << "Total copy size : " << totalSize << " bytes";
 	#endif
 
-	QString copyPath = DataStore::getInstance()->getDarkCopyFolderPath();
 	QStorageInfo storageInfo(copyPath);
 
 	#ifndef QT_NO_DEBUG
