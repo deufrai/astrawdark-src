@@ -22,7 +22,6 @@
 #include "data/dataStore.h"
 
 #include <QFileInfo>
-#include <QStorageInfo>
 
 #ifndef QT_NO_DEBUG
 #include <QDebug>
@@ -62,83 +61,47 @@ void DarkCopyCommand::do_processing() {
 
 	QStringList copiedFilesReports;
 
-	_message = tr("Checking free space...");
-	emit statusChanged(this);
-	
-	// compute total data size
-	qint64 totalSize = 0;
-
 	foreach ( ImageInfo dark, darks ) {
 
-		QFileInfo fileInfo(dark.getPath());
-		totalSize += fileInfo.size();
-	}
+		QFile sourceFile(dark.getPath());
+		QFileInfo sourceInfo(sourceFile);
+		int temperature = dark.getTemperature();
 
-	#ifndef QT_NO_DEBUG
-		qDebug() << "Total copy size : " << totalSize << " bytes";
-	#endif
+		QString destFileName = QString("%1_iso%2_%3sec_%4C.%5")
+				.arg(currentProgress +1, 4, 10, QLatin1Char('0'))
+				.arg(iso)
+				.arg(expopsure)
+				.arg(temperature)
+				.arg(sourceInfo.completeSuffix());
 
-	QStorageInfo storageInfo(copyPath);
+		QString sourcePath = sourceInfo.filePath();
+		QString destFilePath = copyPath + "/" + destFileName;
 
-	#ifndef QT_NO_DEBUG
-		qDebug() << "Destination available space : " << storageInfo.bytesAvailable() << " bytes";
-	#endif
+		_message = tr("Copying file %1/%2").arg(currentProgress +1 ).arg(darks.size());
 
-	if ( storageInfo.bytesAvailable() > totalSize ) {
+		if ( sourceFile.copy( destFilePath) ) {
 
-		foreach ( ImageInfo dark, darks ) {
+			copiedFilesReports << tr("Copied %1\nto %2\n").arg(sourcePath).arg(destFilePath);
 
-			QFile sourceFile(dark.getPath());
-			QFileInfo sourceInfo(sourceFile);
-			int temperature = dark.getTemperature();
+		} else {
 
-			QString destFileName = QString("%1_iso%2_%3sec_%4C.%5")
-					.arg(currentProgress +1, 4, 10, QLatin1Char('0'))
-					.arg(iso)
-					.arg(expopsure)
-					.arg(temperature)
-					.arg(sourceInfo.completeSuffix());
+			_error = true;
+			QString msg = tr("Error on file copy");
 
-			QString sourcePath = sourceInfo.filePath();
-			QString destFilePath = copyPath + "/" + destFileName;
+			QStringList errorDetails;
+			errorDetails << tr("Could not copy %1\nto\n%2").arg(sourcePath).arg(destFilePath);
 
-			_message = tr("Copying file %1/%2").arg(currentProgress +1 ).arg(darks.size());
+			_reportMessages << msg;
+	        _commandReport.addSection(msg, errorDetails);
 
-			if ( sourceFile.copy( destFilePath) ) {
-
-				copiedFilesReports << tr("Copied %1\nto %2\n").arg(sourcePath).arg(destFilePath);
-
-			} else {
-
-				_error = true;
-				QString msg = tr("Error on file copy");
-
-				QStringList errorDetails;
-				errorDetails << tr("Could not copy %1\nto\n%2").arg(sourcePath).arg(destFilePath);
-
-				_reportMessages << msg;
-				_commandReport.addSection(msg, errorDetails);
-
-	#ifndef QT_NO_DEBUG
-				qDebug() << "Failed copy to " << destFilePath;
-	#endif
-				break;
-			}
-
-			emit progress(++currentProgress);
-			emit statusChanged(this);
+#ifndef QT_NO_DEBUG
+			qDebug() << "Failed copy to " << destFilePath;
+#endif
+			break;
 		}
-		
-	} else {
-		
-		_error = true;
-		QString msg = tr("Not enought disk space");
 
-		QStringList errorDetails;
-		errorDetails << tr("There is not enought free disk space to copy all matched darks");
-
-		_reportMessages << msg;
-		_commandReport.addSection(msg, errorDetails);
+		emit progress(++currentProgress);
+		emit statusChanged(this);
 	}
 
 	if ( ! _error ) {
