@@ -19,7 +19,7 @@
 
 #include "globals.h"
 
-const QString Globals::VERSION_STRING = "0.2-dev";
+const QString Globals::VERSION_STRING = "0.2.0-beta-2";
 const QString Globals::APPLICATION_NAME = "AstRawDark";
 
 const QString Globals::SETTINGKEY_DARK_SOURCES = "darkSources";
