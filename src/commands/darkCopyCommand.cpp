@@ -85,10 +85,7 @@ void DarkCopyCommand::do_processing() {
 	#endif
 
 	if ( storageInfo.bytesAvailable() > totalSize ) {
-	
-		_message = tr("Matching darks...");
-		emit statusChanged(this);
-		
+
 		foreach ( ImageInfo dark, darks ) {
 
 			QFile sourceFile(dark.getPath());
