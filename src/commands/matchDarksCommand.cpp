@@ -94,6 +94,5 @@ void MatchDarksCommand::on_error(const QString msg) {
 
     _error = true;
     _reportMessages << msg;
-    qWarning(msg.toStdString().c_str());
     _commandReport.addSection(msg, QStringList());
 }
