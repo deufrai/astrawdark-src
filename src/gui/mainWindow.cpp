@@ -178,27 +178,32 @@ MainWindow::MainWindow(QWidget *parent)
 
 	if ( 0 == _dataStore->getDarkSources().count() ) {
 
-#ifndef QT_NO_DEBUG
-qDebug() << "No dark sources set yet";
-#endif
-QMessageBox messageBox(QMessageBox::Question,
-		tr("AstRawDark : No dark sources set"),
-		QString("<h3>")
-		.append(tr("Your darks library sources are not configured"))
-		.append("</h3>")
-		.append(tr("Would you like to review your darks library settings ?")),
-		QMessageBox::Yes | QMessageBox::No,
-		this);
-messageBox.setButtonText(QMessageBox::Yes, tr("Yes"));
-messageBox.setButtonText(QMessageBox::No, tr("No"));
+		#ifndef QT_NO_DEBUG
+		qDebug() << "No dark sources set yet";
+		#endif
 
-if ( QMessageBox::Yes == messageBox.exec() ) {
+		QMessageBox messageBox(QMessageBox::Question,
+				tr("AstRawDark : No dark sources set"),
+				QString("<h3>")
+				.append(tr("Your darks library sources are not configured"))
+				.append("</h3>")
+				.append(tr("Would you like to review your darks library settings ?")),
+				QMessageBox::Yes | QMessageBox::No,
+				this);
 
-	PrefDialog(this).exec();
-}
+		messageBox.setButtonText(QMessageBox::Yes, tr("Yes"));
+		messageBox.setButtonText(QMessageBox::No, tr("No"));
+
+		if ( QMessageBox::Yes == messageBox.exec() ) {
+
+			PrefDialog(this).exec();
+		}
 	}
 
 	updateLightsContentCount();
+
+	// disable "rescan darks" menu entry
+	ui->actionRescanDarksLibrary->setDisabled(true);
 }
 
 MainWindow::~MainWindow()
