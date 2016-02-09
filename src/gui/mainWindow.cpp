@@ -89,6 +89,7 @@ MainWindow::MainWindow(QWidget *parent)
 	darkTreeHv->hide();
 
 	ui->btnRescanDarks->setEnabled( !_dataStore->getDarkSources().empty() );
+	ui->actionRescanDarksLibrary->setEnabled( !_dataStore->getDarkSources().empty() );
 
 	connect(SignalDispatcher::getInstance(),
 			&SignalDispatcher::darkSourcesChanged,
@@ -201,9 +202,6 @@ MainWindow::MainWindow(QWidget *parent)
 	}
 
 	updateLightsContentCount();
-
-	// disable "rescan darks" menu entry
-	ui->actionRescanDarksLibrary->setDisabled(true);
 }
 
 MainWindow::~MainWindow()
@@ -342,6 +340,7 @@ void MainWindow::on_btnChooseLightsFolder_clicked()
 void MainWindow::on_darkSourcesChanged(const QStringList& sources)
 {
 	ui->btnRescanDarks->setEnabled( !sources.empty() );
+	ui->actionRescanDarksLibrary->setEnabled( !sources.empty() );
 }
 
 void MainWindow::on_darkScanStart()
